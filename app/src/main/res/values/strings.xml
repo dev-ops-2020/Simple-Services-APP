@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name" translatable="false">Simple Services</string>
+
+    <!--Bottom Menu-->
+    <string name="home">HOME</string>
+    <string name="fav">FAV</string>
+    <string name="profile">PROFILE</string>
+</resources>
