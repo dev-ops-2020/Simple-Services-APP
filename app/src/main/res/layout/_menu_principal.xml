@@ -6,7 +6,7 @@
     android:id="@+id/fragmentContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/black"
     tools:context=".MainMenu">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,8 +17,8 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/__menu_bottom_border"
         app:itemIconSize="@dimen/med_icon"
-        app:itemIconTint="@color/black"
-        app:itemTextColor="@color/black_alt"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
         app:itemTextAppearance="@style/TextViewMenu"
         app:labelVisibilityMode="selected"
         app:layout_constraintBottom_toBottomOf="parent"
