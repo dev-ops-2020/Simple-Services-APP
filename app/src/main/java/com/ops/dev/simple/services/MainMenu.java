@@ -21,6 +21,8 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout._menu_principal);
         BottomNavigationView navView = findViewById(R.id.menu);
 
+        navView.setItemIconTintList(null);
+
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         goHome();
