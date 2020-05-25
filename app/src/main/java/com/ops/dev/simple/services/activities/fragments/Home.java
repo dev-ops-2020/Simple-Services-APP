@@ -1,15 +1,38 @@
-package com.ops.dev.simple.services;
+package com.ops.dev.simple.services.activities.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class Fav extends Fragment {
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import com.ops.dev.simple.services.Network;
+import com.ops.dev.simple.services.R;
+import com.ops.dev.simple.services.models.CategoriesModel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class Home extends Fragment {
 
 	private static final String ARG_PARAM1 = "param1";
 	private static final String ARG_PARAM2 = "param2";
@@ -17,15 +40,20 @@ public class Fav extends Fragment {
 	private String mParam1;
 	private String mParam2;
 
+	//Vars
+	private RecyclerView rvCategories;
+	private List<CategoriesModel> listCategories;
+	private Context context ;
+	private RequestQueue queue;
 
 	private OnFragmentInteractionListener mListener;
 
-	public Fav() {
+	public Home() {
 
 	}
 
-	public static Fav newInstance(String param1, String param2) {
-		Fav fragment = new Fav();
+	public static Home newInstance(String param1, String param2) {
+		Home fragment = new Home();
 		Bundle args = new Bundle();
 		args.putString(ARG_PARAM1, param1);
 		args.putString(ARG_PARAM2, param2);
@@ -44,8 +72,14 @@ public class Fav extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View rootView = inflater.inflate(R.layout.fragment_fav, container, false);
+		final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 		View layout = rootView.findViewById(android.R.id.content);
+		context = Objects.requireNonNull(getActivity()).getApplicationContext();
+
+		rvCategories = layout.findViewById(R.id.rvCategories);
+		listCategories = new ArrayList<>();
+
+
 
 		return rootView;
 	}
