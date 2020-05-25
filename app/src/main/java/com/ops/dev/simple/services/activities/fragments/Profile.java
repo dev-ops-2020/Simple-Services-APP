@@ -1,4 +1,4 @@
-package com.ops.dev.simple.services;
+package com.ops.dev.simple.services.activities.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
+import com.ops.dev.simple.services.R;
 
 public class Profile extends Fragment {
 

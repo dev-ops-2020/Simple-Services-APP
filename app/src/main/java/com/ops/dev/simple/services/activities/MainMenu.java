@@ -1,4 +1,4 @@
-package com.ops.dev.simple.services;
+package com.ops.dev.simple.services.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ops.dev.simple.services.activities.fragments.Fav;
+import com.ops.dev.simple.services.activities.fragments.Home;
+import com.ops.dev.simple.services.activities.fragments.Profile;
+import com.ops.dev.simple.services.R;
 
 public class MainMenu extends AppCompatActivity {
 

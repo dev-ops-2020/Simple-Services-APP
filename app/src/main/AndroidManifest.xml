@@ -14,7 +14,7 @@
         android:icon="@drawable/___icon"
         android:roundIcon="@drawable/___icon"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".MainMenu">
+        <activity android:name=".activities.MainMenu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

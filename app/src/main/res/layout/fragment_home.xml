@@ -1,35 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    tools:context=".activities.MainMenu">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:descendantFocusability="blocksDescendants"
-        android:orientation="vertical">
-
+        android:background="@color/colorPrimaryDark">
+        <!--Header-->
         <LinearLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/min_margin"
-            android:layout_marginTop="@dimen/med_margin"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/min_margin"
             android:orientation="vertical">
-
-            <TextView
-                style="@style/TextViewHeader"
-                android:layout_width="wrap_content"
+            <!--Text & More Promotions link
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/home" />
+                android:orientation="horizontal">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvNews"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:gravity="start"
+                    android:text="Top 10 Promociones"
+                    android:textSize="@dimen/min_font"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    android:layout_margin="5dp"/>
+
+                <TextView
+                    android:id="@+id/morePromotions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:gravity="end"
+                    android:text="Ver más..."
+                    android:textSize="@dimen/min_font"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    android:layout_margin="5dp"/>
+
+            </LinearLayout>-->
+            <!--Promotions List
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="true"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvTop10Promotions"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimaryDark"/>
+                </androidx.core.widget.NestedScrollView>
+            </LinearLayout>-->
+            <!--Main Text-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/min_margin"
+                android:layout_marginEnd="@dimen/min_margin"
+                android:background="@color/colorAccent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingStart="@dimen/big_margin"
+                    android:paddingEnd="0dp"
+                    android:text="Welcome!"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/big_font"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingStart="@dimen/big_margin"
+                    android:paddingEnd="0dp"
+                    android:text="Choose an option to find what you need"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/min_font"
+                    android:textStyle="italic" />
+            </LinearLayout>
+        </LinearLayout>
+        <!--Main-->
+        <LinearLayout
+            android:id="@+id/main"
+            android:layout_below="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/med_margin"
+            android:paddingEnd="@dimen/med_margin">
+            <!--Modules List-->
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/med_margin"
-                android:nestedScrollingEnabled="true" />
+                android:clipToPadding="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCategories"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </androidx.core.widget.NestedScrollView>
         </LinearLayout>
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+</LinearLayout>
