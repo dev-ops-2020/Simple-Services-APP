@@ -18,7 +18,6 @@
         android:background="@drawable/__menu_bottom_border"
         app:itemIconSize="@dimen/med_icon"
         app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
         app:itemTextAppearance="@style/TextViewMenu"
         app:labelVisibilityMode="selected"
         app:layout_constraintBottom_toBottomOf="parent"
