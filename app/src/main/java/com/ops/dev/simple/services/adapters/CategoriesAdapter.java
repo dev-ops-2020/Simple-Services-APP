@@ -1,19 +1,25 @@
 package com.ops.dev.simple.services.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ops.dev.simple.services.R;
+import com.ops.dev.simple.services.activities.Categories;
 import com.ops.dev.simple.services.models.CategoriesModel;
 
 import java.util.List;
+import java.util.Random;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder>{
 
@@ -27,9 +33,14 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, final int pos) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_categories, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int pos) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_categories, viewGroup, false);
         final ViewHolder vh = new ViewHolder(view);
+        final LinearLayout container = view.findViewById(R.id.container);
+
+        int[] colors = {R.color.gold, R.color.teal, R.color.purple, R.color.gold_alt, R.color.teal_alt, R.color.purple_alt};
+        int randomColor = new Random().nextInt(colors.length);
+        container.setBackgroundResource(colors[randomColor]);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,10 +51,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                         mData.get(vh.getAdapterPosition()).getDescription(),
                         mData.get(vh.getAdapterPosition()).getIcon()
                 );
-                /*Intent intent = new Intent(mContext.getApplicationContext(), Establishments.class);
-                intent.putExtra("tittle", "TALLERES -> " + mData.get(vh.getAdapterPosition()).getName().toUpperCase());
+                Intent intent = new Intent(mContext.getApplicationContext(), Categories.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("tittle","" + mData.get(vh.getAdapterPosition()).getName().toUpperCase());
                 intent.putExtra("category", category);
-                mContext.startActivity(intent);*/
+                mContext.startActivity(intent);
             }
         });
 

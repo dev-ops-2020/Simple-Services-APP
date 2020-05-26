@@ -2,12 +2,14 @@ package com.ops.dev.simple.services.activities.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -33,6 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class Home extends Fragment {
 
@@ -47,7 +50,6 @@ public class Home extends Fragment {
 	private List<CategoriesModel> listCategories;
 	private CategoriesAdapter categoriesAdapter;
 	private Context context ;
-	private RequestQueue queue;
 
 	private OnFragmentInteractionListener mListener;
 
@@ -74,13 +76,18 @@ public class Home extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-		View layout = rootView.findViewById(android.R.id.content);
+	public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
+		final View view = inflater.inflate(R.layout.fragment_home, viewGroup, false);
+		final View layout = view.findViewById(android.R.id.content);
+		final LinearLayout container = view.findViewById(R.id.container);
+
+		int[] colors = {R.color.red, R.color.blue};
+		int randomColor = new Random().nextInt(colors.length);
+		container.setBackgroundResource(colors[randomColor]);
 
 		context = Objects.requireNonNull(getActivity()).getApplicationContext();
 
-		rvCategories = rootView.findViewById(R.id.rvCategories);
+		rvCategories = view.findViewById(R.id.rvCategories);
 		listCategories = new ArrayList<>();
 
 		listCategories.add(new CategoriesModel("1", "Comida", "",R.drawable._fav));
@@ -89,13 +96,17 @@ public class Home extends Fragment {
 		listCategories.add(new CategoriesModel("4", "Canasta básica", "",R.drawable._fav));
 		listCategories.add(new CategoriesModel("5", "Otros", "",R.drawable._fav));
 		listCategories.add(new CategoriesModel("6", "Something here...", "",R.drawable._fav));
+		listCategories.add(new CategoriesModel("7", "Otros 2 ", "",R.drawable._fav));
+		listCategories.add(new CategoriesModel("8", "Something here 2", "",R.drawable._fav));
+		listCategories.add(new CategoriesModel("9", "Otros 3 ", "",R.drawable._fav));
+		listCategories.add(new CategoriesModel("10", "Something here 3", "",R.drawable._fav));
 
 		RecyclerView.LayoutManager layoutManager = new GridLayoutManager( context,2);
 		rvCategories.setLayoutManager(layoutManager);
 		categoriesAdapter = new CategoriesAdapter(context, listCategories);
 		rvCategories.setAdapter(categoriesAdapter);
 
-		return rootView;
+		return view;
 	}
 
 	public void onButtonPressed(Uri uri) {
