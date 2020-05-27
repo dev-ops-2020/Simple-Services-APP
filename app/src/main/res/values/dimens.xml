@@ -2,18 +2,22 @@
     <dimen name="min_divider">1dp</dimen>
     <dimen name="med_divider">2dp</dimen>
     <dimen name="big_divider">3dp</dimen>
+
     <dimen name="min_margin">5dp</dimen>
     <dimen name="med_margin">15dp</dimen>
     <dimen name="big_margin">30dp</dimen>
-    <dimen name="min_font">7sp</dimen>
-    <dimen name="min_font_alt">12sp</dimen>
-    <dimen name="med_font">21sp</dimen>
-    <dimen name="big_font">27sp</dimen>
-    <dimen name="big_font_alt">36sp</dimen>
+
     <dimen name="min_icon">15dp</dimen>
     <dimen name="med_icon">25dp</dimen>
     <dimen name="big_icon">35dp</dimen>
 
+    <dimen name="min_font">7sp</dimen>
+    <dimen name="min_font_alt">12sp</dimen>
+    <dimen name="med_font">17sp</dimen>
+    <dimen name="med_font_alt">21sp</dimen>
+    <dimen name="big_font">24sp</dimen>
+    <dimen name="big_font_alt">30sp</dimen>
+
     <dimen name="main_margin_top">90dp</dimen>
-    <dimen name="main_margin_bottom">60dp</dimen>
+    <dimen name="main_margin_bottom">40dp</dimen>
 </resources>

@@ -39,19 +39,19 @@ import java.util.Random;
 
 public class Home extends Fragment {
 
-	private static final String ARG_PARAM1 = "param1";
-	private static final String ARG_PARAM2 = "param2";
+	static final String ARG_PARAM1 = "param1";
+	static final String ARG_PARAM2 = "param2";
 
-	private String mParam1;
-	private String mParam2;
+	String mParam1;
+	String mParam2;
+
+	OnFragmentInteractionListener mListener;
 
 	//Vars
-	private RecyclerView rvCategories;
-	private List<CategoriesModel> listCategories;
-	private CategoriesAdapter categoriesAdapter;
-	private Context context ;
-
-	private OnFragmentInteractionListener mListener;
+    	RecyclerView rvCategories;
+    	List<CategoriesModel> listCategories;
+    	CategoriesAdapter categoriesAdapter;
+    	Context context ;
 
 	public Home() {
 
@@ -79,11 +79,6 @@ public class Home extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.fragment_home, viewGroup, false);
 		final View layout = view.findViewById(android.R.id.content);
-		final LinearLayout container = view.findViewById(R.id.container);
-
-		int[] colors = {R.color.red, R.color.blue};
-		int randomColor = new Random().nextInt(colors.length);
-		container.setBackgroundResource(colors[randomColor]);
 
 		context = Objects.requireNonNull(getActivity()).getApplicationContext();
 
