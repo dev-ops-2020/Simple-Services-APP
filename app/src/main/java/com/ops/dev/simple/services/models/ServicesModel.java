@@ -1,6 +1,9 @@
 package com.ops.dev.simple.services.models;
 
-public class ServicesModel {
+import java.io.Serializable;
+
+public class ServicesModel  implements Serializable {
+
   private String id;
     private String name;
     private String description;

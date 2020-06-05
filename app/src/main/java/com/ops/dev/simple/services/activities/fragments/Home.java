@@ -48,10 +48,11 @@ public class Home extends Fragment {
 	OnFragmentInteractionListener mListener;
 
 	//Vars
-    	RecyclerView rvCategories;
-    	List<CategoriesModel> listCategories;
-    	CategoriesAdapter categoriesAdapter;
-    	Context context ;
+	RecyclerView rvCategories;
+    List<CategoriesModel> listCategories;
+    CategoriesAdapter categoriesAdapter;
+    Context context ;
+	RequestQueue queue;
 
 	public Home() {
 
@@ -84,7 +85,10 @@ public class Home extends Fragment {
 
 		rvCategories = view.findViewById(R.id.rvCategories);
 		listCategories = new ArrayList<>();
+		queue = Volley.newRequestQueue(context);
+		getCategories();
 
+		/*
 		listCategories.add(new CategoriesModel("1", "Comida", "",R.drawable._fav));
 		listCategories.add(new CategoriesModel("2", "Bebidas", "",R.drawable._fav));
 		listCategories.add(new CategoriesModel("3", "Medicinas", "",R.drawable._fav));
@@ -95,11 +99,7 @@ public class Home extends Fragment {
 		listCategories.add(new CategoriesModel("8", "Something here 2", "",R.drawable._fav));
 		listCategories.add(new CategoriesModel("9", "Otros 3 ", "",R.drawable._fav));
 		listCategories.add(new CategoriesModel("10", "Something here 3", "",R.drawable._fav));
-
-		RecyclerView.LayoutManager layoutManager = new GridLayoutManager( context,2);
-		rvCategories.setLayoutManager(layoutManager);
-		categoriesAdapter = new CategoriesAdapter(context, listCategories);
-		rvCategories.setAdapter(categoriesAdapter);
+		*/
 
 		return view;
 	}
@@ -129,5 +129,43 @@ public class Home extends Fragment {
 
 	public interface OnFragmentInteractionListener {
 		void onFragmentInteraction(Uri uri);
+	}
+
+
+	private void getCategories() {
+		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Network.GET_CATEGORIES, null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					JSONArray jsonArray = response.getJSONArray("categories");
+					for (int i = 0; i < jsonArray.length(); i++) {
+						JSONObject jsonObject = jsonArray.getJSONObject(i);
+						CategoriesModel category = new CategoriesModel();
+						category.setId(jsonObject.getString("_id"));
+						category.setName(jsonObject.getString("name"));
+						category.setDescription(jsonObject.getString("description"));
+						//int icon = Categories.this.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", CategoriesEstablishments.this.getPackageName());
+						//category.setIcon(icon);
+						listCategories.add(category);
+					}
+					initAdapter();
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+
+			}
+		});
+		queue.add(request);
+	}
+
+	private void initAdapter(){
+		RecyclerView.LayoutManager layoutManager = new GridLayoutManager( context,2);
+		rvCategories.setLayoutManager(layoutManager);
+		categoriesAdapter = new CategoriesAdapter(context, listCategories);
+		rvCategories.setAdapter(categoriesAdapter);
 	}
 }

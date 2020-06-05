@@ -1,6 +1,8 @@
 package com.ops.dev.simple.services.models;
 
-public class ExchangesModel {
+import java.io.Serializable;
+
+public class ExchangesModel  implements Serializable {
    private String id;
     private String dateObtained;
     private String dateExchange;

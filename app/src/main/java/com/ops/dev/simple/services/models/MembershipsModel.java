@@ -1,5 +1,7 @@
 package com.ops.dev.simple.services.models;
+
 import java.io.Serializable;
+
 public class MembershipsModel implements Serializable {
     private String id;
     private String name;

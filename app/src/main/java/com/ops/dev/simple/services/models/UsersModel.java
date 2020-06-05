@@ -1,6 +1,9 @@
 package com.ops.dev.simple.services.models;
 
-public class UsersModel {
+import java.io.Serializable;
+
+public class UsersModel  implements Serializable {
+
    private String id;
     private String dui;
     private String name;

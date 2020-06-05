@@ -9,11 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.activities.Categories;
 import com.ops.dev.simple.services.models.CategoriesModel;
@@ -34,17 +37,18 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int pos) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_categories, viewGroup, false);
+        final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_categories, viewGroup, false);
         final ViewHolder vh = new ViewHolder(view);
         final LinearLayout container = view.findViewById(R.id.container);
 
-        int[] colors = {R.color.gold, R.color.teal, R.color.purple, R.color.gold_alt, R.color.teal_alt, R.color.purple_alt};
+        //int[] colors = {R.color.gold, R.color.teal, R.color.purple, R.color.gold_alt, R.color.teal_alt, R.color.purple_alt};
+        int[] colors = {R.color.gold, R.color.teal, R.color.purple};
         int randomColor = new Random().nextInt(colors.length);
         container.setBackgroundResource(colors[randomColor]);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 CategoriesModel category = new CategoriesModel(
                         mData.get(vh.getAdapterPosition()).getId(),
                         mData.get(vh.getAdapterPosition()).getName(),
@@ -56,6 +60,20 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                 intent.putExtra("tittle","" + mData.get(vh.getAdapterPosition()).getName().toUpperCase());
                 intent.putExtra("category", category);
                 mContext.startActivity(intent);
+            }
+        });
+
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Snackbar.make(view, "" + mData.get(vh.getAdapterPosition()).getDescription(), Snackbar.LENGTH_SHORT)
+                        .setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(mContext, "Ok!", Toast.LENGTH_SHORT).show();
+                        }
+                    }).show();
+                return true;
             }
         });
 

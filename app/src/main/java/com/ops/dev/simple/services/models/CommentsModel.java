@@ -1,5 +1,7 @@
 package com.ops.dev.simple.services.models;
+
 import java.io.Serializable;
+
 public class CommentsModel implements Serializable {
 
     private String id;

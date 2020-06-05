@@ -1,6 +1,8 @@
 package com.ops.dev.simple.services.models;
 
-public class OrdersModel {
+import java.io.Serializable;
+
+public class OrdersModel  implements Serializable {
 
    private String id;
     private String date;

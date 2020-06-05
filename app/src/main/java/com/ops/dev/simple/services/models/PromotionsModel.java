@@ -1,6 +1,9 @@
 package com.ops.dev.simple.services.models;
 
-public class PromotionsModel {
+import java.io.Serializable;
+
+public class PromotionsModel  implements Serializable {
+
    private String id;
     private String tittle;
     private String description;

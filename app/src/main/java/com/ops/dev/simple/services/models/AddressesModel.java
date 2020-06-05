@@ -1,6 +1,8 @@
 package com.ops.dev.simple.services.models;
 
-public class AddressesModel {
+import java.io.Serializable;
+
+public class AddressesModel  implements Serializable {
 
     private String id;
     private String name;

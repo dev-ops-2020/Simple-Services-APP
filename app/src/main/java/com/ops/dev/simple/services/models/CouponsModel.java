@@ -1,6 +1,8 @@
 package com.ops.dev.simple.services.models;
 
-public class CouponsModel {
+import java.io.Serializable;
+
+public class CouponsModel  implements Serializable {
 
    private String id;
     private String tittle;
