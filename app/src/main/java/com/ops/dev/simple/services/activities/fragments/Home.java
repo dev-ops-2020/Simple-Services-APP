@@ -1,15 +1,12 @@
 package com.ops.dev.simple.services.activities.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
+import android.net.wifi.hotspot2.pps.HomeSp;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -21,8 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.CategoriesAdapter;
@@ -35,7 +30,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 public class Home extends Fragment {
 
@@ -85,21 +79,9 @@ public class Home extends Fragment {
 
 		rvCategories = view.findViewById(R.id.rvCategories);
 		listCategories = new ArrayList<>();
-		queue = Volley.newRequestQueue(context);
-		getCategories();
 
-		/*
-		listCategories.add(new CategoriesModel("1", "Comida", "",R.drawable._fav));
-		listCategories.add(new CategoriesModel("2", "Bebidas", "",R.drawable._fav));
-		listCategories.add(new CategoriesModel("3", "Medicinas", "",R.drawable._fav));
-		listCategories.add(new CategoriesModel("4", "Canasta básica", "",R.drawable._fav));
-		listCategories.add(new CategoriesModel("5", "Otros", "",R.drawable._fav));
-		listCategories.add(new CategoriesModel("6", "Something here...", "",R.drawable._fav));
-		listCategories.add(new CategoriesModel("7", "Otros 2 ", "",R.drawable._fav));
-		listCategories.add(new CategoriesModel("8", "Something here 2", "",R.drawable._fav));
-		listCategories.add(new CategoriesModel("9", "Otros 3 ", "",R.drawable._fav));
-		listCategories.add(new CategoriesModel("10", "Something here 3", "",R.drawable._fav));
-		*/
+		queue = Volley.newRequestQueue(context);
+		ListCategories();
 
 		return view;
 	}
@@ -132,8 +114,9 @@ public class Home extends Fragment {
 	}
 
 
-	private void getCategories() {
-		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, Network.GET_CATEGORIES, null, new Response.Listener<JSONObject>() {
+	private void ListCategories() {
+		String url = Network.ListCategories;
+		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response) {
 				try {
@@ -144,11 +127,14 @@ public class Home extends Fragment {
 						category.setId(jsonObject.getString("_id"));
 						category.setName(jsonObject.getString("name"));
 						category.setDescription(jsonObject.getString("description"));
-						//int icon = Categories.this.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", CategoriesEstablishments.this.getPackageName());
-						//category.setIcon(icon);
+						int icon = context.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", context.getPackageName());
+						category.setIcon(icon);
 						listCategories.add(category);
 					}
-					initAdapter();
+					RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context,2);
+					rvCategories.setLayoutManager(layoutManager);
+					categoriesAdapter = new CategoriesAdapter(context, listCategories);
+					rvCategories.setAdapter(categoriesAdapter);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -160,12 +146,5 @@ public class Home extends Fragment {
 			}
 		});
 		queue.add(request);
-	}
-
-	private void initAdapter(){
-		RecyclerView.LayoutManager layoutManager = new GridLayoutManager( context,2);
-		rvCategories.setLayoutManager(layoutManager);
-		categoriesAdapter = new CategoriesAdapter(context, listCategories);
-		rvCategories.setAdapter(categoriesAdapter);
 	}
 }

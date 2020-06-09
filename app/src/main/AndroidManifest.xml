@@ -8,6 +8,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:launchMode="singleTask"
         android:allowBackup="true"
@@ -15,7 +19,18 @@
         android:icon="@drawable/___icon"
         android:roundIcon="@drawable/___icon"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".activities.MainMenu">
+
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key" />
+
+        <activity
+            android:name=".activities.MainMenu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -23,6 +38,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.Categories"/>
+            android:name=".activities.Businesses"/>
+        <activity
+            android:name=".activities.BusinessDetail"/>
     </application>
 </manifest>

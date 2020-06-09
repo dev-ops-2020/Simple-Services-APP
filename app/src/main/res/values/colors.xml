@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">@color/black</color>
     <color name="colorPrimaryDark">@color/black_alt</color>
-    <color name="colorAccent">@color/red</color>
+    <color name="colorAccent">@color/blue</color>
 
     <color name="transparent">#80000000</color>
 
@@ -13,17 +13,24 @@
     <color name="black">#212121</color>
     <color name="black_alt">#121212</color>
 
-    <color name="red">#aa5555</color>
-    <color name="red_alt">#ff5555 </color>
-    <color name="green">#55aa55</color>
-    <color name="green_alt">#55ff55</color>
-    <color name="blue">#5555aa</color>
-    <color name="blue_alt">#5555ff</color>
+    <color name="red">#aa3333 </color>
+    <color name="red_alt">#ff3333</color>
+    <color name="green">#33aa33</color>
+    <color name="green_alt">#33ff33</color>
+    <color name="blue">#3333aa</color>
+    <color name="blue_alt">#3333ff</color>
 
-    <color name="gold">#aaa555</color>
-    <color name="gold_alt">#fff555</color>
-    <color name="teal">#55aaaa</color>
-    <color name="teal_alt">#55ffff</color>
-    <color name="purple">#aa55aa</color>
-    <color name="purple_alt">#ff55ff</color>
+    <color name="yellow">#aaaa33</color>
+    <color name="yellow_alt">#ffff33</color>
+    <color name="light_blue">#33aaaa</color>
+    <color name="light_blue_alt">#33ffff</color>
+    <color name="purple">#aa33aa</color>
+    <color name="purple_alt">#ff33ff</color>
+
+    <color name="fb">#4267B2</color>
+    <color name="fb_alt">#3B5998</color>
+    <color name="ig">#833AB4</color>
+    <color name="ig_alt">#C13584</color>
+    <color name="wa">#075E55</color>
+    <color name="wa_alt">#128C7E</color>
 </resources>

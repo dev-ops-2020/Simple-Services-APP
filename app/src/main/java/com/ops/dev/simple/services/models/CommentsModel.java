@@ -8,22 +8,22 @@ public class CommentsModel implements Serializable {
     private String comment;
     private String date;
     private String idUser;
-    private String user;
+    private String nameUser;
     private String pictureUser;
-    private String idEstablishment;
+    private String idBusiness;
 
     public CommentsModel() {
 
     }
 
-    public CommentsModel(String id, String comment, String date, String idUser, String user, String pictureUser, String idEstablishment) {
+    public CommentsModel(String id, String comment, String date, String idUser, String nameUser, String pictureUser, String idBusiness) {
         this.id = id;
         this.comment = comment;
         this.date = date;
         this.idUser = idUser;
-        this.user = user;
+        this.nameUser = nameUser;
         this.pictureUser = pictureUser;
-        this.idEstablishment = idEstablishment;
+        this.idBusiness = idBusiness;
     }
 
     public String getId() {
@@ -58,12 +58,12 @@ public class CommentsModel implements Serializable {
         this.idUser = idUser;
     }
 
-    public String getUser() {
-        return user;
+    public String getNameUser() {
+        return nameUser;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
     }
 
     public String getPictureUser() {
@@ -74,12 +74,12 @@ public class CommentsModel implements Serializable {
         this.pictureUser = pictureUser;
     }
 
-    public String getIdEstablishment() {
-        return idEstablishment;
+    public String getIdBusiness() {
+        return idBusiness;
     }
 
-    public void setIdEstablishment(String idEstablishment) {
-        this.idEstablishment = idEstablishment;
+    public void setIdBusiness(String idBusiness) {
+        this.idBusiness = idBusiness;
     }
 
 

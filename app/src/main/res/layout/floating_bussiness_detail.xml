@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.BusinessDetail">
+
+        <include layout="@layout/activity_businesses_detail" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom|end"
+            android:gravity="start"
+            android:orientation="vertical">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/min_margin"
+                android:layout_marginHorizontal="@dimen/med_margin"
+                android:src="@drawable/__contact_fb"
+                app:fabSize="mini"
+                app:maxImageSize="@dimen/med_icon"
+                app:backgroundTint="@color/fb"
+                app:rippleColor="@color/fb_alt"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/ig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/min_margin"
+                android:layout_marginHorizontal="@dimen/med_margin"
+                android:src="@drawable/__contact_ig"
+                app:fabSize="mini"
+                app:maxImageSize="@dimen/med_icon"
+                app:backgroundTint="@color/ig"
+                app:rippleColor="@color/ig_alt"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/wa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/min_margin"
+                android:layout_marginHorizontal="@dimen/med_margin"
+                android:src="@drawable/__contact_wa"
+                app:fabSize="mini"
+                app:maxImageSize="@dimen/med_icon"
+                app:backgroundTint="@color/wa"
+                app:rippleColor="@color/wa_alt"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/options"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/min_margin"
+                android:src="@drawable/_share"
+                app:fabSize="normal"
+                app:maxImageSize="@dimen/med_icon"
+                app:backgroundTint="@color/colorPrimary"
+                app:rippleColor="@color/colorPrimaryDark"/>
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

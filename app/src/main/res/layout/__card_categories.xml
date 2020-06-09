@@ -7,7 +7,7 @@
     android:layout_margin="@dimen/min_margin"
     card_view:cardCornerRadius="@dimen/med_margin"
     card_view:cardElevation="0dp"
-    card_view:cardBackgroundColor="@android:color/transparent">
+    card_view:cardBackgroundColor="@color/colorPrimary">
 
     <LinearLayout
         android:id="@+id/container"
@@ -19,11 +19,11 @@
         <ImageView
             style="@style/ImageViewDefault"
             android:id="@+id/icon"
-            android:layout_weight="2" />
+            android:layout_weight="2"/>
 
         <TextView
             style="@style/TextViewCategories"
-            android:id="@+id/txtName"
+            android:id="@+id/name"
             android:layout_weight="8"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

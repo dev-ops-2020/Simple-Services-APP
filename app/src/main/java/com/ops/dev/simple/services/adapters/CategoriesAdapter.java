@@ -2,7 +2,6 @@ package com.ops.dev.simple.services.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.ops.dev.simple.services.R;
-import com.ops.dev.simple.services.activities.Categories;
+import com.ops.dev.simple.services.activities.Businesses;
 import com.ops.dev.simple.services.models.CategoriesModel;
 
 import java.util.List;
@@ -37,12 +33,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int pos) {
-        final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_categories, viewGroup, false);
+        final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.__card_categories, viewGroup, false);
         final ViewHolder vh = new ViewHolder(view);
         final LinearLayout container = view.findViewById(R.id.container);
 
         //int[] colors = {R.color.gold, R.color.teal, R.color.purple, R.color.gold_alt, R.color.teal_alt, R.color.purple_alt};
-        int[] colors = {R.color.gold, R.color.teal, R.color.purple};
+        int[] colors = {R.color.yellow_alt, R.color.light_blue, R.color.purple};
         int randomColor = new Random().nextInt(colors.length);
         container.setBackgroundResource(colors[randomColor]);
 
@@ -55,9 +51,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                         mData.get(vh.getAdapterPosition()).getDescription(),
                         mData.get(vh.getAdapterPosition()).getIcon()
                 );
-                Intent intent = new Intent(mContext.getApplicationContext(), Categories.class);
+                Intent intent = new Intent(mContext.getApplicationContext(), Businesses.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("tittle","" + mData.get(vh.getAdapterPosition()).getName().toUpperCase());
                 intent.putExtra("category", category);
                 mContext.startActivity(intent);
             }
@@ -66,13 +61,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Snackbar.make(view, "" + mData.get(vh.getAdapterPosition()).getDescription(), Snackbar.LENGTH_SHORT)
-                        .setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(mContext, "Ok!", Toast.LENGTH_SHORT).show();
-                        }
-                    }).show();
+                Toast.makeText(mContext, "" + mData.get(vh.getAdapterPosition()).getDescription(), Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -82,12 +71,16 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CategoriesModel item = mData.get(position);
-        ImageView image = holder.icon;
-        TextView title = holder.txtName;
+        CategoriesModel category = mData.get(position);
+        ImageView icon = holder.icon;
+        TextView name = holder.name;
 
-        image.setImageResource(item.getIcon());
-        title.setText(item.getName());
+        if (category.getIcon() != 0) {
+            icon.setImageResource(category.getIcon());
+        } else {
+            icon.setImageResource(R.drawable._fav);
+        }
+        name.setText(category.getName());
     }
 
     @Override
@@ -97,13 +90,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView icon;
-        TextView txtName;
+        TextView name;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             icon = itemView.findViewById(R.id.icon);
-            txtName = itemView.findViewById(R.id.txtName);
+            name = itemView.findViewById(R.id.name);
         }
     }
 }

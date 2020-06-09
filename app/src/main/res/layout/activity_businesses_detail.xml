@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.BusinessDetail">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
+        <!--Header-->
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/min_margin"
+            android:orientation="horizontal"
+            android:background="@drawable/__blue_border">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="@dimen/med_icon"
+                android:layout_height="@dimen/med_icon"
+                android:layout_margin="@dimen/min_margin"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/tittle"
+                android:layout_toStartOf="@id/filter"
+                android:layout_toEndOf="@id/logo"
+                style="@style/TextViewHeader"/>
+
+            <ImageView
+                android:id="@+id/filter"
+                android:layout_alignParentEnd="true"
+                android:layout_width="@dimen/med_icon"
+                android:layout_height="@dimen/med_icon"
+                android:layout_margin="@dimen/min_margin"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/_menu"/>
+        </RelativeLayout>
+        <!--Main-->
+        <RelativeLayout
+            android:id="@+id/main"
+            android:layout_below="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/min_margin">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!--Pictures-->
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/pictures"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:background="@color/colorPrimaryDark"/>
+                    <!--Categories-->
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="true"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvCategories"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/min_margin"/>
+                    </androidx.core.widget.NestedScrollView>
+                    <!--Info-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:text="Descripción:"
+                            style="@style/TextViewDefault"/>
+
+                        <TextView
+                            android:id="@+id/description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <!--Options-->
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="true"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="4">
+
+                            <ImageView
+                                android:id="@+id/btnContact"
+                                android:layout_width="@dimen/big_icon"
+                                android:layout_height="@dimen/big_icon"
+                                android:layout_weight="1"
+                                android:layout_margin="@dimen/min_margin"
+                                android:src="@drawable/_contact"/>
+
+                            <ImageView
+                                android:id="@+id/btnSchedule"
+                                android:layout_width="@dimen/big_icon"
+                                android:layout_height="@dimen/big_icon"
+                                android:layout_weight="1"
+                                android:layout_margin="@dimen/min_margin"
+                                android:src="@drawable/_schedule"/>
+
+                            <ImageView
+                                android:id="@+id/btnProducts"
+                                android:layout_width="@dimen/big_icon"
+                                android:layout_height="@dimen/big_icon"
+                                android:layout_weight="1"
+                                android:layout_margin="@dimen/min_margin"
+                                android:src="@drawable/_product"/>
+
+                            <ImageView
+                                android:id="@+id/btnCoupons"
+                                android:layout_width="@dimen/big_icon"
+                                android:layout_height="@dimen/big_icon"
+                                android:layout_weight="1"
+                                android:layout_margin="@dimen/min_margin"
+                                android:src="@drawable/_coupon"/>
+                        </LinearLayout>
+                    </androidx.core.widget.NestedScrollView>
+                    <!--Location-->
+                    <fragment
+                        android:id="@+id/businessMap"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"/>
+                    <!--Comments-->
+                    <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="true"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvComments"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/min_margin"/>
+                </androidx.core.widget.NestedScrollView>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

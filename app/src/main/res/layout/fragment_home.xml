@@ -11,15 +11,15 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/min_margin"
         android:orientation="vertical"
-        android:background="@drawable/__red_border">
+        android:background="@drawable/__blue_border">
 
         <TextView
             style="@style/TextViewHeader"
-            android:text="Welcome!"/>
+            android:text="¡Bienvenido!"/>
 
         <TextView
             style="@style/TextViewSubHeader"
-            android:text="What do you need?"/>
+            android:text="Explora nuestras categorías"/>
     </LinearLayout>
     <!--Main-->
     <LinearLayout

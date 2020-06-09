@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/min_margin"
+    card_view:cardCornerRadius="@dimen/med_margin"
+    card_view:cardElevation="@dimen/min_margin"
+    card_view:cardBackgroundColor="@color/colorPrimary">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
+
+        <RelativeLayout
+            android:id="@+id/main"
+            android:layout_below="@+id/picture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="@dimen/med_icon"
+                android:layout_height="@dimen/med_icon"
+                android:layout_margin="@dimen/min_margin"
+                android:layout_centerVertical="true"/>
+
+            <LinearLayout
+                android:id="@+id/texts"
+                android:layout_toStartOf="@id/scores"
+                android:layout_toEndOf="@id/logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/slogan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="normal"/>
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/scores"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/min_margin"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:layout_width="@dimen/med_icon"
+                    android:layout_height="@dimen/med_icon"
+                    android:src="@drawable/_star"/>
+
+                <TextView
+                    android:id="@+id/score"
+                    android:rotation="-45"
+                    android:layout_width="@dimen/med_icon"
+                    android:layout_height="@dimen/med_icon"/>
+            </FrameLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

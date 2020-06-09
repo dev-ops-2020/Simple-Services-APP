@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.badge.BadgeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ops.dev.simple.services.activities.fragments.Fav;
 import com.ops.dev.simple.services.activities.fragments.Home;
@@ -23,7 +22,7 @@ public class MainMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout._main_menu);
+        setContentView(R.layout.___main_menu);
         BottomNavigationView navView = findViewById(R.id.bottom_menu);
 
         navView.setItemIconTintList(null);
