@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
-    <!--Header-->
+
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             style="@style/TextViewSubHeader"
             android:text="Explora nuestras categorías"/>
     </LinearLayout>
-    <!--Main-->
+
     <LinearLayout
         android:id="@+id/main"
         android:layout_below="@+id/header"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/min_margin"
         android:orientation="vertical">
-        <!--Modules List-->
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -4,7 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.view.View;
 
-public class ViewAnimationAdapter {
+public class FabAnimationAdapter {
 
     public static boolean rotate(final View v, boolean rotate) {
         v.animate().setDuration(200)

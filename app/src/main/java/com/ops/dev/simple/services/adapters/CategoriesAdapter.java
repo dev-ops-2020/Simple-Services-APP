@@ -37,8 +37,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         final ViewHolder vh = new ViewHolder(view);
         final LinearLayout container = view.findViewById(R.id.container);
 
-        //int[] colors = {R.color.gold, R.color.teal, R.color.purple, R.color.gold_alt, R.color.teal_alt, R.color.purple_alt};
-        int[] colors = {R.color.yellow_alt, R.color.light_blue, R.color.purple};
+        int[] colors = {R.color.yellow, R.color.light_blue, R.color.purple, R.color.yellow_alt, R.color.light_blue_alt, R.color.purple_alt};
+        //int[] colors = {R.color.yellow_alt, R.color.light_blue, R.color.purple};
         int randomColor = new Random().nextInt(colors.length);
         container.setBackgroundResource(colors[randomColor]);
 

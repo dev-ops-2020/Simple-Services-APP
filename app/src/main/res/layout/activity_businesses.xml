@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark">
-        <!--Header-->
+
         <RelativeLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 android:layout_centerVertical="true"
                 app:srcCompat="@drawable/_menu"/>
         </RelativeLayout>
-        <!--Main-->
+
         <RelativeLayout
             android:id="@+id/main"
             android:layout_below="@+id/header"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/min_margin"
             android:orientation="vertical">
-            <!--Modules List-->
+
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

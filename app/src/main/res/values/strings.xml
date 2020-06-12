@@ -6,4 +6,8 @@
     <string name="home">HOME</string>
     <string name="fav">FAV</string>
     <string name="profile">PROFILE</string>
+
+    <string name="fb">FACEBOOK</string>
+    <string name="ig">INSTAGRAM</string>
+    <string name="wa">WHATSAPP</string>
 </resources>

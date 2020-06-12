@@ -103,7 +103,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:weightSum="4">
+                            android:weightSum="5">
 
                             <ImageView
                                 android:id="@+id/btnContact"
@@ -111,7 +111,7 @@
                                 android:layout_height="@dimen/big_icon"
                                 android:layout_weight="1"
                                 android:layout_margin="@dimen/min_margin"
-                                android:src="@drawable/_contact"/>
+                                android:src="@drawable/_phone"/>
 
                             <ImageView
                                 android:id="@+id/btnSchedule"
@@ -147,7 +147,7 @@
                     <!--Comments-->
                     <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
                     android:clipToPadding="true"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

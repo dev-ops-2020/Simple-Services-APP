@@ -1,7 +1,7 @@
 package com.ops.dev.simple.services.activities;
 
-import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -31,17 +31,22 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.CategoriesIconAdapter;
 import com.ops.dev.simple.services.adapters.CommentsAdapter;
-import com.ops.dev.simple.services.adapters.ViewAnimationAdapter;
+import com.ops.dev.simple.services.adapters.FabAnimationAdapter;
+import com.ops.dev.simple.services.adapters.PhonesAdapter;
+import com.ops.dev.simple.services.adapters.SchedulesAdapter;
 import com.ops.dev.simple.services.adapters.ViewPagerAdapter;
 import com.ops.dev.simple.services.models.BusinessesModel;
 import com.ops.dev.simple.services.models.CategoriesIconModel;
 import com.ops.dev.simple.services.models.CommentsModel;
+import com.ops.dev.simple.services.models.PhonesModel;
+import com.ops.dev.simple.services.models.SchedulesModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallback {
@@ -58,15 +63,24 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
     String businessId, businessName;
     double latitude, longitude;
     float zoomLevel;
-    int icon;
     GoogleMap map;
 
     ViewPager viewPager;
 
     String catName;
-    JSONArray picturesArray, networksArray, categoriesArray;
+    int catIcon;
+
+    JSONArray picturesArray, categoriesArray, networksArray;
+
+    AlertDialog.Builder builder;
+    AlertDialog alertDialog;
 
     ImageView btnContact, btnSchedule, btnProducts, btnCoupons;
+
+    static int lPhones = R.layout.__modal_business_phones;
+    static int lSchedule = R.layout.__modal_business_schedule;
+
+    JSONArray phonesArray, scheduleArray;
 
     FloatingActionButton options, fb, ig, wa;
     String businessFb, businessIg, businessWa;
@@ -107,8 +121,10 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
         try {
             picturesArray = new JSONArray(business.getPictures());
-            networksArray = new JSONArray(business.getNetworks());
             categoriesArray = new JSONArray(business.getCategories());
+            networksArray = new JSONArray(business.getNetworks());
+            phonesArray = new JSONArray(business.getPhones());
+            scheduleArray = new JSONArray(business.getSchedule());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -121,10 +137,40 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
         queue = Volley.newRequestQueue(BusinessDetail.this);
         getPictures();
-        getNetworks();
         getIconCategories();
         getCommentsByEstablishment();
+        getNetworks();
 
+        // ImageView (Buttons)
+        btnContact = findViewById(R.id.btnContact);
+        btnSchedule = findViewById(R.id.btnSchedule);
+        btnProducts = findViewById(R.id.btnProducts);
+        btnCoupons = findViewById(R.id.btnCoupons);
+
+        btnContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showModal(lPhones);
+            }
+        });
+        btnSchedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showModal(lSchedule);
+            }
+        });
+        btnProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Intent to Products/Services
+            }
+        });
+        btnCoupons.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Intent to Coupons
+            }
+        });
 
         // FloatingActionButtons
         options = findViewById(R.id.options);
@@ -132,7 +178,16 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         options.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isRotate = ViewAnimationAdapter.rotate(v, !isRotate);
+                isRotate = FabAnimationAdapter.rotate(v, !isRotate);
+                if(isRotate) {
+                    FabAnimationAdapter.show(fb);
+                    FabAnimationAdapter.show(ig);
+                    FabAnimationAdapter.show(wa);
+                } else {
+                    FabAnimationAdapter.hide(fb);
+                    FabAnimationAdapter.hide(ig);
+                    FabAnimationAdapter.hide(wa);
+                }
             }
         });
 
@@ -140,26 +195,10 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         ig = findViewById(R.id.ig);
         wa = findViewById(R.id.wa);
 
-        ViewAnimationAdapter.init(fb);
-        ViewAnimationAdapter.init(ig);
-        ViewAnimationAdapter.init(wa);
+        FabAnimationAdapter.init(fb);
+        FabAnimationAdapter.init(ig);
+        FabAnimationAdapter.init(wa);
 
-        options.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isRotate = ViewAnimationAdapter.rotate(v, !isRotate);
-                if(isRotate){
-                    ViewAnimationAdapter.show(fb);
-                    ViewAnimationAdapter.show(ig);
-                    ViewAnimationAdapter.show(wa);
-                }else{
-                    ViewAnimationAdapter.hide(fb);
-                    ViewAnimationAdapter.hide(ig);
-                    ViewAnimationAdapter.hide(wa);
-                }
-
-            }
-        });
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,7 +222,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
     private void getPictures() {
         try {
             ArrayList<String> arrayList = new ArrayList<>();
-            for(int i = 0; i < picturesArray.length() ; i++) {
+            for (int i = 0; i < picturesArray.length(); i++) {
                 JSONObject jsonObject = picturesArray.getJSONObject(i);
                 arrayList.add(jsonObject.getString("picture"));
             }
@@ -195,56 +234,42 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         }
     }
 
-    private void getNetworks() {
-        try {
-            for(int i = 0; i < networksArray.length() ; i++) {
-                JSONObject jsonObject = networksArray.getJSONObject(i);
-                try {
-                    businessFb = jsonObject.getString("fb");
-                    businessIg = jsonObject.getString("ig");
-                    businessWa = jsonObject.getString("wa");
-                }catch (JSONException e) {
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void getIconCategories() {
         try {
-            for(int i = 0; i < categoriesArray.length() ; i++) {
+            for (int i = 0; i < categoriesArray.length(); i++) {
                 JSONObject jsonObject = categoriesArray.getJSONObject(i);
                 CategoriesIconModel category = new CategoriesIconModel();
-                category.setName(jsonObject.getString("category"));
                 catName = jsonObject.getString("category");
+                //catIcon = context.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", context.getPackageName());
+                category.setName(catName);
+                //category.setIcon(catIcon);
+
                 switch (catName) {
                     case "Comestibles":
-                        icon = BusinessDetail.this.getResources().getIdentifier("cat_comestibles" ,"drawable", BusinessDetail.this.getPackageName());
+                        catIcon = BusinessDetail.this.getResources().getIdentifier("cat_comestibles" ,"drawable", BusinessDetail.this.getPackageName());
                         break;
                     case "Bebidas":
-                        icon = BusinessDetail.this.getResources().getIdentifier("cat_bebidas" ,"drawable", BusinessDetail.this.getPackageName());
+                        catIcon = BusinessDetail.this.getResources().getIdentifier("cat_bebidas" ,"drawable", BusinessDetail.this.getPackageName());
                         break;
                     case "Medicamentos":
-                        icon = BusinessDetail.this.getResources().getIdentifier("cat_medicamentos" ,"drawable", BusinessDetail.this.getPackageName());
+                        catIcon = BusinessDetail.this.getResources().getIdentifier("cat_medicamentos" ,"drawable", BusinessDetail.this.getPackageName());
                         break;
                     case "Canasata Básica":
-                        icon = BusinessDetail.this.getResources().getIdentifier("cat_canasta" ,"drawable", BusinessDetail.this.getPackageName());
+                        catIcon = BusinessDetail.this.getResources().getIdentifier("cat_canasta" ,"drawable", BusinessDetail.this.getPackageName());
                         break;
                     case "Veterinaria":
-                        icon = BusinessDetail.this.getResources().getIdentifier("cat_veterinaria" ,"drawable", BusinessDetail.this.getPackageName());
+                        catIcon = BusinessDetail.this.getResources().getIdentifier("cat_veterinaria" ,"drawable", BusinessDetail.this.getPackageName());
                         break;
                     default:
-                        icon = BusinessDetail.this.getResources().getIdentifier("_fav" ,"drawable", BusinessDetail.this.getPackageName());
+                        catIcon = BusinessDetail.this.getResources().getIdentifier("_fav" ,"drawable", BusinessDetail.this.getPackageName());
                         break;
                 }
-                category.setIcon(icon);
+                category.setIcon(catIcon);
                 listCategories.add(category);
             }
-            LinearLayoutManager llm = new LinearLayoutManager(context);
-            llm.setOrientation(RecyclerView.HORIZONTAL);
-            rvCategories.setLayoutManager(llm);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+            layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+            rvCategories.setLayoutManager(layoutManager);
             rvCategories.setHasFixedSize(true);
             categoriesIconAdapter = new CategoriesIconAdapter(context, listCategories);
             rvCategories.setAdapter(categoriesIconAdapter);
@@ -282,30 +307,184 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         rvComments.setAdapter(commentsAdapter);
     }
 
-    public void fbIntent() {
+    private void getNetworks() {
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(businessFb)));
-        } catch (Exception e) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(businessFb)));
+            for (int i = 0; i < networksArray.length(); i++) {
+                JSONObject jsonObject = networksArray.getJSONObject(i);
+                if (jsonObject.has("fb"))
+                    businessFb = jsonObject.getString("fb");
+                else if (jsonObject.has("wa"))
+                    businessWa = jsonObject.getString("wa");
+                else if (jsonObject.has("ig"))
+                    businessIg = jsonObject.getString("ig");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+/*
+    private void getNetworkss() {
+        listNetworks = new ArrayList<>();
+        NetworksModel network = new NetworksModel();
+        try {
+            for (int i = 0; i < networksArray.length(); i++) {
+                JSONObject jsonObject = networksArray.getJSONObject(i);
+                Iterator<String> keys = jsonObject.keys();
+                while(keys.hasNext()) {
+                    String key = (String) keys.next();
+                    network.setNet(key);
+                    network.setUrl(jsonObject.get(key).toString());
+                }
+                listNetworks.add(network);
+            }
+            for (int i = 0; i < listNetworks.size(); i++) {
+                if (listNetworks.get(i).getNet().equals(network.getNet()))
+                    businessWa = listNetworks.get(i).getUrl();
+                else
+                    wa.hide();
+                if (listNetworks.get(i).getNet().equals("fb"))
+                    businessWa = listNetworks.get(i).getUrl();
+                else
+                    fb.hide();
+                if (listNetworks.get(i).getNet().equals("ig"))
+                    businessWa = listNetworks.get(i).getUrl();
+                else
+                    ig.hide();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        /*
+        try {
+            JSONObject jsonObject0 = networksArray.getJSONObject(0);
+            if (jsonObject0.has("wa"))
+                businessWa = jsonObject0.getString("wa");
+            else
+                FabAnimationAdapter.hide(wa);
+            JSONObject jsonObject1 = networksArray.getJSONObject(1);
+            if (jsonObject1.has("fb"))
+                businessFb = jsonObject1.getString("fb");
+            else
+                FabAnimationAdapter.hide(fb);
+            JSONObject jsonObject2 = networksArray.getJSONObject(2);
+            if (jsonObject2.has("ig"))
+                businessIg = jsonObject2.getString("ig");
+            else
+                FabAnimationAdapter.hide(ig);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    public void fbIntent() {
+        if (businessFb == null)
+            Toast.makeText(context, "Este negocio no ha vinculado aún su cuenta de Facebook", Toast.LENGTH_SHORT).show();
+        else {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(businessFb)));
+            } catch (Exception e) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://fb.com")));
+            }
         }
     }
 
     public void igIntent() {
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(businessIg)));
-        } catch (ActivityNotFoundException ex) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com")));
+        if (businessIg == null)
+            Toast.makeText(context, "Este negocio no ha vinculado aún su cuenta de Instagram", Toast.LENGTH_SHORT).show();
+        else {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(businessIg)));
+            } catch (ActivityNotFoundException ex) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com")));
+            }
         }
     }
 
     public void waIntent() {
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(businessWa));
-            startActivity(intent);
-        }catch (Exception e){
-            e.printStackTrace();
+        if (businessWa == null)
+            Toast.makeText(context, "Este negocio no ha vinculado aún su cuenta de WhastsApp", Toast.LENGTH_SHORT).show();
+        else {
+            try {
+                Intent sendMsg = new Intent(Intent.ACTION_VIEW);
+                sendMsg.setPackage("com.whatsapp");
+                sendMsg.setData(Uri.parse(businessWa));
+                startActivity(sendMsg);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private void showModal(final int layout) {
+        final View layoutView = getLayoutInflater().inflate(layout, null);
+        builder = new AlertDialog.Builder(this);
+        builder.setView(layoutView);
+
+        //Vars
+        final ImageView icon = layoutView.findViewById(R.id.icon);
+        final TextView tittle = layoutView.findViewById(R.id.tittle);
+        if (layout == lPhones) {
+            icon.setImageResource(R.drawable._phone);
+            tittle.setText("Contactos");
+
+            final RecyclerView rvPhones = layoutView.findViewById(R.id.rvPhones);
+            final List<PhonesModel> listPhones = new ArrayList<>();
+            final PhonesAdapter phonesAdapter;
+
+            try {
+                for (int i = 0; i < phonesArray.length(); i++) {
+                    JSONObject jsonObject = phonesArray.getJSONObject(i);
+                    Iterator<String> keys = jsonObject.keys();
+                    PhonesModel phone = new PhonesModel();
+                    while(keys.hasNext()) {
+                        String key = (String) keys.next();
+                        phone.setName(key);
+                        phone.setNumber(jsonObject.get(key).toString());
+                    }
+                    listPhones.add(phone);
+                }
+                LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+                layoutManager.setOrientation(RecyclerView.VERTICAL);
+                rvPhones.setLayoutManager(layoutManager);
+                rvPhones.setHasFixedSize(true);
+                phonesAdapter = new PhonesAdapter(context, listPhones);
+                rvPhones.setAdapter(phonesAdapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (layout == lSchedule) {
+            icon.setImageResource(R.drawable._schedule);
+            tittle.setText("Horarios");
+
+            final RecyclerView rvSchedules = layoutView.findViewById(R.id.rvSchedules);
+            final List<SchedulesModel> listSchedules = new ArrayList<>();
+            final SchedulesAdapter schedulesAdapter;
+
+            try {
+                for (int i = 0; i < scheduleArray.length(); i++) {
+                    JSONObject jsonObject = scheduleArray.getJSONObject(i);
+                    Iterator<String> keys = jsonObject.keys();
+                    SchedulesModel schedule = new SchedulesModel();
+                    while(keys.hasNext()) {
+                        String key = (String) keys.next();
+                        schedule.setDay(key);
+                        schedule.setTime(jsonObject.get(key).toString());
+                    }
+                    listSchedules.add(schedule);
+                }
+                LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+                layoutManager.setOrientation(RecyclerView.VERTICAL);
+                rvSchedules.setLayoutManager(layoutManager);
+                rvSchedules.setHasFixedSize(true);
+                schedulesAdapter = new SchedulesAdapter(context, listSchedules);
+                rvSchedules.setAdapter(schedulesAdapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @Override

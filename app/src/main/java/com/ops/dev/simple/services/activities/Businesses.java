@@ -80,7 +80,7 @@ public class Businesses extends AppCompatActivity {
 			public void onResponse(JSONObject response) {
 				try {
 					JSONArray jsonArray = response.getJSONArray("businesses");
-					for(int i = 0; i < jsonArray.length() ; i++) {
+					for (int i = 0; i < jsonArray.length(); i++) {
 						JSONObject jsonObject = jsonArray.getJSONObject(i);
 						BusinessesModel business = new BusinessesModel();
 						business.setId(jsonObject.getString("_id"));
@@ -92,7 +92,7 @@ public class Businesses extends AppCompatActivity {
 						business.setStatus(jsonObject.getString("status"));
 						business.setLogo(jsonObject.getString("logo"));
 						JSONArray jsonArrayPictures = jsonObject.getJSONArray("pictures");
-						for(int j = 0 ; j <jsonArrayPictures.length() ; j++ ) {
+						for (int j = 0 ; j <jsonArrayPictures.length(); j++ ) {
 							JSONObject jsonObjectPicture = jsonArrayPictures.getJSONObject(j);
 							business.setPicture(jsonObjectPicture.getString("picture"));
 						}

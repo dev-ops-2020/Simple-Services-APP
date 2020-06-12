@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         tools:context=".activities.BusinessDetail">
 
-        <include layout="@layout/activity_businesses_detail" />
+        <include layout="@layout/activity_businesses_detail"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
