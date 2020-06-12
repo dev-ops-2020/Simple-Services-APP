@@ -10,24 +10,23 @@
     card_view:cardBackgroundColor="@color/colorPrimary">
 
     <RelativeLayout
-        android:id="@+id/container"
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/min_margin"
-        android:orientation="vertical">
+        android:layout_margin="@dimen/min_margin"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="@dimen/big_icon"
-            android:layout_height="@dimen/big_icon"
-            android:layout_margin="@dimen/min_icon"
-            android:layout_gravity="center_horizontal"
-            android:layout_centerHorizontal="true"/>
+            android:layout_width="@dimen/med_icon"
+            android:layout_height="@dimen/med_icon"
+            android:layout_margin="@dimen/min_margin"
+            android:layout_centerVertical="true"/>
 
         <TextView
-            style="@style/TextViewCategories"
-            android:id="@+id/name"
-            android:layout_below="@id/icon"
+            style="@style/TextViewDefault"
+            android:id="@+id/message"
+            android:layout_toEndOf="@id/icon"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

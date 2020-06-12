@@ -28,10 +28,11 @@
                 android:layout_centerVertical="true"/>
 
             <TextView
+                style="@style/TextViewHeader"
                 android:id="@+id/tittle"
                 android:layout_toStartOf="@id/filter"
                 android:layout_toEndOf="@id/icon"
-                style="@style/TextViewHeader"/>
+                android:layout_centerVertical="true"/>
 
             <ImageView
                 android:id="@+id/filter"

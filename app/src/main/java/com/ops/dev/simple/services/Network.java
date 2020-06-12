@@ -10,6 +10,8 @@ public class Network {
     private static final String IP = "https://simple-services.herokuapp.com/api/";
     public static final String ListCategories = IP + "categories/";
     public static final String ListBusinessByCategory = IP + "businesses/category/";
+    public static final String ListCommentsByBusiness = IP + "comments/business/";
+
     public static final String ALLOWED_URI_CHARS = "@#&=*+-_.,:!?()/~'%";
     public static final int DURATION_SHORT = 1500;
     public static final int DURATION_LONG = 2500;

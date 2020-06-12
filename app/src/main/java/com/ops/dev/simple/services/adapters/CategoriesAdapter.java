@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +35,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int pos) {
         final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.__card_categories, viewGroup, false);
         final ViewHolder vh = new ViewHolder(view);
-        final LinearLayout container = view.findViewById(R.id.container);
+        final RelativeLayout container = view.findViewById(R.id.container);
 
         int[] colors = {R.color.yellow, R.color.light_blue, R.color.purple, R.color.yellow_alt, R.color.light_blue_alt, R.color.purple_alt};
         //int[] colors = {R.color.yellow_alt, R.color.light_blue, R.color.purple};

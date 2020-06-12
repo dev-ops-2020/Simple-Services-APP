@@ -13,11 +13,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -28,15 +33,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
+import com.ops.dev.simple.services.adapters.CategoriesAdapter;
 import com.ops.dev.simple.services.adapters.CategoriesIconAdapter;
 import com.ops.dev.simple.services.adapters.CommentsAdapter;
 import com.ops.dev.simple.services.adapters.FabAnimationAdapter;
 import com.ops.dev.simple.services.adapters.PhonesAdapter;
 import com.ops.dev.simple.services.adapters.SchedulesAdapter;
+import com.ops.dev.simple.services.adapters.ToastAdapter;
 import com.ops.dev.simple.services.adapters.ViewPagerAdapter;
 import com.ops.dev.simple.services.models.BusinessesModel;
 import com.ops.dev.simple.services.models.CategoriesIconModel;
+import com.ops.dev.simple.services.models.CategoriesModel;
 import com.ops.dev.simple.services.models.CommentsModel;
 import com.ops.dev.simple.services.models.PhonesModel;
 import com.ops.dev.simple.services.models.SchedulesModel;
@@ -85,6 +94,8 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
     FloatingActionButton options, fb, ig, wa;
     String businessFb, businessIg, businessWa;
     boolean isRotate;
+
+    ToastAdapter toastAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,8 +149,9 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         queue = Volley.newRequestQueue(BusinessDetail.this);
         getPictures();
         getIconCategories();
-        getCommentsByEstablishment();
+        getCommentsByEstablishment(businessId);
         getNetworks();
+        toastAdapter = new ToastAdapter(BusinessDetail.this);
 
         // ImageView (Buttons)
         btnContact = findViewById(R.id.btnContact);
@@ -278,33 +290,42 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         }
     }
 
-    private void getCommentsByEstablishment() {
-        CommentsModel comment1 = new CommentsModel();
-        comment1.setId("5d815fa8a51bd02b1dc69sdg");
-        comment1.setComment("Los mejores precios");
-        comment1.setDate("20/02/2020");
-        comment1.setIdUser("");
-        comment1.setNameUser("Juana María");
-        comment1.setPictureUser("https://scontent.fsal1-1.fna.fbcdn.net/v/t1.0-9/101084485_110487594025906_642627768630116352_n.jpg?_nc_cat=111&_nc_sid=09cbfe&_nc_ohc=FXFV4E-EiU0AX-bs2u2&_nc_ht=scontent.fsal1-1.fna&oh=f0184477086f579c4f2c4b875826998c&oe=5F013606");
-        comment1.setIdBusiness("");
-        listComments.add(comment1);
+    private void getCommentsByEstablishment(String businessId) {
+        String url = Network.ListCommentsByBusiness+businessId;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("comments");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        CommentsModel comment = new CommentsModel();
+                        comment.setId(jsonObject.getString("_id"));
+                        comment.setComment(jsonObject.getString("comment"));
+                        comment.setDate(jsonObject.getString("date"));
+                        comment.setIdUser(jsonObject.getString("idUser"));
+                        comment.setNameUser(jsonObject.getString("nameUser"));
+                        comment.setPictureUser(jsonObject.getString("pictureUser"));
+                        comment.setIdBusiness(jsonObject.getString("idBusiness"));
+                        listComments.add(comment);
+                    }
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+                    layoutManager.setOrientation(RecyclerView.VERTICAL);
+                    rvComments.setLayoutManager(layoutManager);
+                    rvComments.setHasFixedSize(true);
+                    commentsAdapter = new CommentsAdapter(context, listComments);
+                    rvComments.setAdapter(commentsAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-        CommentsModel comment2 = new CommentsModel();
-        comment2.setId("5d815fa8a51bd02b1dc69sdg");
-        comment2.setComment("Encuentras de todo");
-        comment2.setDate("17/04/2020");
-        comment2.setIdUser("");
-        comment2.setNameUser("Carlos Alberto");
-        comment2.setPictureUser("https://scontent.fsal1-1.fna.fbcdn.net/v/t1.0-9/101084485_110487594025906_642627768630116352_n.jpg?_nc_cat=111&_nc_sid=09cbfe&_nc_ohc=FXFV4E-EiU0AX-bs2u2&_nc_ht=scontent.fsal1-1.fna&oh=f0184477086f579c4f2c4b875826998c&oe=5F013606");
-        comment2.setIdBusiness("");
-        listComments.add(comment2);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        layoutManager.setOrientation(RecyclerView.VERTICAL);
-        rvComments.setLayoutManager(layoutManager);
-        rvComments.setHasFixedSize(true);
-        commentsAdapter = new CommentsAdapter(context, listComments);
-        rvComments.setAdapter(commentsAdapter);
+            }
+        });
+        queue.add(request);
     }
 
     private void getNetworks() {
@@ -322,64 +343,10 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
             e.printStackTrace();
         }
     }
-/*
-    private void getNetworkss() {
-        listNetworks = new ArrayList<>();
-        NetworksModel network = new NetworksModel();
-        try {
-            for (int i = 0; i < networksArray.length(); i++) {
-                JSONObject jsonObject = networksArray.getJSONObject(i);
-                Iterator<String> keys = jsonObject.keys();
-                while(keys.hasNext()) {
-                    String key = (String) keys.next();
-                    network.setNet(key);
-                    network.setUrl(jsonObject.get(key).toString());
-                }
-                listNetworks.add(network);
-            }
-            for (int i = 0; i < listNetworks.size(); i++) {
-                if (listNetworks.get(i).getNet().equals(network.getNet()))
-                    businessWa = listNetworks.get(i).getUrl();
-                else
-                    wa.hide();
-                if (listNetworks.get(i).getNet().equals("fb"))
-                    businessWa = listNetworks.get(i).getUrl();
-                else
-                    fb.hide();
-                if (listNetworks.get(i).getNet().equals("ig"))
-                    businessWa = listNetworks.get(i).getUrl();
-                else
-                    ig.hide();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        /*
-        try {
-            JSONObject jsonObject0 = networksArray.getJSONObject(0);
-            if (jsonObject0.has("wa"))
-                businessWa = jsonObject0.getString("wa");
-            else
-                FabAnimationAdapter.hide(wa);
-            JSONObject jsonObject1 = networksArray.getJSONObject(1);
-            if (jsonObject1.has("fb"))
-                businessFb = jsonObject1.getString("fb");
-            else
-                FabAnimationAdapter.hide(fb);
-            JSONObject jsonObject2 = networksArray.getJSONObject(2);
-            if (jsonObject2.has("ig"))
-                businessIg = jsonObject2.getString("ig");
-            else
-                FabAnimationAdapter.hide(ig);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     public void fbIntent() {
         if (businessFb == null)
-            Toast.makeText(context, "Este negocio no ha vinculado aún su cuenta de Facebook", Toast.LENGTH_SHORT).show();
+            toastAdapter.makeToast("Este negocio no ha vinculado aún su cuenta de Facebook", R.drawable.__warning);
         else {
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(businessFb)));
@@ -391,7 +358,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
     public void igIntent() {
         if (businessIg == null)
-            Toast.makeText(context, "Este negocio no ha vinculado aún su cuenta de Instagram", Toast.LENGTH_SHORT).show();
+            toastAdapter.makeToast("Este negocio no ha vinculado aún su cuenta de Instagram", R.drawable.__warning);
         else {
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(businessIg)));
@@ -403,7 +370,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
     public void waIntent() {
         if (businessWa == null)
-            Toast.makeText(context, "Este negocio no ha vinculado aún su cuenta de WhastsApp", Toast.LENGTH_SHORT).show();
+            toastAdapter.makeToast("Este negocio no ha vinculado aún su cuenta de WhatsApp", R.drawable.__warning);
         else {
             try {
                 Intent sendMsg = new Intent(Intent.ACTION_VIEW);

@@ -113,7 +113,6 @@ public class Home extends Fragment {
 		void onFragmentInteraction(Uri uri);
 	}
 
-
 	private void ListCategories() {
 		String url = Network.ListCategories;
 		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
