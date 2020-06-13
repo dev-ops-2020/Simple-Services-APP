@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/min_margin"
         android:orientation="vertical"
-        android:background="@drawable/__blue_border">
+        android:background="@drawable/__border">
 
         <TextView
             style="@style/TextViewHeader"

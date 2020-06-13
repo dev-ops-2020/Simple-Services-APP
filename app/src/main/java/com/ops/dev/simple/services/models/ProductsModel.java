@@ -2,31 +2,29 @@ package com.ops.dev.simple.services.models;
 
 import java.io.Serializable;
 
-public class ProductsModel  implements Serializable {
+public class ProductsModel implements Serializable {
 
-   private String id;
+    private String id;
     private String name;
     private String description;
-    private String quantity;
-    private String prices;
     private String pictures;
+    private String prices;
     private String status;
     private String idCategories;
-    private String idEstablishment;
+    private String idBusiness;
 
     public ProductsModel() {
     }
 
-    public ProductsModel(String id, String name, String description, String quantity, String prices, String pictures, String status, String idCategories, String idEstablishment) {
+    public ProductsModel(String id, String name, String description, String pictures, String prices, String status, String idCategories, String idBusiness) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.quantity = quantity;
-        this.prices = prices;
         this.pictures = pictures;
+        this.prices = prices;
         this.status = status;
         this.idCategories = idCategories;
-        this.idEstablishment = idEstablishment;
+        this.idBusiness = idBusiness;
     }
 
     public String getId() {
@@ -53,12 +51,12 @@ public class ProductsModel  implements Serializable {
         this.description = description;
     }
 
-    public String getQuantity() {
-        return quantity;
+    public String getPictures() {
+        return pictures;
     }
 
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
+    public void setPictures(String pictures) {
+        this.pictures = pictures;
     }
 
     public String getPrices() {
@@ -67,14 +65,6 @@ public class ProductsModel  implements Serializable {
 
     public void setPrices(String prices) {
         this.prices = prices;
-    }
-
-    public String getPictures() {
-        return pictures;
-    }
-
-    public void setPictures(String pictures) {
-        this.pictures = pictures;
     }
 
     public String getStatus() {
@@ -93,11 +83,11 @@ public class ProductsModel  implements Serializable {
         this.idCategories = idCategories;
     }
 
-    public String getIdEstablishment() {
-        return idEstablishment;
+    public String getIdBusiness() {
+        return idBusiness;
     }
 
-    public void setIdEstablishment(String idEstablishment) {
-        this.idEstablishment = idEstablishment;
+    public void setIdBusiness(String idBusiness) {
+        this.idBusiness = idBusiness;
     }
 }

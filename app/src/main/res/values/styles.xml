@@ -63,7 +63,7 @@
         <item name="android:textColorHighlight">@color/black_alt</item>
     </style>
     <style name="ButtonDefault">
-        <item name="android:background">@drawable/__blue_border</item>
+        <item name="android:background">@drawable/__border</item>
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>

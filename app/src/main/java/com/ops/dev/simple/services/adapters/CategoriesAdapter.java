@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ops.dev.simple.services.R;
+import com.ops.dev.simple.services.activities.BusinessDetail;
 import com.ops.dev.simple.services.activities.Businesses;
 import com.ops.dev.simple.services.models.CategoriesModel;
 
@@ -24,6 +25,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     private Context mContext;
     private List<CategoriesModel> mData;
+    ToastAdapter toastAdapter;
 
     public CategoriesAdapter(Context mContext, List<CategoriesModel> mData) {
         this.mContext = mContext;
@@ -37,10 +39,14 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         final ViewHolder vh = new ViewHolder(view);
         final RelativeLayout container = view.findViewById(R.id.container);
 
-        int[] colors = {R.color.yellow, R.color.light_blue, R.color.purple, R.color.yellow_alt, R.color.light_blue_alt, R.color.purple_alt};
+        toastAdapter = new ToastAdapter(mContext);
+
+        //int[] colors = {R.color.yellow, R.color.light_blue, R.color.purple, R.color.yellow_alt, R.color.light_blue_alt, R.color.purple_alt};
         //int[] colors = {R.color.yellow_alt, R.color.light_blue, R.color.purple};
-        int randomColor = new Random().nextInt(colors.length);
-        container.setBackgroundResource(colors[randomColor]);
+        //int randomColor = new Random().nextInt(colors.length);
+        //container.setBackgroundResource(colors[randomColor]);
+
+        container.setBackgroundResource(R.color.colorAccent);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,8 +67,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(mContext, "" + mData.get(vh.getAdapterPosition()).getDescription(), Toast.LENGTH_SHORT).show();
-                return true;
+            toastAdapter.makeToast( "" + mData.get(vh.getAdapterPosition()).getDescription(), mData.get(vh.getAdapterPosition()).getIcon());
+            return true;
             }
         });
 
@@ -75,11 +81,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         ImageView icon = holder.icon;
         TextView name = holder.name;
 
-        if (category.getIcon() != 0) {
+        if (category.getIcon() != 0)
             icon.setImageResource(category.getIcon());
-        } else {
+        else
             icon.setImageResource(R.drawable._fav);
-        }
         name.setText(category.getName());
     }
 

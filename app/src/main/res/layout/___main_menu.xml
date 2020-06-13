@@ -16,7 +16,7 @@
         android:layout_gravity="bottom"
         android:layout_margin="@dimen/min_margin"
         android:elevation="@dimen/min_margin"
-        android:background="@drawable/__blue_border"
+        android:background="@drawable/__border"
         app:itemIconSize="@dimen/med_icon"
         app:itemTextAppearance="@style/TextViewMenu"
         app:labelVisibilityMode="unlabeled"
