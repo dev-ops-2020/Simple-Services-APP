@@ -10,6 +10,7 @@
     <dimen name="min_icon">16dp</dimen>
     <dimen name="med_icon">32dp</dimen>
     <dimen name="big_icon">64dp</dimen>
+    <dimen name="big_icon_alt">128dp</dimen>
 
     <dimen name="min_font">7sp</dimen>
     <dimen name="min_font_alt">12sp</dimen>

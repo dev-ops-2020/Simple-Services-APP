@@ -1,40 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/colorPrimaryDark">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/med_icon"
+            android:layout_height="@dimen/med_icon"
+            android:layout_margin="@dimen/min_margin"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:text="er2177"
+            style="@style/TextViewHeader"
+            android:id="@+id/tittle"
+            android:layout_toStartOf="@id/settings"
+            android:layout_toEndOf="@id/icon"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/settings"
+            android:layout_alignParentEnd="true"
+            android:layout_width="@dimen/med_icon"
+            android:layout_height="@dimen/med_icon"
+            android:layout_margin="@dimen/min_margin"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/_settings"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/header"
+        android:id="@+id/pictures"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/min_margin"
-        android:orientation="vertical"
-        android:background="@drawable/__border">
+        android:weightSum="10"
+        android:background="@color/colorPrimary">
 
-        <TextView
-            style="@style/TextViewHeader"
-            android:text="PROFILE"/>
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/big_icon_alt"
+            android:layout_margin="@dimen/med_margin"
+            android:layout_weight="5"
+            android:src="@drawable/_profile"/>
+
+        <View
+            android:layout_width="@dimen/med_divider"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/med_margin"
+            android:background="@color/colorAccent" />
+
+        <ImageView
+            android:id="@+id/qrCode"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/big_icon_alt"
+            android:layout_margin="@dimen/med_margin"
+            android:layout_weight="5"
+            android:src="@drawable/_qr_code" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/main"
-        android:layout_below="@+id/header"
+        android:layout_below="@+id/pictures"
+        android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/min_margin"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="@dimen/min_margin">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/med_divider"
+            android:background="@color/colorAccent" />
+
+        <TextView
+            android:text="Edgard Gerardo Rivas Ruíz"
+            style="@style/TextViewDefault"
+            android:id="@+id/name"/>
+
+        <TextView
+            android:text="+503 7873-0645"
+            style="@style/TextViewDefault"
+            android:id="@+id/phone"/>
+
+        <TextView
+            android:text="edyrui2177@gmail.com"
+            style="@style/TextViewDefault"
+            android:id="@+id/mail"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/med_divider"
+            android:background="@color/colorAccent" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/info"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/min_margin">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="true">
+            android:scrollbars="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/min_divider"
+                    android:background="@color/colorAccent" />
+
+                <Button
+                    android:id="@+id/btnMyPoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableEnd="@drawable/_next"
+                    android:text="Mis Puntos"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+
+                <Button
+                    android:id="@+id/btnMyStamps"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableEnd="@drawable/_next"
+                    android:text="Mis Sellos"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+
+                <Button
+                    android:id="@+id/btnMyVouchers"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableEnd="@drawable/_next"
+                    android:text="Mis Cupones"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+
+                <Button
+                    android:id="@+id/btnMyLocations"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableEnd="@drawable/_next"
+                    android:text="Mis Direcciones"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+
+                <Button
+                    android:id="@+id/btnMyFavorites"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableEnd="@drawable/_next"
+                    android:text="Mis Favoritos"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+
+                <Button
+                    android:id="@+id/btnMyActivities"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableEnd="@drawable/_next"
+                    android:text="Compras | Órdenes | Carrito"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+
+                <Button
+                    android:id="@+id/btnLogOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableEnd="@drawable/_next"
+                    android:text="Salir"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>
