@@ -139,19 +139,6 @@
                     style="@style/ViewLine"/>
 
                 <Button
-                    android:id="@+id/btnMyStamps"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:backgroundTint="@color/white"
-                    android:drawableEnd="@drawable/_next"
-                    android:text="Mis Sellos"
-                    android:textColor="@color/white"
-                    style="?android:attr/borderlessButtonStyle"/>
-
-                <View
-                    style="@style/ViewLine"/>
-
-                <Button
                     android:id="@+id/btnMyVouchers"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"

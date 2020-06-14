@@ -13,11 +13,7 @@
 
         <TextView
             style="@style/TextViewHeader"
-            android:text="¡Bienvenido!"/>
-
-        <TextView
-            style="@style/TextViewSubHeader"
-            android:text="Explora nuestras categorías"/>
+            android:text="@string/message_home"/>
     </LinearLayout>
 
     <LinearLayout

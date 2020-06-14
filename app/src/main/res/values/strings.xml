@@ -10,4 +10,6 @@
     <string name="fb">FACEBOOK</string>
     <string name="ig">INSTAGRAM</string>
     <string name="wa">WHATSAPP</string>
+
+    <string name="message_home">Explora nuestras categorías</string>
 </resources>
