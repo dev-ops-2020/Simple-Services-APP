@@ -8,8 +8,7 @@ public class PhonesModel implements Serializable {
     private String number;
 
     public PhonesModel() {
-        this.name = "";
-        this.number = "";
+
     }
 
     public PhonesModel(String name, String number) {

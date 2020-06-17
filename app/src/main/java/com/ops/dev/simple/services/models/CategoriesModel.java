@@ -10,10 +10,7 @@ public class CategoriesModel implements Serializable {
     private int icon;
 
     public CategoriesModel() {
-        this.id = "";
-        this.name = "";
-        this.description = "";
-        this.icon = 0;
+
     }
 
     public CategoriesModel(String id, String name, String description, int icon) {

@@ -388,7 +388,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         builder = new AlertDialog.Builder(this);
         builder.setView(layoutView);
 
-        //Vars
+        // Vars
         final ImageView icon = layoutView.findViewById(R.id.icon);
         final TextView tittle = layoutView.findViewById(R.id.tittle);
         if (layout == lPhones) {

@@ -8,8 +8,7 @@ public class SchedulesModel implements Serializable {
     private String time;
 
     public SchedulesModel() {
-        this.day = "";
-        this.time = "";
+
     }
 
     public SchedulesModel(String day, String time) {

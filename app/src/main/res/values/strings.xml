@@ -12,4 +12,7 @@
     <string name="wa">WHATSAPP</string>
 
     <string name="message_home">Explora nuestras categorías</string>
+    <string name="loading">Cargando…</string>
+    <string name="options">Opciones</string>
+    <string name="welcome">Bienvenido</string>
 </resources>

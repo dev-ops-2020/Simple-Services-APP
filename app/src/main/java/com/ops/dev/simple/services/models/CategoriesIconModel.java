@@ -10,10 +10,7 @@ public class CategoriesIconModel implements Serializable {
     private boolean status;
 
     public CategoriesIconModel() {
-        this.id = "";
-        this.name = "";
-        this.icon = 0;
-        this.status = false;
+
     }
 
     public CategoriesIconModel(String name, int icon) {

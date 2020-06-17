@@ -1,15 +1,23 @@
 package com.ops.dev.simple.services.activities.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.ops.dev.simple.services.R;
+import com.ops.dev.simple.services.activities.SignIn;
+import com.ops.dev.simple.services.adapters.ToastAdapter;
 
 public class Profile extends Fragment {
 
@@ -19,6 +27,17 @@ public class Profile extends Fragment {
 	private String mParam1;
 	private String mParam2;
 
+	// Vars
+	Boolean isLoggedIn = false;
+	ImageView settings;
+	RelativeLayout main;
+
+	static int lSettings = R.layout.__modal_settings;
+
+	AlertDialog.Builder builder;
+	AlertDialog alertDialog;
+
+	ToastAdapter toastAdapter;
 
 	private OnFragmentInteractionListener mListener;
 
@@ -49,6 +68,18 @@ public class Profile extends Fragment {
 		final View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 		View layout = rootView.findViewById(android.R.id.content);
 
+		settings = rootView.findViewById(R.id.settings);
+		main = rootView.findViewById(R.id.main);
+
+		toastAdapter = new ToastAdapter(getActivity());
+
+		settings.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showModal(lSettings);
+			}
+		});
+
 		return rootView;
 	}
 
@@ -77,5 +108,23 @@ public class Profile extends Fragment {
 
 	public interface OnFragmentInteractionListener {
 		void onFragmentInteraction(Uri uri);
+	}
+
+	private void showModal(final int layout) {
+		final View layoutView = getLayoutInflater().inflate(layout, null);
+		builder = new AlertDialog.Builder(getActivity());
+		builder.setView(layoutView);
+
+		//Vars
+		final LinearLayout theme = layoutView.findViewById(R.id.theme);
+
+		theme.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				toastAdapter.makeToast(theme.toString(), R.drawable.__info);
+			}
+		});
+		alertDialog = builder.create();
+		alertDialog.show();
 	}
 }

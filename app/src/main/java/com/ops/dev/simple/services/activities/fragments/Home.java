@@ -3,11 +3,15 @@ package com.ops.dev.simple.services.activities.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.net.wifi.hotspot2.pps.HomeSp;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.CategoriesAdapter;
+import com.ops.dev.simple.services.adapters.ToastAdapter;
 import com.ops.dev.simple.services.models.CategoriesModel;
 
 import org.json.JSONArray;
@@ -41,12 +46,13 @@ public class Home extends Fragment {
 
 	OnFragmentInteractionListener mListener;
 
-	//Vars
+	// Vars
 	RecyclerView rvCategories;
     List<CategoriesModel> listCategories;
     CategoriesAdapter categoriesAdapter;
     Context context ;
 	RequestQueue queue;
+	ToastAdapter toastAdapter;
 
 	public Home() {
 

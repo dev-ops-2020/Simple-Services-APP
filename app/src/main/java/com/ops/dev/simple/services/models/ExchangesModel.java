@@ -2,14 +2,16 @@ package com.ops.dev.simple.services.models;
 
 import java.io.Serializable;
 
-public class ExchangesModel  implements Serializable {
-   private String id;
+public class ExchangesModel implements Serializable {
+
+    private String id;
     private String dateObtained;
     private String dateExchange;
     private String idCoupon;
     private String idUser;
 
     public ExchangesModel() {
+
     }
 
     public ExchangesModel(String id, String dateObtained, String dateExchange, String idCoupon, String idUser) {

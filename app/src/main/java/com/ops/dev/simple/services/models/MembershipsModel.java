@@ -3,6 +3,7 @@ package com.ops.dev.simple.services.models;
 import java.io.Serializable;
 
 public class MembershipsModel implements Serializable {
+
     private String id;
     private String name;
     private String description;
@@ -17,6 +18,7 @@ public class MembershipsModel implements Serializable {
     private String quantityPromotions;
 
     public MembershipsModel() {
+
     }
 
     public MembershipsModel(String id, String name, String description, String color, String priority, String extras, String status, double price, double priceOff, double priceExtraCoupon, String quantityCoupons, String quantityPromotions) {

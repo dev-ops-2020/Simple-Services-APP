@@ -2,9 +2,9 @@ package com.ops.dev.simple.services.models;
 
 import java.io.Serializable;
 
-public class CouponsModel  implements Serializable {
+public class CouponsModel implements Serializable {
 
-   private String id;
+    private String id;
     private String tittle;
     private String description;
     private String discount;
@@ -19,6 +19,7 @@ public class CouponsModel  implements Serializable {
     private String idProduct;
 
     public CouponsModel() {
+
     }
 
     public CouponsModel(String id, String tittle, String description, String discount, String picture, String datePublishing, String dateExpiration, String status, String idCategory, String idEstablishment, String establishmentName, String establishmentIcon, String idProduct) {

@@ -7,23 +7,26 @@ public class ProductsModel implements Serializable {
     private String id;
     private String name;
     private String description;
+    private String available;
     private String pictures;
     private String prices;
     private String status;
-    private String idCategories;
+    private String categories;
     private String idBusiness;
 
     public ProductsModel() {
+
     }
 
-    public ProductsModel(String id, String name, String description, String pictures, String prices, String status, String idCategories, String idBusiness) {
+    public ProductsModel(String id, String name, String available, String description, String pictures, String prices, String status, String categories, String idBusiness) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.available = available;
         this.pictures = pictures;
         this.prices = prices;
         this.status = status;
-        this.idCategories = idCategories;
+        this.categories = categories;
         this.idBusiness = idBusiness;
     }
 
@@ -45,6 +48,14 @@ public class ProductsModel implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setAvailable(String available) {
+        this.available = available;
+    }
+
+    public String getAvailable() {
+        return available;
     }
 
     public void setDescription(String description) {
@@ -75,12 +86,12 @@ public class ProductsModel implements Serializable {
         this.status = status;
     }
 
-    public String getIdCategories() {
-        return idCategories;
+    public String getCategories() {
+        return categories;
     }
 
-    public void setIdCategories(String idCategories) {
-        this.idCategories = idCategories;
+    public void setCategories(String categories) {
+        this.categories = categories;
     }
 
     public String getIdBusiness() {

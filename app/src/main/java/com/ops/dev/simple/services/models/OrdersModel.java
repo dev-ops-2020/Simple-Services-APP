@@ -2,7 +2,7 @@ package com.ops.dev.simple.services.models;
 
 import java.io.Serializable;
 
-public class OrdersModel  implements Serializable {
+public class OrdersModel implements Serializable {
 
    private String id;
     private String date;
@@ -15,6 +15,7 @@ public class OrdersModel  implements Serializable {
     private String idEstablishment;
 
     public OrdersModel() {
+
     }
 
     public OrdersModel(String id, String date, String subTotal, String total, String status, String idProduct, String idAddress, String idUser, String idEstablishment) {

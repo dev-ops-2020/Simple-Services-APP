@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.BusinessesAdapter;
+import com.ops.dev.simple.services.adapters.ToastAdapter;
 import com.ops.dev.simple.services.models.BusinessesModel;
 import com.ops.dev.simple.services.models.CategoriesIconModel;
 import com.ops.dev.simple.services.models.CategoriesModel;
@@ -40,37 +41,37 @@ public class Businesses extends AppCompatActivity {
 	RequestQueue queue;
     String categoryId, categoryName;
     int categoryIcon;
+	ToastAdapter toastAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_businesses);
+		View layout = findViewById(android.R.id.content);
+		context = Businesses.this;
 
-	setContentView(R.layout.activity_businesses);
-	View layout = findViewById(android.R.id.content);
-	context = Businesses.this;
+		try {
+			CategoriesModel category = (CategoriesModel) getIntent().getSerializableExtra("category");
+			categoryId = category.getId();
+			categoryName = category.getName();
+			categoryIcon = category.getIcon();
+		} catch (Exception ex) {
+			CategoriesIconModel categoryIcon = (CategoriesIconModel) getIntent().getSerializableExtra("category");
+			categoryName = categoryIcon.getName();
+		}
 
-	try {
-	    CategoriesModel category = (CategoriesModel) getIntent().getSerializableExtra("category");
-	    categoryId = category.getId();
-	    categoryName = category.getName();
-	    categoryIcon = category.getIcon();
-	} catch (Exception ex) {
-	    CategoriesIconModel categoryIcon = (CategoriesIconModel) getIntent().getSerializableExtra("category");
-	    categoryName = categoryIcon.getName();
-	}
+		final TextView tittle = findViewById(R.id.tittle);
+		final ImageView icon = findViewById(R.id.icon);
 
-	final TextView tittle = findViewById(R.id.tittle);
-	final ImageView icon = findViewById(R.id.icon);
-
-	tittle.setText(categoryName);
-	icon.setImageResource(categoryIcon);
+		tittle.setText(categoryName);
+		icon.setImageResource(categoryIcon);
 
 
-	rvBusinesses = findViewById(R.id.rvBusinesses);
-	listBusinesses = new ArrayList<>();
+		rvBusinesses = findViewById(R.id.rvBusinesses);
+		listBusinesses = new ArrayList<>();
 
-	queue = Volley.newRequestQueue(context);
-	getBusinessesByCategory(categoryName);
+		queue = Volley.newRequestQueue(context);
+		getBusinessesByCategory(categoryName);
     }
 
     private void getBusinessesByCategory(String categoryName) {
@@ -118,7 +119,7 @@ public class Businesses extends AppCompatActivity {
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-
+				toastAdapter.makeToast(error.toString(), R.drawable.__error);
 			}
 		});
 		queue.add(request);

@@ -2,7 +2,7 @@ package com.ops.dev.simple.services.models;
 
 import java.io.Serializable;
 
-public class UsersModel  implements Serializable {
+public class UsersModel implements Serializable {
 
     private String id;
     private String name;
@@ -19,6 +19,7 @@ public class UsersModel  implements Serializable {
     private String coupons;
 
     public UsersModel() {
+
     }
 
     public UsersModel(String id, String name, String alias, String phone, String email, String password, String qrCode, String picture, String points, String status, String rol, String businessFav, String coupons) {

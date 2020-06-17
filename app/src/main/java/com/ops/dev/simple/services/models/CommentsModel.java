@@ -81,6 +81,4 @@ public class CommentsModel implements Serializable {
     public void setIdBusiness(String idBusiness) {
         this.idBusiness = idBusiness;
     }
-
-
 }

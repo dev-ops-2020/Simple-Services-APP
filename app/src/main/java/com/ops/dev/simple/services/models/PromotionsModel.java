@@ -2,9 +2,9 @@ package com.ops.dev.simple.services.models;
 
 import java.io.Serializable;
 
-public class PromotionsModel  implements Serializable {
+public class PromotionsModel implements Serializable {
 
-   private String id;
+    private String id;
     private String tittle;
     private String description;
     private String discount;
@@ -18,6 +18,7 @@ public class PromotionsModel  implements Serializable {
     private String establishmentIco;
 
     public PromotionsModel() {
+
     }
 
     public PromotionsModel(String id, String tittle, String description, String discount, String picture, String datePublishing, String dateExpiration, String status, String idCategory, String idEstablishment, String establishmentName, String establishmentIco) {

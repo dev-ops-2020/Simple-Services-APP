@@ -8,8 +8,7 @@ public class NetworksModel implements Serializable {
     private String url;
 
     public NetworksModel() {
-        this.net = "";
-        this.url = "";
+
     }
 
     public NetworksModel(String net, String url) {

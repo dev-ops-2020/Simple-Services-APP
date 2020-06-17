@@ -2,7 +2,7 @@ package com.ops.dev.simple.services.models;
 
 import java.io.Serializable;
 
-public class ServicesModel  implements Serializable {
+public class ServicesModel implements Serializable {
 
   private String id;
     private String name;
@@ -16,6 +16,7 @@ public class ServicesModel  implements Serializable {
     private String idEstablishment;
 
     public ServicesModel() {
+
     }
 
     public ServicesModel(String id, String name, String description, String quantity, String prices, String pictures, String status, String type, String idCategories, String idEstablishment) {

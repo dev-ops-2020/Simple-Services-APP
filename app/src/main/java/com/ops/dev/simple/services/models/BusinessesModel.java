@@ -23,6 +23,7 @@ public class BusinessesModel implements Serializable {
     private String idMembership;
 
     public BusinessesModel() {
+
     }
 
     public BusinessesModel(String id, String name, String description, String slogan, String owner, String score, String status, String logo, String picture ,String pictures, String phones, String schedule, String networks, String categories, String latitude, String longitude, String idMembership) {

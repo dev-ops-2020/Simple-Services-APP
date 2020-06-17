@@ -24,12 +24,9 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.___main_menu);
         BottomNavigationView navView = findViewById(R.id.bottom_menu);
-
         navView.setItemIconTintList(null);
-
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        goHome();
+        goView(new Home());
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -39,30 +36,22 @@ public class MainMenu extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.home:
-                    goHome();
+                    goView(new Home());
                     return true;
                 case R.id.fav:
-                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    mFragment = new Fav();
-                    fragmentTransaction.replace(R.id.fragmentContainer, mFragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    goView(new Fav());
                     return true;
                 case R.id.profile:
-                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    mFragment = new Profile();
-                    fragmentTransaction.replace(R.id.fragmentContainer, mFragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                    goView(new Profile());
                     return true;
             }
             return false;
         }
     };
 
-    private void goHome() {
+    private void goView(Fragment fragment) {
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        mFragment = new Home();
+        mFragment = fragment;
         fragmentTransaction.replace(R.id.fragmentContainer, mFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();

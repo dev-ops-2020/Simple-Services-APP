@@ -20,7 +20,6 @@
         android:roundIcon="@drawable/___icon"
         android:theme="@style/AppTheme.NoActionBar">
 
-
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -30,13 +29,17 @@
             android:value="@string/map_key" />
 
         <activity
-            android:name=".activities.MainMenu">
+            android:name=".activities.SignIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.SignUp"/>
+        <activity
+            android:name=".activities.MainMenu"/>
         <activity
             android:name=".activities.Businesses"/>
         <activity

@@ -20,7 +20,6 @@
             android:layout_centerVertical="true"/>
 
         <TextView
-            android:text="er2177"
             style="@style/TextViewHeader"
             android:id="@+id/tittle"
             android:layout_toStartOf="@id/settings"
@@ -83,17 +82,14 @@
             android:background="@color/colorAccent" />
 
         <TextView
-            android:text="Edgard Gerardo Rivas Ruíz"
             style="@style/TextViewDefault"
             android:id="@+id/name"/>
 
         <TextView
-            android:text="+503 7873-0645"
             style="@style/TextViewDefault"
             android:id="@+id/phone"/>
 
         <TextView
-            android:text="edyrui2177@gmail.com"
             style="@style/TextViewDefault"
             android:id="@+id/mail"/>
 

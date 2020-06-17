@@ -2,7 +2,7 @@ package com.ops.dev.simple.services.models;
 
 import java.io.Serializable;
 
-public class AddressesModel  implements Serializable {
+public class AddressesModel implements Serializable {
 
     private String id;
     private String name;
