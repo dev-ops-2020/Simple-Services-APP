@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.activities.BusinessDetail;
 import com.ops.dev.simple.services.activities.Businesses;
@@ -81,10 +82,19 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         ImageView icon = holder.icon;
         TextView name = holder.name;
 
-        if (category.getIcon() != 0)
-            icon.setImageResource(category.getIcon());
-        else
-            icon.setImageResource(R.drawable._fav);
+        if (category.getIcon() != 0) {
+            Glide
+                    .with(mContext)
+                    .load(category.getIcon())
+                    .into(icon);
+            //icon.setImageResource(category.getIcon());
+        } else {
+            Glide
+                    .with(mContext)
+                    .load(R.drawable._fav)
+                    .into(icon);
+            //icon.setImageResource(R.drawable._fav);
+        }
         name.setText(category.getName());
     }
 

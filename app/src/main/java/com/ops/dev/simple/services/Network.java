@@ -11,6 +11,7 @@ public class Network {
     public static final String SignUp = IP + "signup/";
     public static final String SignIn = IP + "signin/";
     public static final String ListCategories = IP + "categories/";
+    public static final String Profile = IP + "users/";
     public static final String ListBusinessByCategory = IP + "businesses/category/";
     public static final String ListCommentsByBusiness = IP + "comments/business/";
 

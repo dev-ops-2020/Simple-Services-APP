@@ -3,9 +3,10 @@
     <string name="map_key" translatable="false">AIzaSyC5O1tu0l8x-4gV3Mp-vcdvhxl08zxYshQ</string>
 
     <!--Bottom Menu-->
-    <string name="home">HOME</string>
-    <string name="fav">FAV</string>
-    <string name="profile">PROFILE</string>
+    <string name="home">INICIO</string>
+    <string name="fav">MIS FAVORITOS</string>
+    <string name="car">MI CARRITO</string>
+    <string name="profile">MI PERFIL</string>
 
     <string name="fb">FACEBOOK</string>
     <string name="ig">INSTAGRAM</string>

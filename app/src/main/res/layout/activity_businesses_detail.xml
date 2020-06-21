@@ -120,7 +120,7 @@
                             android:layout_height="@dimen/big_icon"
                             android:layout_weight="1"
                             android:layout_margin="@dimen/min_margin"
-                            android:src="@drawable/_product"/>
+                            android:src="@drawable/_products"/>
 
                         <ImageView
                             android:id="@+id/btnCoupons"
@@ -128,7 +128,7 @@
                             android:layout_height="@dimen/big_icon"
                             android:layout_weight="1"
                             android:layout_margin="@dimen/min_margin"
-                            android:src="@drawable/_coupon"/>
+                            android:src="@drawable/_coupons"/>
                     </LinearLayout>
                 </androidx.core.widget.NestedScrollView>
                 <!--Location-->

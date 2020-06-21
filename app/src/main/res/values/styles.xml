@@ -30,7 +30,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/med_font</item>
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/cascadia_code</item>
+        <item name="android:fontFamily">@font/comfortaa</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center</item>
     </style>
@@ -61,13 +61,13 @@
         <item name="android:textStyle">italic</item>
     </style>
 
-    <style name="TextViewMenu" parent="TextViewDefault">
-        <item name="android:textSize">@dimen/min_font</item>
-    </style>
-
     <style name="TextViewCategories" parent="TextViewDefault">
         <item name="android:textSize">@dimen/min_font_alt</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextViewMenu" parent="TextViewDefault">
+        <item name="android:textSize">@dimen/min_font_alt</item>
     </style>
 
     <style name="EditTextDefault">

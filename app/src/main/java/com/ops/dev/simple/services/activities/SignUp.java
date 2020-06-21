@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputLayout;
+import com.onesignal.OneSignal;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.PreferencesAdapter;
@@ -33,7 +34,7 @@ public class SignUp extends AppCompatActivity {
 
 
     //Vars
-	String __message, __id, __alias, __token;
+	String __message, __id, __alias, __password, __idDevice, __token;
 	String _name, _alias, _phone, _email, _password;
 	TextInputLayout name, alias, phone, email, password;
 	Button signUp;
@@ -77,6 +78,15 @@ public class SignUp extends AppCompatActivity {
 		toastAdapter = new ToastAdapter(context);
 		preferencesAdapter = new PreferencesAdapter(context);
 		queue = Volley.newRequestQueue(context);
+
+		OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
+			@Override
+			public void idsAvailable(String userId, String registrationId) {
+				if (registrationId != null) {
+					__idDevice = userId;
+				}
+			}
+		});
     }
 
     private void signUp() {
@@ -97,6 +107,7 @@ public class SignUp extends AppCompatActivity {
 				jsonParams.put("phone", _phone);
 				jsonParams.put("email", _email);
 				jsonParams.put("password", _password);
+				jsonParams.put("idDevice", __idDevice);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -113,10 +124,10 @@ public class SignUp extends AppCompatActivity {
 						if (__message.equals("Ok")) {JSONObject jsonObject = response.getJSONObject("user");
 							__id = jsonObject.getString("_id");
 							__alias = jsonObject.getString("alias");
-							__token = response.getString("token");
+							__token = jsonObject.getString("token");
 
 							preferencesAdapter.deletePreferences();
-							preferencesAdapter.savePreferences(__id, __alias, __token, true);
+							preferencesAdapter.savePreferences(__id, __alias, __password, __id, __token, false);
 							alertDialog.dismiss();
 							toastAdapter.makeToast(__alias + " registrado correctamente", R.drawable._check);
 

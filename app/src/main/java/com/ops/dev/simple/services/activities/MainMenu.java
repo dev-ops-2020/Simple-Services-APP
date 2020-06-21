@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ops.dev.simple.services.activities.fragments.Car;
 import com.ops.dev.simple.services.activities.fragments.Fav;
 import com.ops.dev.simple.services.activities.fragments.Home;
 import com.ops.dev.simple.services.activities.fragments.Profile;
@@ -40,6 +41,9 @@ public class MainMenu extends AppCompatActivity {
                     return true;
                 case R.id.fav:
                     goView(new Fav());
+                    return true;
+                case R.id.car:
+                    goView(new Car());
                     return true;
                 case R.id.profile:
                     goView(new Profile());

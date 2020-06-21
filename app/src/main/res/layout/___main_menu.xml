@@ -2,12 +2,10 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragmentContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    tools:context=".activities.MainMenu">
+    android:background="@color/colorPrimary">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_menu"
@@ -17,9 +15,10 @@
         android:layout_margin="@dimen/min_margin"
         android:elevation="@dimen/min_margin"
         android:background="@drawable/__border"
-        app:itemIconSize="@dimen/med_icon"
-        app:itemTextAppearance="@style/TextViewMenu"
-        app:labelVisibilityMode="unlabeled"
+        app:itemTextAppearanceActive="@style/TextViewMenu"
+        app:itemIconSize="@dimen/min_icon_alt"
+        app:itemTextColor="@color/white"
+        app:labelVisibilityMode="auto"
         app:menu="@menu/bottom_nav_menu"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -13,12 +13,14 @@ public class CategoriesIconModel implements Serializable {
 
     }
 
-    public CategoriesIconModel(String name, int icon) {
+    public CategoriesIconModel(String id, String name, int icon) {
+        this.id = id;
         this.name = name;
         this.icon = icon;
     }
 
-    public CategoriesIconModel(String name, boolean status) {
+    public CategoriesIconModel(String id, String name, boolean status) {
+        this.id = id;
         this.name = name;
         this.status = status;
     }

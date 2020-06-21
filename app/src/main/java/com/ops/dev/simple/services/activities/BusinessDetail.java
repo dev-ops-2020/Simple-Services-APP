@@ -1,6 +1,5 @@
 package com.ops.dev.simple.services.activities;
 
-import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -76,7 +74,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
     ViewPager viewPager;
 
-    String catName;
+    String catId, catName;
     int catIcon;
 
     JSONArray picturesArray, categoriesArray, networksArray;
@@ -250,41 +248,37 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         try {
             for (int i = 0; i < categoriesArray.length(); i++) {
                 JSONObject jsonObject = categoriesArray.getJSONObject(i);
-                CategoriesIconModel category = new CategoriesIconModel();
-                catName = jsonObject.getString("category");
-                //catIcon = context.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", context.getPackageName());
-                category.setName(catName);
-                //category.setIcon(catIcon);
+                final CategoriesIconModel category = new CategoriesIconModel();
+                catId = jsonObject.getString("category");
+                String url = Network.ListCategories+catId;
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject jsonObject = response.getJSONObject("category");
+                            category.setId(jsonObject.getString("_id"));
+                            category.setName(jsonObject.getString("name"));
+                            int icon = context.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", context.getPackageName());
+                            category.setIcon(icon);
+                            listCategories.add(category);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+                        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+                        rvCategories.setLayoutManager(layoutManager);
+                        rvCategories.setHasFixedSize(true);
+                        categoriesIconAdapter = new CategoriesIconAdapter(context, listCategories);
+                        rvCategories.setAdapter(categoriesIconAdapter);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
 
-                switch (catName) {
-                    case "Comestibles":
-                        catIcon = BusinessDetail.this.getResources().getIdentifier("cat_comestibles" ,"drawable", BusinessDetail.this.getPackageName());
-                        break;
-                    case "Bebidas":
-                        catIcon = BusinessDetail.this.getResources().getIdentifier("cat_bebidas" ,"drawable", BusinessDetail.this.getPackageName());
-                        break;
-                    case "Medicamentos":
-                        catIcon = BusinessDetail.this.getResources().getIdentifier("cat_medicamentos" ,"drawable", BusinessDetail.this.getPackageName());
-                        break;
-                    case "Canasata Básica":
-                        catIcon = BusinessDetail.this.getResources().getIdentifier("cat_canasta" ,"drawable", BusinessDetail.this.getPackageName());
-                        break;
-                    case "Veterinaria":
-                        catIcon = BusinessDetail.this.getResources().getIdentifier("cat_veterinaria" ,"drawable", BusinessDetail.this.getPackageName());
-                        break;
-                    default:
-                        catIcon = BusinessDetail.this.getResources().getIdentifier("_fav" ,"drawable", BusinessDetail.this.getPackageName());
-                        break;
-                }
-                category.setIcon(catIcon);
-                listCategories.add(category);
+                    }
+                });
+                queue.add(request);
             }
-            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-            layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-            rvCategories.setLayoutManager(layoutManager);
-            rvCategories.setHasFixedSize(true);
-            categoriesIconAdapter = new CategoriesIconAdapter(context, listCategories);
-            rvCategories.setAdapter(categoriesIconAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }

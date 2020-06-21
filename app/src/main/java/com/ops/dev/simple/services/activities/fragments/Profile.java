@@ -2,7 +2,6 @@ package com.ops.dev.simple.services.activities.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,32 +13,55 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
-import com.ops.dev.simple.services.activities.SignIn;
+import com.ops.dev.simple.services.adapters.CategoriesAdapter;
+import com.ops.dev.simple.services.adapters.PreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
+import com.ops.dev.simple.services.models.CategoriesModel;
+import com.ops.dev.simple.services.models.CommentsModel;
+import com.ops.dev.simple.services.models.UsersModel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Objects;
 
 public class Profile extends Fragment {
 
-	private static final String ARG_PARAM1 = "param1";
-	private static final String ARG_PARAM2 = "param2";
+	static final String ARG_PARAM1 = "param1";
+	static final String ARG_PARAM2 = "param2";
 
-	private String mParam1;
-	private String mParam2;
+	String mParam1;
+	String mParam2;
+
+	OnFragmentInteractionListener mListener;
 
 	// Vars
-	Boolean isLoggedIn = false;
-	ImageView settings;
-	RelativeLayout main;
+	TextView alias, name, phone, email;
+	ImageView settings, picture;
 
 	static int lSettings = R.layout.__modal_settings;
 
 	AlertDialog.Builder builder;
 	AlertDialog alertDialog;
 
+	Context context ;
+	RequestQueue queue;
 	ToastAdapter toastAdapter;
-
-	private OnFragmentInteractionListener mListener;
+	PreferencesAdapter preferencesAdapter;
 
 	public Profile() {
 
@@ -68,10 +90,14 @@ public class Profile extends Fragment {
 		final View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 		View layout = rootView.findViewById(android.R.id.content);
 
-		settings = rootView.findViewById(R.id.settings);
-		main = rootView.findViewById(R.id.main);
+		context = Objects.requireNonNull(getActivity()).getApplicationContext();
 
-		toastAdapter = new ToastAdapter(getActivity());
+		alias = rootView.findViewById(R.id.alias);
+		name = rootView.findViewById(R.id.name);
+		phone = rootView.findViewById(R.id.phone);
+		email = rootView.findViewById(R.id.email);
+		settings = rootView.findViewById(R.id.settings);
+		picture = rootView.findViewById(R.id.picture);
 
 		settings.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -79,6 +105,12 @@ public class Profile extends Fragment {
 				showModal(lSettings);
 			}
 		});
+
+
+		toastAdapter = new ToastAdapter(context);
+		preferencesAdapter = new PreferencesAdapter(context);
+		queue = Volley.newRequestQueue(context);
+		getProfile();
 
 		return rootView;
 	}
@@ -121,10 +153,50 @@ public class Profile extends Fragment {
 		theme.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				toastAdapter.makeToast(theme.toString(), R.drawable.__info);
+				toastAdapter.makeToast("Esta opción estará disponible pronto...", R.drawable._fav);
 			}
 		});
 		alertDialog = builder.create();
 		alertDialog.show();
+	}
+
+	private void getProfile() {
+		String url = Network.Profile+preferencesAdapter.getId();
+		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					JSONObject jsonObject = response.getJSONObject("user");
+					UsersModel user = new UsersModel();
+					user.setId(jsonObject.getString("_id"));
+					user.setName(jsonObject.getString("name"));
+					user.setAlias(jsonObject.getString("alias"));
+					user.setPhone(jsonObject.getString("phone"));
+					user.setEmail(jsonObject.getString("email"));
+					user.setPicture(jsonObject.getString("picture"));
+
+					alias.setText(user.getAlias());
+					name.setText(user.getName());
+					phone.setText(user.getPhone());
+					email.setText(user.getEmail());
+
+					Glide
+							.with(context)
+							.load(user.getPicture())
+							.transform(new RoundedCorners(R.dimen.med_margin))
+							.into(picture);
+
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+
+			}
+		});
+		queue.add(request);
+
 	}
 }

@@ -1,6 +1,7 @@
 package com.ops.dev.simple.services.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -56,8 +57,10 @@ public class Businesses extends AppCompatActivity {
 			categoryName = category.getName();
 			categoryIcon = category.getIcon();
 		} catch (Exception ex) {
-			CategoriesIconModel categoryIcon = (CategoriesIconModel) getIntent().getSerializableExtra("category");
-			categoryName = categoryIcon.getName();
+			CategoriesIconModel categoryI = (CategoriesIconModel) getIntent().getSerializableExtra("category");
+			categoryId = categoryI.getId();
+			categoryName = categoryI.getName();
+			categoryIcon = categoryI.getIcon();
 		}
 
 		final TextView tittle = findViewById(R.id.tittle);
@@ -66,52 +69,60 @@ public class Businesses extends AppCompatActivity {
 		tittle.setText(categoryName);
 		icon.setImageResource(categoryIcon);
 
-
 		rvBusinesses = findViewById(R.id.rvBusinesses);
 		listBusinesses = new ArrayList<>();
 
 		queue = Volley.newRequestQueue(context);
-		getBusinessesByCategory(categoryName);
+		toastAdapter = new ToastAdapter(context);
+		getBusinessesByCategory(categoryId);
     }
 
-    private void getBusinessesByCategory(String categoryName) {
-    	String url = Network.ListBusinessByCategory+categoryName;
+    private void getBusinessesByCategory(final String categoryId) {
+    	String url = Network.ListBusinessByCategory+categoryId;
 		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response) {
 				try {
-					JSONArray jsonArray = response.getJSONArray("businesses");
-					for (int i = 0; i < jsonArray.length(); i++) {
-						JSONObject jsonObject = jsonArray.getJSONObject(i);
-						BusinessesModel business = new BusinessesModel();
-						business.setId(jsonObject.getString("_id"));
-						business.setName(jsonObject.getString("name"));
-						business.setDescription(jsonObject.getString("description"));
-						business.setSlogan(jsonObject.getString("slogan"));
-						business.setOwner(jsonObject.getString("owner"));
-						business.setScore(jsonObject.getString("score"));
-						business.setStatus(jsonObject.getString("status"));
-						business.setLogo(jsonObject.getString("logo"));
-						JSONArray jsonArrayPictures = jsonObject.getJSONArray("pictures");
-						for (int j = 0 ; j <jsonArrayPictures.length(); j++ ) {
-							JSONObject jsonObjectPicture = jsonArrayPictures.getJSONObject(j);
-							business.setPicture(jsonObjectPicture.getString("picture"));
+					String __message = response.getString("message");
+					if (__message.equals("Ok")) {
+						if (response.getJSONArray("businesses").length() > 0) {
+							JSONArray jsonArray = response.getJSONArray("businesses");
+							for (int i = 0; i < jsonArray.length(); i++) {
+								JSONObject jsonObject = jsonArray.getJSONObject(i);
+								BusinessesModel business = new BusinessesModel();
+								business.setId(jsonObject.getString("_id"));
+								business.setName(jsonObject.getString("name"));
+								business.setDescription(jsonObject.getString("description"));
+								business.setSlogan(jsonObject.getString("slogan"));
+								business.setOwner(jsonObject.getString("owner"));
+								business.setScore(jsonObject.getString("score"));
+								business.setStatus(jsonObject.getString("status"));
+								business.setLogo(jsonObject.getString("logo"));
+								JSONArray jsonArrayPictures = jsonObject.getJSONArray("pictures");
+								for (int j = 0 ; j <jsonArrayPictures.length(); j++ ) {
+									JSONObject jsonObjectPicture = jsonArrayPictures.getJSONObject(j);
+									business.setPicture(jsonObjectPicture.getString("picture"));
+								}
+								business.setPictures(jsonObject.getString("pictures"));
+								business.setPhones(jsonObject.getString("phones"));
+								business.setSchedule(jsonObject.getString("schedule"));
+								business.setNetworks(jsonObject.getString("networks"));
+								business.setCategories(jsonObject.getString("categories"));
+								business.setLatitude(jsonObject.getString("latitude"));
+								business.setLongitude(jsonObject.getString("longitude"));
+								business.setIdMembership(jsonObject.getString("idMembership"));
+								listBusinesses.add(business);
+							}
+							LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+							layoutManager.setOrientation(RecyclerView.VERTICAL);
+							rvBusinesses.setLayoutManager(layoutManager);
+							businessesAdapter = new BusinessesAdapter(context, listBusinesses);
+							rvBusinesses.setAdapter(businessesAdapter);
 						}
-						business.setPictures(jsonObject.getString("pictures"));
-						business.setPhones(jsonObject.getString("phones"));
-						business.setSchedule(jsonObject.getString("schedule"));
-						business.setNetworks(jsonObject.getString("networks"));
-						business.setCategories(jsonObject.getString("categories"));
-						business.setLatitude(jsonObject.getString("latitude"));
-						business.setLongitude(jsonObject.getString("longitude"));
-						business.setIdMembership(jsonObject.getString("idMembership"));
-						listBusinesses.add(business);
+					} else {
+						toastAdapter.makeToast("No se encontraron negocios en la categoría " + categoryName, R.drawable.__warning);
+						finish();
 					}
-					LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-					layoutManager.setOrientation(RecyclerView.VERTICAL);
-					rvBusinesses.setLayoutManager(layoutManager);
-					businessesAdapter = new BusinessesAdapter(context, listBusinesses);
-					rvBusinesses.setAdapter(businessesAdapter);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}

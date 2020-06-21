@@ -15,6 +15,7 @@
     <application
         android:launchMode="singleTask"
         android:allowBackup="true"
+        android:name=".ApplicationClass"
         android:label="@string/app_name"
         android:icon="@drawable/___icon"
         android:roundIcon="@drawable/___icon"

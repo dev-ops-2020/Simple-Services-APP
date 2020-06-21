@@ -21,11 +21,13 @@ public class PreferencesAdapter {
         this.context = context;
     }
 
-    public void savePreferences(String id, String alias, String token, Boolean isFirstTime) {
+    public void savePreferences(String id, String alias, String password, String idDevice, String token, Boolean isFirstTime) {
         sharedPreferences = context.getSharedPreferences("sharedPreferences", 0);
         editor = sharedPreferences.edit();
         editor.putString("id", id);
         editor.putString("alias", alias);
+        editor.putString("password", password);
+        editor.putString("idDevice", idDevice);
         editor.putString("token", token);
         editor.putBoolean("isFirstTime", isFirstTime);
         editor.apply();
@@ -42,6 +44,20 @@ public class PreferencesAdapter {
         sharedPreferences = context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
         if (sharedPreferences.contains("alias"))
             return sharedPreferences.getString("alias", "");
+        return null;
+    }
+
+    public String getPassword() {
+        sharedPreferences = context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
+        if (sharedPreferences.contains("password"))
+            return sharedPreferences.getString("password", "");
+        return null;
+    }
+
+    public String getIdDevice() {
+        sharedPreferences = context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
+        if (sharedPreferences.contains("idDevice"))
+            return sharedPreferences.getString("idDevice", "");
         return null;
     }
 

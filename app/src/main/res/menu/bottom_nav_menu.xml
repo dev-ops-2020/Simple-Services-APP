@@ -9,6 +9,10 @@
         android:icon="@drawable/_fav"
         android:title="@string/fav" />
     <item
+        android:id="@+id/car"
+        android:icon="@drawable/_car"
+        android:title="@string/car" />
+    <item
         android:id="@+id/profile"
         android:icon="@drawable/_profile"
         android:title="@string/profile" />

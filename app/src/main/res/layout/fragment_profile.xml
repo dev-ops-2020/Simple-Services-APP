@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -21,7 +22,7 @@
 
         <TextView
             style="@style/TextViewHeader"
-            android:id="@+id/tittle"
+            android:id="@+id/alias"
             android:layout_toStartOf="@id/settings"
             android:layout_toEndOf="@id/icon"
             android:layout_centerVertical="true"/>
@@ -91,7 +92,7 @@
 
         <TextView
             style="@style/TextViewDefault"
-            android:id="@+id/mail"/>
+            android:id="@+id/email"/>
 
         <View
             android:layout_width="match_parent"
@@ -99,7 +100,7 @@
             android:background="@color/colorAccent" />
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_below="@+id/info"
         android:id="@+id/main"
         android:layout_width="match_parent"
@@ -200,5 +201,5 @@
                     style="@style/ViewLine"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>

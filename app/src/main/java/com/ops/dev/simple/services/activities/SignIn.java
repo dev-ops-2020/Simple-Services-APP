@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputLayout;
+import com.onesignal.OneSignal;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.PreferencesAdapter;
@@ -32,7 +33,7 @@ import java.util.Objects;
 public class SignIn extends AppCompatActivity {
 
     //Vars
-	String __message, __id, __alias, __token;
+	String __message, __id, __alias, __password, __idDevice, __token;
 	String  _alias, _password;
 	TextInputLayout alias, password;
 	Button signIn;
@@ -72,7 +73,19 @@ public class SignIn extends AppCompatActivity {
 		});
 		toastAdapter = new ToastAdapter(context);
 		preferencesAdapter = new PreferencesAdapter(context);
+		Objects.requireNonNull(alias.getEditText()).setText(preferencesAdapter.getAlias());
+		Objects.requireNonNull(password.getEditText()).setText(preferencesAdapter.getPassword());
 		queue = Volley.newRequestQueue(context);
+
+		OneSignal.startInit(context).init();
+		OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
+			@Override
+			public void idsAvailable(String userId, String registrationId) {
+				if (registrationId != null) {
+					__idDevice = userId;
+				}
+			}
+		});
     }
 
 	private void signIn() {
@@ -103,10 +116,10 @@ public class SignIn extends AppCompatActivity {
 						if (__message.equals("Ok")) {JSONObject jsonObject = response.getJSONObject("user");
 							__id = jsonObject.getString("_id");
 							__alias = jsonObject.getString("alias");
-							__token = response.getString("token");
+							__token = jsonObject.getString("token");
 
 							preferencesAdapter.deletePreferences();
-							preferencesAdapter.savePreferences(__id, __alias, __token, true);
+							preferencesAdapter.savePreferences(__id, __alias, _password, "", __token, true);
 							alertDialog.dismiss();
 							toastAdapter.makeToast("Bienvenido " + __alias, R.drawable._check);
 

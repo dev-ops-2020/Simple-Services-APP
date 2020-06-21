@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.activities.Businesses;
 import com.ops.dev.simple.services.models.CategoriesIconModel;
@@ -37,6 +38,7 @@ public class CategoriesIconAdapter extends RecyclerView.Adapter<CategoriesIconAd
             @Override
             public void onClick(View view) {
                 CategoriesIconModel category = new CategoriesIconModel(
+                        mData.get(vh.getAdapterPosition()).getId(),
                         mData.get(vh.getAdapterPosition()).getName(),
                         mData.get(vh.getAdapterPosition()).getIcon()
                 );
@@ -50,10 +52,14 @@ public class CategoriesIconAdapter extends RecyclerView.Adapter<CategoriesIconAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CategoriesIconModel item = mData.get(position);
-        ImageView image = holder.icon;
+        CategoriesIconModel category = mData.get(position);
+        ImageView icon = holder.icon;
 
-        image.setImageResource(item.getIcon());
+        Glide
+                .with(mContext)
+                .load(category.getIcon())
+                .into(icon);
+        //icon.setImageResource(category.getIcon());
     }
 
     @Override
