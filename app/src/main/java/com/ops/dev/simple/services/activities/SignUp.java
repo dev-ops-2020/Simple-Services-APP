@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -129,7 +128,7 @@ public class SignUp extends AppCompatActivity {
 							preferencesAdapter.deletePreferences();
 							preferencesAdapter.savePreferences(__id, __alias, __password, __id, __token, false);
 							alertDialog.dismiss();
-							toastAdapter.makeToast(__alias + " registrado correctamente", R.drawable._check);
+							toastAdapter.makeToast(__alias + " registrado correctamente", R.drawable.__ok);
 
 							Handler h = new Handler();
 							h.postDelayed(new Runnable() {

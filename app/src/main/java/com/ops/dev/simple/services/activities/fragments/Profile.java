@@ -2,6 +2,7 @@ package com.ops.dev.simple.services.activities.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,12 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,14 +24,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
-import com.ops.dev.simple.services.adapters.CategoriesAdapter;
+import com.ops.dev.simple.services.activities.EditProfile;
 import com.ops.dev.simple.services.adapters.PreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
-import com.ops.dev.simple.services.models.CategoriesModel;
-import com.ops.dev.simple.services.models.CommentsModel;
 import com.ops.dev.simple.services.models.UsersModel;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,6 +47,7 @@ public class Profile extends Fragment {
 	// Vars
 	TextView alias, name, phone, email;
 	ImageView settings, picture;
+	LinearLayout pictures, info, main;
 
 	static int lSettings = R.layout.__modal_settings;
 
@@ -62,6 +58,8 @@ public class Profile extends Fragment {
 	RequestQueue queue;
 	ToastAdapter toastAdapter;
 	PreferencesAdapter preferencesAdapter;
+
+	UsersModel user;
 
 	public Profile() {
 
@@ -99,13 +97,16 @@ public class Profile extends Fragment {
 		settings = rootView.findViewById(R.id.settings);
 		picture = rootView.findViewById(R.id.picture);
 
+		pictures = rootView.findViewById(R.id.pictures);
+		info = rootView.findViewById(R.id.info);
+		main = rootView.findViewById(R.id.main);
+
 		settings.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				showModal(lSettings);
 			}
 		});
-
 
 		toastAdapter = new ToastAdapter(context);
 		preferencesAdapter = new PreferencesAdapter(context);
@@ -149,6 +150,7 @@ public class Profile extends Fragment {
 
 		//Vars
 		final LinearLayout theme = layoutView.findViewById(R.id.theme);
+		final LinearLayout edit = layoutView.findViewById(R.id.edit);
 
 		theme.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -156,24 +158,37 @@ public class Profile extends Fragment {
 				toastAdapter.makeToast("Esta opción estará disponible pronto...", R.drawable._fav);
 			}
 		});
+		edit.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, EditProfile.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intent.putExtra("user", user);
+				startActivity(intent);
+			}
+		});
 		alertDialog = builder.create();
 		alertDialog.show();
 	}
 
 	private void getProfile() {
-		String url = Network.Profile+preferencesAdapter.getId();
+		String url = Network.Users +preferencesAdapter.getId();
 		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response) {
 				try {
+					 user = new UsersModel();
 					JSONObject jsonObject = response.getJSONObject("user");
-					UsersModel user = new UsersModel();
 					user.setId(jsonObject.getString("_id"));
 					user.setName(jsonObject.getString("name"));
 					user.setAlias(jsonObject.getString("alias"));
 					user.setPhone(jsonObject.getString("phone"));
 					user.setEmail(jsonObject.getString("email"));
 					user.setPicture(jsonObject.getString("picture"));
+
+					pictures.setVisibility(View.VISIBLE);
+					info.setVisibility(View.VISIBLE);
+					main.setVisibility(View.VISIBLE);
 
 					alias.setText(user.getAlias());
 					name.setText(user.getName());
@@ -197,6 +212,5 @@ public class Profile extends Fragment {
 			}
 		});
 		queue.add(request);
-
 	}
 }

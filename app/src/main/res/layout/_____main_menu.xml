@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fragmentContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_menu"
@@ -13,12 +21,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="@dimen/min_margin"
+        android:layout_alignParentBottom="true"
         android:elevation="@dimen/min_margin"
-        android:background="@drawable/__border"
-        app:itemTextAppearanceActive="@style/TextViewMenu"
-        app:itemIconSize="@dimen/min_icon_alt"
-        app:itemTextColor="@color/white"
-        app:labelVisibilityMode="auto"
+        android:background="@drawable/border"
         app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="selected"
+        app:itemIconSize="@dimen/min_icon_alt"
+        app:itemTextColor="@color/colorAccent"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"/>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

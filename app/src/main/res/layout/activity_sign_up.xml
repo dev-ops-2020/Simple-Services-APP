@@ -7,7 +7,20 @@
     android:gravity="center"
     android:background="@color/colorPrimary">
 
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/main_margin_bottom">
+
+        <TextView
+            style="@style/TextViewHeader"
+            android:text="@string/sign_up"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
     <androidx.core.widget.NestedScrollView
+        android:layout_below="@id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -127,7 +140,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ya tengo cuenta"/>
+                    android:text="@string/already_account"/>
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

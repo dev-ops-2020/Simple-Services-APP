@@ -120,7 +120,7 @@ public class Businesses extends AppCompatActivity {
 							rvBusinesses.setAdapter(businessesAdapter);
 						}
 					} else {
-						toastAdapter.makeToast("No se encontraron negocios en la categoría " + categoryName, R.drawable.__warning);
+						toastAdapter.makeToast("No se encontraron negocios en la categoría " + categoryName, R.drawable.__info);
 						finish();
 					}
 				} catch (JSONException e) {

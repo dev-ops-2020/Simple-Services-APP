@@ -47,7 +47,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         //int randomColor = new Random().nextInt(colors.length);
         //container.setBackgroundResource(colors[randomColor]);
 
-        container.setBackgroundResource(R.color.colorAccent);
+        container.setBackgroundResource(R.color.colorPrimary);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

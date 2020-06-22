@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.ops.dev.simple.services.R;
 
-public class Car extends Fragment {
+public class Cart extends Fragment {
 
 	private static final String ARG_PARAM1 = "param1";
 	private static final String ARG_PARAM2 = "param2";
@@ -22,12 +22,12 @@ public class Car extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public Car() {
+	public Cart() {
 
 	}
 
-	public static Car newInstance(String param1, String param2) {
-		Car fragment = new Car();
+	public static Cart newInstance(String param1, String param2) {
+		Cart fragment = new Cart();
 		Bundle args = new Bundle();
 		args.putString(ARG_PARAM1, param1);
 		args.putString(ARG_PARAM2, param2);
@@ -46,7 +46,7 @@ public class Car extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View rootView = inflater.inflate(R.layout.fragment_fav, container, false);
+		final View rootView = inflater.inflate(R.layout.fragment_car, container, false);
 		View layout = rootView.findViewById(android.R.id.content);
 
 		return rootView;

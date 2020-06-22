@@ -15,7 +15,7 @@
 
         <TextView
             style="@style/TextViewHeader"
-            android:text="@string/home"/>
+            android:text="@string/search"/>
     </LinearLayout>
 
     <LinearLayout

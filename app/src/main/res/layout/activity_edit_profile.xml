@@ -14,36 +14,27 @@
         android:layout_marginVertical="@dimen/main_margin_bottom">
 
         <TextView
+            android:id="@id/alias"
             style="@style/TextViewHeader"
-            android:text="@string/sign_in"
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_below="@id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <!--Alias-->
+        android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/med_icon"
-                android:layout_height="@dimen/med_icon"
-                android:layout_margin="@dimen/min_margin"
-                android:layout_gravity="center"
-                android:src="@drawable/_profile"/>
-
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--Name-->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputLayout"
-                android:id="@+id/alias"
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Alias">
+                android:hint="Nombre Completo">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputLayout"
@@ -52,30 +43,15 @@
                     android:layout_margin="@dimen/med_margin"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:inputType="text"/>
+                    android:inputType="textPersonName"/>
             </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-        <!--Password-->
-        <!--Alias-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/med_icon"
-                android:layout_height="@dimen/med_icon"
-                android:layout_margin="@dimen/min_margin"
-                android:layout_gravity="center"
-                android:src="@drawable/_password"/>
-            <!--Password-->
+            <!--Phone-->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputLayout"
-                android:id="@+id/password"
+                android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Contraseña">
+                android:hint="Teléfono">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputLayout"
@@ -84,37 +60,42 @@
                     android:layout_margin="@dimen/med_margin"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:inputType="textPassword"/>
+                    android:inputType="phone"/>
             </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-        <!--SingIn-->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/min_margin"
-            card_view:cardCornerRadius="@dimen/med_margin"
-            card_view:cardElevation="0dp"
-            card_view:cardBackgroundColor="@color/colorPrimary">
-
-            <Button
-                android:id="@+id/signIn"
-                style="@style/ButtonDefault"
+            <!--Email-->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputLayout"
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/blue"
-                android:text="Iniciar Sesión"/>
-        </androidx.cardview.widget.CardView>
-        <!--SingUp-->
-        <LinearLayout
-            android:id="@+id/signUp"
-            android:layout_margin="@dimen/med_margin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:hint="Correo">
 
-            <TextView
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/med_margin"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:inputType="textEmailAddress"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--SingIn-->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/create_account"/>
+                android:layout_margin="@dimen/min_margin"
+                card_view:cardCornerRadius="@dimen/med_margin"
+                card_view:cardElevation="0dp"
+                card_view:cardBackgroundColor="@color/colorPrimary">
+
+                <Button
+                    android:id="@+id/update"
+                    style="@style/ButtonDefault"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blue"
+                    android:text="@string/update"/>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

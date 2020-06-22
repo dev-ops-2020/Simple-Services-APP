@@ -17,8 +17,8 @@
         android:allowBackup="true"
         android:name=".ApplicationClass"
         android:label="@string/app_name"
-        android:icon="@drawable/___icon"
-        android:roundIcon="@drawable/___icon"
+        android:icon="@drawable/_____icon"
+        android:roundIcon="@drawable/_____icon"
         android:theme="@style/AppTheme.NoActionBar">
 
         <uses-library
@@ -41,6 +41,8 @@
             android:name=".activities.SignUp"/>
         <activity
             android:name=".activities.MainMenu"/>
+        <activity
+            android:name=".activities.EditProfile"/>
         <activity
             android:name=".activities.Businesses"/>
         <activity

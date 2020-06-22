@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.ops.dev.simple.services.R;
 
-public class Fav extends Fragment {
+public class Search extends Fragment {
 
 	private static final String ARG_PARAM1 = "param1";
 	private static final String ARG_PARAM2 = "param2";
@@ -22,12 +22,12 @@ public class Fav extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 
-	public Fav() {
+	public Search() {
 
 	}
 
-	public static Fav newInstance(String param1, String param2) {
-		Fav fragment = new Fav();
+	public static Search newInstance(String param1, String param2) {
+		Search fragment = new Search();
 		Bundle args = new Bundle();
 		args.putString(ARG_PARAM1, param1);
 		args.putString(ARG_PARAM2, param2);
@@ -46,7 +46,7 @@ public class Fav extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View rootView = inflater.inflate(R.layout.fragment_fav, container, false);
+		final View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 		View layout = rootView.findViewById(android.R.id.content);
 
 		return rootView;

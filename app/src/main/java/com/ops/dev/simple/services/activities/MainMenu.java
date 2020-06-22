@@ -3,61 +3,87 @@ package com.ops.dev.simple.services.activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ops.dev.simple.services.activities.fragments.Car;
-import com.ops.dev.simple.services.activities.fragments.Fav;
-import com.ops.dev.simple.services.activities.fragments.Home;
-import com.ops.dev.simple.services.activities.fragments.Profile;
 import com.ops.dev.simple.services.R;
+import com.ops.dev.simple.services.adapters.MenuPagerAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    Fragment mFragment;
-    FragmentTransaction fragmentTransaction;
+    ViewPager viewPager;
+    MenuPagerAdapter menuPagerAdapter;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.___main_menu);
-        BottomNavigationView navView = findViewById(R.id.bottom_menu);
-        navView.setItemIconTintList(null);
-        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        goView(new Home());
+        setContentView(R.layout._____main_menu);
+
+        viewPager = findViewById(R.id.view_pager);
+        menuPagerAdapter = new MenuPagerAdapter(getSupportFragmentManager());
+        bottomNavigationView = findViewById(R.id.bottom_menu);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        viewPager.setAdapter(menuPagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        bottomNavigationView.getMenu().findItem(R.id.search).setChecked(true);
+                        break;
+                    case 1:
+                        bottomNavigationView.getMenu().findItem(R.id.categories).setChecked(true);
+                        break;
+                    case 2:
+                        bottomNavigationView.getMenu().findItem(R.id.home).setChecked(true);
+                        break;
+                    case 3:
+                        bottomNavigationView.getMenu().findItem(R.id.cart).setChecked(true);
+                        break;
+                    case 4:
+                        bottomNavigationView.getMenu().findItem(R.id.profile).setChecked(true);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        bottomNavigationView.setItemIconTintList(null);
+        bottomNavigationView.setSelectedItemId(R.id.home);
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.home:
-                    goView(new Home());
-                    return true;
-                case R.id.fav:
-                    goView(new Fav());
-                    return true;
-                case R.id.car:
-                    goView(new Car());
-                    return true;
-                case R.id.profile:
-                    goView(new Profile());
-                    return true;
-            }
-            return false;
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        Fragment fragment = null;
+        switch (menuItem.getItemId()) {
+            case R.id.search:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.categories:
+                viewPager.setCurrentItem(1);
+                break;
+            case R.id.home:
+                viewPager.setCurrentItem(2);
+                break;
+            case R.id.cart:
+                viewPager.setCurrentItem(3);
+                break;
+            case R.id.profile:
+                viewPager.setCurrentItem(4);
+                break;
         }
-    };
-
-    private void goView(Fragment fragment) {
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        mFragment = fragment;
-        fragmentTransaction.replace(R.id.fragmentContainer, mFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        return true;
     }
 }

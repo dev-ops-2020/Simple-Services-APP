@@ -9,13 +9,11 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/min_margin"
-        android:orientation="vertical"
-        android:background="@drawable/border">
+        android:orientation="vertical">
 
         <TextView
             style="@style/TextViewHeader"
-            android:text="@string/home"/>
+            android:text="@string/message_categories"/>
     </LinearLayout>
 
     <LinearLayout
@@ -32,7 +30,7 @@
             android:clipToPadding="true">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv"
+                android:id="@+id/rvCategories"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </androidx.core.widget.NestedScrollView>

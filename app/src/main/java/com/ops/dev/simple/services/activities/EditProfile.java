@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,82 +24,76 @@ import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.PreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
+import com.ops.dev.simple.services.models.BusinessesModel;
+import com.ops.dev.simple.services.models.UsersModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Objects;
 
-public class SignIn extends AppCompatActivity {
+public class EditProfile extends AppCompatActivity {
 
     //Vars
-	String __message, __id, __alias, __password, __idDevice, __token;
-	String  _alias, _password;
-	TextInputLayout alias, password;
-	Button signIn;
-	LinearLayout signUp;
+	String __message, __id, __alias;
+	String _name, _alias, _phone, _email, _password;
+	TextView alias;
+	TextInputLayout name, phone, email, password;
+	Button update;
 	Context context;
 	RequestQueue queue;
 
 	ProgressDialog alertDialog;
 	ToastAdapter toastAdapter;
-	PreferencesAdapter preferencesAdapter;
+
+	UsersModel user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sign_in);
+		setContentView(R.layout.activity_edit_profile);
 		View layout = findViewById(android.R.id.content);
-		context = SignIn.this;
+		context = EditProfile.this;
 
+		name = findViewById(R.id.name);
 		alias = findViewById(R.id.alias);
-		password = findViewById(R.id.password);
-		signIn = findViewById(R.id.signIn);
-		signUp = findViewById(R.id.signUp);
+		phone = findViewById(R.id.phone);
+		email = findViewById(R.id.email);
+		update = findViewById(R.id.update);
 
-		signIn.setOnClickListener(new View.OnClickListener() {
+		user = (UsersModel) getIntent().getSerializableExtra("user");
+		assert user != null;
+		alias.setText(String.format("Editar Perfil '%s'", user.getAlias()));
+		Objects.requireNonNull(name.getEditText()).setText(user.getName());
+		Objects.requireNonNull(phone.getEditText()).setText(user.getPhone());
+		Objects.requireNonNull(email.getEditText()).setText(user.getEmail());
+
+		update.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				signIn();
-			}
-		});
-		signUp.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(context, SignUp.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
+				//update();
+				toastAdapter.makeToast("Al tocar este botón se actualizarán los datos 😎", R.drawable._fav);
 			}
 		});
 		toastAdapter = new ToastAdapter(context);
-		preferencesAdapter = new PreferencesAdapter(context);
-		Objects.requireNonNull(alias.getEditText()).setText(preferencesAdapter.getAlias());
-		Objects.requireNonNull(password.getEditText()).setText(preferencesAdapter.getPassword());
 		queue = Volley.newRequestQueue(context);
-
-		OneSignal.startInit(context).init();
-		OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
-			@Override
-			public void idsAvailable(String userId, String registrationId) {
-				if (registrationId != null) {
-					__idDevice = userId;
-				}
-			}
-		});
     }
 
-	private void signIn() {
-		String url = Network.SignIn;
-		_alias = String.valueOf(Objects.requireNonNull(alias.getEditText()).getText());
-		_password = String.valueOf(Objects.requireNonNull(password.getEditText()).getText());
+    private void update() {
+		String url = Network.Users+user.getId();
+		_name = String.valueOf(Objects.requireNonNull(name.getEditText()).getText());
+		_phone = String.valueOf(Objects.requireNonNull(phone.getEditText()).getText());
+		_email = String.valueOf(Objects.requireNonNull(email.getEditText()).getText());
+		//_password = String.valueOf(Objects.requireNonNull(password.getEditText()).getText());
 
-		if (_alias.length() == 0 || _password.length() == 0) {
-			toastAdapter.makeToast("Alias y contraseñas requeridos", R.drawable.__warning);
+		if (_name.length() == 0 || _phone.length() == 0 || _email.length() == 0) {
+			toastAdapter.makeToast("Todos los campos son requeridos", R.drawable.__warning);
 		} else {
 			JSONObject jsonParams = new JSONObject();
 			try {
-				jsonParams.put("alias", _alias);
-				jsonParams.put("password", _password);
+				jsonParams.put("name", _name);
+				jsonParams.put("phone", _phone);
+				jsonParams.put("email", _email);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -115,28 +110,22 @@ public class SignIn extends AppCompatActivity {
 						if (__message.equals("Ok")) {JSONObject jsonObject = response.getJSONObject("user");
 							__id = jsonObject.getString("_id");
 							__alias = jsonObject.getString("alias");
-							__token = jsonObject.getString("token");
 
-							preferencesAdapter.deletePreferences();
-							preferencesAdapter.savePreferences(__id, __alias, _password, "", __token, true);
 							alertDialog.dismiss();
-							toastAdapter.makeToast("Bienvenido " + __alias, R.drawable.__ok);
+							toastAdapter.makeToast(__alias + " actualizado correctamente", R.drawable.__ok);
 
 							Handler h = new Handler();
 							h.postDelayed(new Runnable() {
 								@Override
 								public void run() {
 									finish();
-									Intent intent = new Intent(context, MainMenu.class);
+									Intent intent = new Intent(context, SignIn.class);
 									startActivity(intent);
 								}
 							}, 3000);
-						} else if (__message.equals("User not found")) {
-							alertDialog.dismiss();
-							toastAdapter.makeToast("!Vaya! No encontramos ninguna cuenta registrada con estos datos", R.drawable.__error);
 						} else {
 							alertDialog.dismiss();
-							toastAdapter.makeToast("Revisa los datos de ingreso", R.drawable.__warning);
+							toastAdapter.makeToast("!Vaya! Al parecer tenemos una cuenta registrada con estos datos", R.drawable.__error);
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -150,10 +139,5 @@ public class SignIn extends AppCompatActivity {
 			});
 			queue.add(request);
 		}
-	}
-
-	@Override
-	public void onBackPressed() {
-
 	}
 }

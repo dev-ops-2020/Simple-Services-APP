@@ -3,17 +3,32 @@
     <string name="map_key" translatable="false">AIzaSyC5O1tu0l8x-4gV3Mp-vcdvhxl08zxYshQ</string>
 
     <!--Bottom Menu-->
+    <string name="search">BUSCAR</string>
+    <string name="categories">CATEGORÍAS</string>
     <string name="home">INICIO</string>
-    <string name="fav">MIS FAVORITOS</string>
-    <string name="car">MI CARRITO</string>
+    <string name="cart">MI CARRITO</string>
     <string name="profile">MI PERFIL</string>
 
+
+
+    <!--Social Networks-->
     <string name="fb">FACEBOOK</string>
     <string name="ig">INSTAGRAM</string>
     <string name="wa">WHATSAPP</string>
 
-    <string name="message_home">Explora nuestras categorías</string>
+    <!--SignIn & SignUp-->
+    <string name="sign_in">Iniciar Sesión</string>
+    <string name="sign_up">Registro</string>
+    <string name="already_account">Ya tengo cuenta</string>
+    <string name="create_account">Crear cuenta</string>
+
     <string name="loading">Cargando…</string>
     <string name="options">Opciones</string>
     <string name="welcome">Bienvenido</string>
+    <string name="update">Actualizar Datos</string>
+
+    <!--Modules-->
+    <string name="message_categories">Explora nuestras categorías</string>
+    <string name="message_home">Bienvenido</string>
+    <string name="message_carrito">Mis productos en el carrito</string>
 </resources>
