@@ -16,14 +16,14 @@ public class ToastAdapter {
         this.context = context;
     }
 
-    public void makeToast(String mMessage, int mIcon) {
+    public void makeToast(int mIcon, String mMessage) {
         View view = View.inflate(context, R.layout.___toast_message, null);
 
-        TextView message = view.findViewById(R.id.message);
         ImageView icon = view.findViewById(R.id.icon);
+        TextView message = view.findViewById(R.id.message);
 
-        message.setText(mMessage);
         icon.setImageResource(mIcon);
+        message.setText(mMessage);
 
         Toast toast = new Toast(context.getApplicationContext());
         //toast.setGravity(Gravity.BOTTOM, 0, 0);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -29,4 +29,4 @@
         app:itemIconSize="@dimen/min_icon_alt"
         app:itemTextColor="@color/colorAccent"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"/>
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -22,6 +22,7 @@ public class CategoriesIconAdapter extends RecyclerView.Adapter<CategoriesIconAd
 
     private Context mContext;
     private List<CategoriesIconModel> mData;
+    GlideAdapter glideAdapter;
 
     public CategoriesIconAdapter(Context mContext, List<CategoriesIconModel> mData) {
         this.mContext = mContext;
@@ -33,6 +34,8 @@ public class CategoriesIconAdapter extends RecyclerView.Adapter<CategoriesIconAd
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, final int pos) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.__card_categories_icon, parent, false);
         final ViewHolder vh = new ViewHolder(view);
+
+        glideAdapter = new GlideAdapter(mContext);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,12 +57,7 @@ public class CategoriesIconAdapter extends RecyclerView.Adapter<CategoriesIconAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoriesIconModel category = mData.get(position);
         ImageView icon = holder.icon;
-
-        Glide
-                .with(mContext)
-                .load(category.getIcon())
-                .into(icon);
-        //icon.setImageResource(category.getIcon());
+        glideAdapter.setImage(icon, category.getIcon());
     }
 
     @Override

@@ -25,6 +25,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.activities.EditProfile;
+import com.ops.dev.simple.services.adapters.GlideAdapter;
 import com.ops.dev.simple.services.adapters.PreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
 import com.ops.dev.simple.services.models.UsersModel;
@@ -50,6 +51,7 @@ public class Profile extends Fragment {
 	LinearLayout pictures, info, main;
 
 	static int lSettings = R.layout.__modal_settings;
+	static int lPicture = R.layout.__modal_picture;
 
 	AlertDialog.Builder builder;
 	AlertDialog alertDialog;
@@ -57,6 +59,7 @@ public class Profile extends Fragment {
 	Context context ;
 	RequestQueue queue;
 	ToastAdapter toastAdapter;
+	GlideAdapter glideAdapter;
 	PreferencesAdapter preferencesAdapter;
 
 	UsersModel user;
@@ -90,6 +93,11 @@ public class Profile extends Fragment {
 
 		context = Objects.requireNonNull(getActivity()).getApplicationContext();
 
+		toastAdapter = new ToastAdapter(context);
+		glideAdapter = new GlideAdapter(context);
+		preferencesAdapter = new PreferencesAdapter(context);
+		queue = Volley.newRequestQueue(context);
+
 		alias = rootView.findViewById(R.id.alias);
 		name = rootView.findViewById(R.id.name);
 		phone = rootView.findViewById(R.id.phone);
@@ -108,9 +116,13 @@ public class Profile extends Fragment {
 			}
 		});
 
-		toastAdapter = new ToastAdapter(context);
-		preferencesAdapter = new PreferencesAdapter(context);
-		queue = Volley.newRequestQueue(context);
+		picture.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showModal(lPicture);
+			}
+		});
+
 		getProfile();
 
 		return rootView;
@@ -148,26 +160,33 @@ public class Profile extends Fragment {
 		builder = new AlertDialog.Builder(getActivity());
 		builder.setView(layoutView);
 
-		//Vars
-		final LinearLayout theme = layoutView.findViewById(R.id.theme);
-		final LinearLayout edit = layoutView.findViewById(R.id.edit);
+		if (layout == lSettings) {
+			//Vars
+			final LinearLayout theme = layoutView.findViewById(R.id.theme);
+			final LinearLayout edit = layoutView.findViewById(R.id.edit);
 
-		theme.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toastAdapter.makeToast("Esta opción estará disponible pronto...", R.drawable._fav);
-			}
-		});
-		edit.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(context, EditProfile.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				intent.putExtra("user", user);
-				startActivity(intent);
-			}
-		});
+			theme.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					toastAdapter.makeToast(R.drawable._fav, "Esta opción estará disponible pronto...");
+				}
+			});
+			edit.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(context, EditProfile.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intent.putExtra("user", user);
+					startActivity(intent);
+				}
+			});
+		} else {
+			final ImageView picture = layoutView.findViewById(R.id.picture);
+			glideAdapter.setImage(picture, user.getPicture());
+		}
 		alertDialog = builder.create();
+		if (layout == lPicture)
+			alertDialog.setCancelable(true);
 		alertDialog.show();
 	}
 
@@ -213,4 +232,5 @@ public class Profile extends Fragment {
 		});
 		queue.add(request);
 	}
+
 }

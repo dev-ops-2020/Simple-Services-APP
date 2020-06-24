@@ -127,7 +127,7 @@
                     style="@style/ButtonDefault"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/blue"
+                    android:background="@color/colorAccent"
                     android:text="Registrarme"/>
             </androidx.cardview.widget.CardView>
             <!--SingUp-->

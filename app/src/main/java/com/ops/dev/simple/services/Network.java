@@ -4,6 +4,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Network {
 
     private static ConnectivityManager manager;
@@ -14,6 +17,9 @@ public class Network {
     public static final String Users = IP + "users/";
     public static final String ListBusinessByCategory = IP + "businesses/category/";
     public static final String ListCommentsByBusiness = IP + "comments/business/";
+
+    public static final int STORAGE_PERMISSION_CODE = 1020;
+    public static final int PICK_IMAGE_REQUEST_CODE = 1021;
 
     public static final String ALLOWED_URI_CHARS = "@#&=*+-_.,:!?()/~'%";
     public static final int DURATION_SHORT = 1500;

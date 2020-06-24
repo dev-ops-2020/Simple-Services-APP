@@ -26,7 +26,8 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     private Context mContext;
     private List<CategoriesModel> mData;
-    ToastAdapter toastAdapter;
+    private ToastAdapter toastAdapter;
+    private GlideAdapter glideAdapter;
 
     public CategoriesAdapter(Context mContext, List<CategoriesModel> mData) {
         this.mContext = mContext;
@@ -41,13 +42,14 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         final RelativeLayout container = view.findViewById(R.id.container);
 
         toastAdapter = new ToastAdapter(mContext);
+        glideAdapter = new GlideAdapter(mContext);
 
         //int[] colors = {R.color.yellow, R.color.light_blue, R.color.purple, R.color.yellow_alt, R.color.light_blue_alt, R.color.purple_alt};
         //int[] colors = {R.color.yellow_alt, R.color.light_blue, R.color.purple};
         //int randomColor = new Random().nextInt(colors.length);
         //container.setBackgroundResource(colors[randomColor]);
 
-        container.setBackgroundResource(R.color.colorPrimary);
+        //container.setBackgroundResource(R.color.colorPrimary);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +70,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-            toastAdapter.makeToast( "" + mData.get(vh.getAdapterPosition()).getDescription(), mData.get(vh.getAdapterPosition()).getIcon());
+            toastAdapter.makeToast(mData.get(vh.getAdapterPosition()).getIcon(),  "" + mData.get(vh.getAdapterPosition()).getDescription());
             return true;
             }
         });
@@ -82,19 +84,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         ImageView icon = holder.icon;
         TextView name = holder.name;
 
-        if (category.getIcon() != 0) {
-            Glide
-                    .with(mContext)
-                    .load(category.getIcon())
-                    .into(icon);
-            //icon.setImageResource(category.getIcon());
-        } else {
-            Glide
-                    .with(mContext)
-                    .load(R.drawable._fav)
-                    .into(icon);
-            //icon.setImageResource(R.drawable._fav);
-        }
+        if (category.getIcon() != 0)
+            glideAdapter.setImage(icon, category.getIcon());
+        else
+            glideAdapter.setImage(icon, R.drawable._fav);
         name.setText(category.getName());
     }
 

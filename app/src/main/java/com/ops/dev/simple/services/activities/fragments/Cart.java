@@ -46,7 +46,7 @@ public class Cart extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		final View rootView = inflater.inflate(R.layout.fragment_car, container, false);
+		final View rootView = inflater.inflate(R.layout.fragment_cart, container, false);
 		View layout = rootView.findViewById(android.R.id.content);
 
 		return rootView;

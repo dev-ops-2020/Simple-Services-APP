@@ -1,7 +1,6 @@
 package com.ops.dev.simple.services.activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -120,7 +119,7 @@ public class Businesses extends AppCompatActivity {
 							rvBusinesses.setAdapter(businessesAdapter);
 						}
 					} else {
-						toastAdapter.makeToast("No se encontraron negocios en la categoría " + categoryName, R.drawable.__info);
+						toastAdapter.makeToast(R.drawable.__info, "No se encontraron negocios en la categoría " + categoryName);
 						finish();
 					}
 				} catch (JSONException e) {
@@ -130,7 +129,7 @@ public class Businesses extends AppCompatActivity {
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				toastAdapter.makeToast(error.toString(), R.drawable.__error);
+
 			}
 		});
 		queue.add(request);

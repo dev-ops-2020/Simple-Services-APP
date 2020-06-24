@@ -21,6 +21,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     private Context mContext;
     private List<CommentsModel> mData;
+    GlideAdapter glideAdapter;
 
     public CommentsAdapter(Context mContext, List<CommentsModel> mData) {
         this.mContext = mContext;
@@ -33,6 +34,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.__card_comments, parent, false);
         final ViewHolder vh = new ViewHolder(view);
 
+        glideAdapter = new GlideAdapter(mContext);
+
         return vh;
     }
 
@@ -43,12 +46,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         TextView date = holder.date;
         TextView user = holder.user;
         TextView commentary = holder.comment;
-
-        Glide
-                .with(mContext)
-                .load(comment.getPictureUser())
-                .transform(new RoundedCorners(R.dimen.min_margin))
-                .into(picture);
+        glideAdapter.setImage(picture, comment.getPictureUser());
         date.setText(comment.getDate());
         user.setText(comment.getNameUser());
         commentary.setText(comment.getComment());

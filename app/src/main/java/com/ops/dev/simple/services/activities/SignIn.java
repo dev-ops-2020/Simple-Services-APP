@@ -40,7 +40,7 @@ public class SignIn extends AppCompatActivity {
 	Context context;
 	RequestQueue queue;
 
-	ProgressDialog alertDialog;
+	ProgressDialog progressDialog;
 	ToastAdapter toastAdapter;
 	PreferencesAdapter preferencesAdapter;
 
@@ -93,7 +93,7 @@ public class SignIn extends AppCompatActivity {
 		_password = String.valueOf(Objects.requireNonNull(password.getEditText()).getText());
 
 		if (_alias.length() == 0 || _password.length() == 0) {
-			toastAdapter.makeToast("Alias y contraseñas requeridos", R.drawable.__warning);
+			toastAdapter.makeToast(R.drawable.__warning, "Alias y contraseñas requeridos");
 		} else {
 			JSONObject jsonParams = new JSONObject();
 			try {
@@ -102,25 +102,26 @@ public class SignIn extends AppCompatActivity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			alertDialog = new ProgressDialog(context);
-			alertDialog.setMessage(getString(R.string.loading));
-			alertDialog.setIndeterminate(false);
-			alertDialog.setCancelable(false);
-			alertDialog.show();
+			progressDialog = new ProgressDialog(context);
+			progressDialog.setMessage(getString(R.string.loading));
+			progressDialog.setIndeterminate(false);
+			progressDialog.setCancelable(false);
+			progressDialog.show();
 			JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
 				@Override
 				public void onResponse(JSONObject response) {
 					try {
 						__message = response.getString("message");
-						if (__message.equals("Ok")) {JSONObject jsonObject = response.getJSONObject("user");
+						if (__message.equals("Ok")) {
+							JSONObject jsonObject = response.getJSONObject("user");
 							__id = jsonObject.getString("_id");
 							__alias = jsonObject.getString("alias");
 							__token = jsonObject.getString("token");
 
 							preferencesAdapter.deletePreferences();
 							preferencesAdapter.savePreferences(__id, __alias, _password, "", __token, true);
-							alertDialog.dismiss();
-							toastAdapter.makeToast("Bienvenido " + __alias, R.drawable.__ok);
+							progressDialog.dismiss();
+							toastAdapter.makeToast(R.drawable.__ok, "Bienvenido " + __alias);
 
 							Handler h = new Handler();
 							h.postDelayed(new Runnable() {
@@ -132,11 +133,11 @@ public class SignIn extends AppCompatActivity {
 								}
 							}, 3000);
 						} else if (__message.equals("User not found")) {
-							alertDialog.dismiss();
-							toastAdapter.makeToast("!Vaya! No encontramos ninguna cuenta registrada con estos datos", R.drawable.__error);
+							progressDialog.dismiss();
+							toastAdapter.makeToast(R.drawable.__error, "!Vaya! No encontramos ninguna cuenta registrada con estos datos");
 						} else {
-							alertDialog.dismiss();
-							toastAdapter.makeToast("Revisa los datos de ingreso", R.drawable.__warning);
+							progressDialog.dismiss();
+							toastAdapter.makeToast(R.drawable.__warning, "Revisa los datos de ingreso");
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();

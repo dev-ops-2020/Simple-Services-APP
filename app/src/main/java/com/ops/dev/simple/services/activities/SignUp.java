@@ -41,7 +41,7 @@ public class SignUp extends AppCompatActivity {
 	Context context;
 	RequestQueue queue;
 
-	ProgressDialog alertDialog;
+	ProgressDialog progressDialog;
 	ToastAdapter toastAdapter;
 	PreferencesAdapter preferencesAdapter;
 
@@ -97,7 +97,7 @@ public class SignUp extends AppCompatActivity {
 		_password = String.valueOf(Objects.requireNonNull(password.getEditText()).getText());
 
 		if (_name.length() == 0 || _alias.length() == 0 || _phone.length() == 0 || _email.length() == 0 || _password.length() == 0) {
-			toastAdapter.makeToast("Todos los campos son requeridos", R.drawable.__warning);
+			toastAdapter.makeToast(R.drawable.__warning, "Todos los campos son requeridos");
 		} else {
 			JSONObject jsonParams = new JSONObject();
 			try {
@@ -110,11 +110,11 @@ public class SignUp extends AppCompatActivity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			alertDialog = new ProgressDialog(context);
-			alertDialog.setMessage(getString(R.string.loading));
-			alertDialog.setIndeterminate(false);
-			alertDialog.setCancelable(false);
-			alertDialog.show();
+			progressDialog = new ProgressDialog(context);
+			progressDialog.setMessage(getString(R.string.loading));
+			progressDialog.setIndeterminate(false);
+			progressDialog.setCancelable(false);
+			progressDialog.show();
 			JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
 				@Override
 				public void onResponse(JSONObject response) {
@@ -127,8 +127,8 @@ public class SignUp extends AppCompatActivity {
 
 							preferencesAdapter.deletePreferences();
 							preferencesAdapter.savePreferences(__id, __alias, __password, __id, __token, false);
-							alertDialog.dismiss();
-							toastAdapter.makeToast(__alias + " registrado correctamente", R.drawable.__ok);
+							progressDialog.dismiss();
+							toastAdapter.makeToast(R.drawable.__ok, __alias + " registrado correctamente");
 
 							Handler h = new Handler();
 							h.postDelayed(new Runnable() {
@@ -140,8 +140,8 @@ public class SignUp extends AppCompatActivity {
 								}
 							}, 3000);
 						} else {
-							alertDialog.dismiss();
-							toastAdapter.makeToast("!Vaya! Al parecer tenemos una cuenta registrada con estos datos", R.drawable.__error);
+							progressDialog.dismiss();
+							toastAdapter.makeToast(R.drawable.__error, "!Vaya! Al parecer tenemos una cuenta registrada con estos datos");
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();

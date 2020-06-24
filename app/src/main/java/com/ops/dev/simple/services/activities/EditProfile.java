@@ -3,13 +3,16 @@ package com.ops.dev.simple.services.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -18,13 +21,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.onesignal.OneSignal;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
-import com.ops.dev.simple.services.adapters.PreferencesAdapter;
+import com.ops.dev.simple.services.adapters.GlideAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
-import com.ops.dev.simple.services.models.BusinessesModel;
 import com.ops.dev.simple.services.models.UsersModel;
 
 import org.json.JSONException;
@@ -32,21 +41,28 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 
+import static com.ops.dev.simple.services.Network.PICK_IMAGE_REQUEST_CODE;
+
 public class EditProfile extends AppCompatActivity {
 
-    //Vars
+	//Vars
 	String __message, __id, __alias;
-	String _name, _alias, _phone, _email, _password;
+	String _name, _alias, _phone, _email, _password, _picture;
 	TextView alias;
 	TextInputLayout name, phone, email, password;
+	ImageView picture;
 	Button update;
 	Context context;
 	RequestQueue queue;
 
-	ProgressDialog alertDialog;
+	ProgressDialog progressDialog;
 	ToastAdapter toastAdapter;
+	GlideAdapter glideAdapter;
 
 	UsersModel user;
+
+	Uri path;
+	StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,77 +71,139 @@ public class EditProfile extends AppCompatActivity {
 		View layout = findViewById(android.R.id.content);
 		context = EditProfile.this;
 
+		toastAdapter = new ToastAdapter(context);
+		glideAdapter = new GlideAdapter(context);
+
+		storageReference = FirebaseStorage.getInstance().getReference();
+
 		name = findViewById(R.id.name);
 		alias = findViewById(R.id.alias);
 		phone = findViewById(R.id.phone);
 		email = findViewById(R.id.email);
 		update = findViewById(R.id.update);
+		picture = findViewById(R.id.picture);
 
 		user = (UsersModel) getIntent().getSerializableExtra("user");
 		assert user != null;
-		alias.setText(String.format("Editar Perfil '%s'", user.getAlias()));
+		alias.setText(String.format("Editar Perfil  de: '%s'", user.getAlias()));
 		Objects.requireNonNull(name.getEditText()).setText(user.getName());
 		Objects.requireNonNull(phone.getEditText()).setText(user.getPhone());
 		Objects.requireNonNull(email.getEditText()).setText(user.getEmail());
+		glideAdapter.setImage(picture, user.getPicture());
+
+		picture.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				selectPicture();
+			}
+		});
 
 		update.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//update();
-				toastAdapter.makeToast("Al tocar este botón se actualizarán los datos 😎", R.drawable._fav);
+				uploadImage();
 			}
 		});
-		toastAdapter = new ToastAdapter(context);
 		queue = Volley.newRequestQueue(context);
     }
 
-    private void update() {
+	private void selectPicture() {
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.photo)), Network.PICK_IMAGE_REQUEST_CODE);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == PICK_IMAGE_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+			path = data.getData();
+			glideAdapter.setImage(picture, String.valueOf(path));
+		}
+	}
+
+	private void uploadImage() {
+		if (path != null) {
+			UploadTask uploadTask = (UploadTask) storageReference.child("images/users/" + user.getAlias() + ".png").putFile(path)
+				.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+					@Override
+						public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+							taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+								@Override
+								public void onComplete(@NonNull Task<Uri> task) {
+									_picture = task.getResult().toString();
+									updateProfile();
+								}
+							});
+					}
+				})
+				.addOnFailureListener(new OnFailureListener() {
+					@Override
+					public void onFailure(@NonNull Exception e) {
+
+					}
+				})
+				.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+					@Override
+					public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+						double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+						//toastAdapter.makeToast(R.drawable._location, "Transfiriendo datos... " + (int)progress + "%");
+					}
+				});
+		} else {
+			_picture = user.getPicture();
+			updateProfile();
+		}
+	}
+
+	private void updateProfile() {
 		String url = Network.Users+user.getId();
 		_name = String.valueOf(Objects.requireNonNull(name.getEditText()).getText());
 		_phone = String.valueOf(Objects.requireNonNull(phone.getEditText()).getText());
 		_email = String.valueOf(Objects.requireNonNull(email.getEditText()).getText());
-		//_password = String.valueOf(Objects.requireNonNull(password.getEditText()).getText());
 
 		if (_name.length() == 0 || _phone.length() == 0 || _email.length() == 0) {
-			toastAdapter.makeToast("Todos los campos son requeridos", R.drawable.__warning);
+			toastAdapter.makeToast(R.drawable.__warning, "Todos los campos son requeridos");
 		} else {
 			JSONObject jsonParams = new JSONObject();
 			try {
 				jsonParams.put("name", _name);
 				jsonParams.put("phone", _phone);
 				jsonParams.put("email", _email);
+				jsonParams.put("picture", _picture);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			alertDialog = new ProgressDialog(context);
-			alertDialog.setMessage(getString(R.string.loading));
-			alertDialog.setIndeterminate(false);
-			alertDialog.setCancelable(false);
-			alertDialog.show();
-			JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
+			progressDialog = new ProgressDialog(context);
+			progressDialog.setMessage(getString(R.string.loading));
+			progressDialog.setIndeterminate(false);
+			progressDialog.setCancelable(false);
+			progressDialog.show();
+			JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonParams, new Response.Listener<JSONObject>() {
 				@Override
 				public void onResponse(JSONObject response) {
 					try {
 						__message = response.getString("message");
-						if (__message.equals("Ok")) {JSONObject jsonObject = response.getJSONObject("user");
-							__id = jsonObject.getString("_id");
-							__alias = jsonObject.getString("alias");
+						if (__message.equals("User updated")) {
+							progressDialog.dismiss();
 
-							alertDialog.dismiss();
-							toastAdapter.makeToast(__alias + " actualizado correctamente", R.drawable.__ok);
+							toastAdapter.makeToast(R.drawable.__ok, String.format("Datos de: '%s' actualizados correctamente", user.getAlias()));
 
 							Handler h = new Handler();
 							h.postDelayed(new Runnable() {
 								@Override
 								public void run() {
 									finish();
-									Intent intent = new Intent(context, SignIn.class);
+									Intent intent = new Intent(context, MainMenu.class);
+									intent.putExtra("screen", R.id.profile);
+									intent.putExtra("number", 5);
 									startActivity(intent);
 								}
 							}, 3000);
 						} else {
-							alertDialog.dismiss();
-							toastAdapter.makeToast("!Vaya! Al parecer tenemos una cuenta registrada con estos datos", R.drawable.__error);
+							progressDialog.dismiss();
+							toastAdapter.makeToast(R.drawable.__error, "!Vaya! Algo salió mal, prueba revisar los datos ingresados");
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
@@ -140,4 +218,5 @@ public class EditProfile extends AppCompatActivity {
 			queue.add(request);
 		}
 	}
+
 }

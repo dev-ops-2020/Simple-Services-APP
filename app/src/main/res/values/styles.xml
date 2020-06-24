@@ -6,13 +6,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textViewStyle">@style/TextViewDefault</item>
         <item name="android:editTextStyle">@style/EditTextDefault</item>
         <item name="android:button">@style/ButtonDefault</item>
@@ -60,11 +57,11 @@
     </style>
 
     <style name="EditTextDefault">
-        <item name="colorControlNormal">@color/white</item>
-        <item name="colorControlActivated">@color/white_alt</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
         <item name="android:textSize">@dimen/med_font</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textColorHighlight">@color/black_alt</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColorHighlight">@color/colorPrimaryDark</item>
     </style>
 
     <style name="ButtonDefault">

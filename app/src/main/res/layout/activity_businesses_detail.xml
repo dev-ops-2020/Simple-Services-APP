@@ -58,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:background="@color/colorPrimaryDark"/>
-                <!--Categories-->
+                <!--Businesses-->
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

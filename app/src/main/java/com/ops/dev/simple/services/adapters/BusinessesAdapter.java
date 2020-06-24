@@ -8,14 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.activities.BusinessDetail;
 import com.ops.dev.simple.services.models.BusinessesModel;
@@ -26,17 +21,19 @@ public class BusinessesAdapter extends RecyclerView.Adapter<BusinessesAdapter.Vi
 
     private Context mContext;
     private List<BusinessesModel> mData;
+    private GlideAdapter glideAdapter;
 
     public BusinessesAdapter(Context mContext, List<BusinessesModel> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int pos) {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, final int pos) {
         final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.__card_businesses, viewGroup, false);
         final ViewHolder vh = new ViewHolder(view);
+
+        glideAdapter = new GlideAdapter(mContext);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +67,7 @@ public class BusinessesAdapter extends RecyclerView.Adapter<BusinessesAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         BusinessesModel business = mData.get(position);
         ImageView logo = holder.logo;
         ImageView picture = holder.picture;
@@ -82,12 +79,7 @@ public class BusinessesAdapter extends RecyclerView.Adapter<BusinessesAdapter.Vi
                 .with(mContext)
                 .load(business.getPicture())
                 .into(picture);
-
-        Glide
-                .with(mContext)
-                .load(business.getLogo())
-                .transform(new RoundedCorners(R.dimen.med_margin))
-                .into(logo);
+        glideAdapter.setImage(logo, business.getLogo());
         name.setText(business.getName());
         slogan.setText(business.getSlogan());
         score.setText(business.getScore());
@@ -102,7 +94,7 @@ public class BusinessesAdapter extends RecyclerView.Adapter<BusinessesAdapter.Vi
         ImageView logo, picture;
         TextView name, slogan, score;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
 
             logo = itemView.findViewById(R.id.logo);

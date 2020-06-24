@@ -20,6 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.CategoriesAdapter;
+import com.ops.dev.simple.services.adapters.GlideAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
 import com.ops.dev.simple.services.models.CategoriesModel;
 
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Categories extends Fragment {
+public class Businesses extends Fragment {
 
 	static final String ARG_PARAM1 = "param1";
 	static final String ARG_PARAM2 = "param2";
@@ -48,13 +49,14 @@ public class Categories extends Fragment {
     Context context ;
 	RequestQueue queue;
 	ToastAdapter toastAdapter;
+	GlideAdapter glideAdapter;
 
-	public Categories() {
+	public Businesses() {
 
 	}
 
-	public static Categories newInstance(String param1, String param2) {
-		Categories fragment = new Categories();
+	public static Businesses newInstance(String param1, String param2) {
+		Businesses fragment = new Businesses();
 		Bundle args = new Bundle();
 		args.putString(ARG_PARAM1, param1);
 		args.putString(ARG_PARAM2, param2);
@@ -73,15 +75,16 @@ public class Categories extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-		final View view = inflater.inflate(R.layout.fragment_categories, viewGroup, false);
+		final View view = inflater.inflate(R.layout.fragment_businesses, viewGroup, false);
 		final View layout = view.findViewById(android.R.id.content);
 
 		context = Objects.requireNonNull(getActivity()).getApplicationContext();
+		toastAdapter = new ToastAdapter(context);
+		glideAdapter = new GlideAdapter(context);
+		queue = Volley.newRequestQueue(context);
 
 		rvCategories = view.findViewById(R.id.rvCategories);
 		listCategories = new ArrayList<>();
-
-		queue = Volley.newRequestQueue(context);
 		ListCategories();
 
 		return view;

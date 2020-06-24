@@ -21,8 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,6 +33,7 @@ import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.CategoriesIconAdapter;
 import com.ops.dev.simple.services.adapters.CommentsAdapter;
 import com.ops.dev.simple.services.adapters.FabAnimationAdapter;
+import com.ops.dev.simple.services.adapters.GlideAdapter;
 import com.ops.dev.simple.services.adapters.PhonesAdapter;
 import com.ops.dev.simple.services.adapters.SchedulesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
@@ -72,7 +71,6 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
     ViewPager viewPager;
 
     String catId, catName;
-    int catIcon;
 
     JSONArray picturesArray, categoriesArray, networksArray;
 
@@ -91,6 +89,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
     boolean isRotate;
 
     ToastAdapter toastAdapter;
+    GlideAdapter glideAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +97,10 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         setContentView(R.layout.floating_bussiness_detail);
         View layout = findViewById(android.R.id.content);
         context = BusinessDetail.this;
+
+        toastAdapter = new ToastAdapter(context);
+        glideAdapter = new GlideAdapter(context);
+        queue = Volley.newRequestQueue(context);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.businessMap);
         assert mapFragment != null;
@@ -113,12 +116,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         final ImageView logo = findViewById(R.id.logo);
 
         tittle.setText(businessName);
-        Glide
-                .with(context)
-                .load(business.getLogo())
-                .transform(new RoundedCorners(R.dimen.med_margin))
-                .into(logo);
-
+        glideAdapter.setImage(logo, business.getLogo());
         final TextView description = findViewById(R.id.description);
         description.setText(business.getDescription());
 
@@ -141,12 +139,10 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         rvComments = findViewById(R.id.rvComments);
         listComments = new ArrayList<>();
 
-        queue = Volley.newRequestQueue(BusinessDetail.this);
         getPictures();
         getIconCategories();
         getCommentsByEstablishment(businessId);
         getNetworks();
-        toastAdapter = new ToastAdapter(BusinessDetail.this);
 
         // ImageView (Buttons)
         btnContact = findViewById(R.id.btnContact);
@@ -337,7 +333,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
     public void fbIntent() {
         if (businessFb == null)
-            toastAdapter.makeToast("Este negocio no ha vinculado aún su cuenta de Facebook", R.drawable.__warning);
+            toastAdapter.makeToast(R.drawable.__warning, "Este negocio no ha vinculado aún su cuenta de Facebook");
         else {
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(businessFb)));
@@ -349,7 +345,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
     public void igIntent() {
         if (businessIg == null)
-            toastAdapter.makeToast("Este negocio no ha vinculado aún su cuenta de Instagram", R.drawable.__warning);
+            toastAdapter.makeToast(R.drawable.__warning, "Este negocio no ha vinculado aún su cuenta de Instagram");
         else {
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(businessIg)));
@@ -361,7 +357,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
     public void waIntent() {
         if (businessWa == null)
-            toastAdapter.makeToast("Este negocio no ha vinculado aún su cuenta de WhatsApp", R.drawable.__warning);
+            toastAdapter.makeToast(R.drawable.__warning, "Este negocio no ha vinculado aún su cuenta de WhatsApp");
         else {
             try {
                 Intent sendMsg = new Intent(Intent.ACTION_VIEW);
