@@ -19,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.BusinessesAdapter;
+import com.ops.dev.simple.services.adapters.GlideAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
 import com.ops.dev.simple.services.models.BusinessesModel;
 import com.ops.dev.simple.services.models.CategoriesIconModel;
@@ -42,6 +43,7 @@ public class Businesses extends AppCompatActivity {
     String categoryId, categoryName;
     int categoryIcon;
 	ToastAdapter toastAdapter;
+	GlideAdapter glideAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,10 @@ public class Businesses extends AppCompatActivity {
 		setContentView(R.layout.activity_businesses);
 		View layout = findViewById(android.R.id.content);
 		context = Businesses.this;
+;
+		toastAdapter = new ToastAdapter(context);
+		glideAdapter = new GlideAdapter(context);
+		queue = Volley.newRequestQueue(context);
 
 		try {
 			CategoriesModel category = (CategoriesModel) getIntent().getSerializableExtra("category");
@@ -66,13 +72,10 @@ public class Businesses extends AppCompatActivity {
 		final ImageView icon = findViewById(R.id.icon);
 
 		tittle.setText(categoryName);
-		icon.setImageResource(categoryIcon);
+		glideAdapter.setImage(icon, categoryIcon);
 
 		rvBusinesses = findViewById(R.id.rvBusinesses);
 		listBusinesses = new ArrayList<>();
-
-		queue = Volley.newRequestQueue(context);
-		toastAdapter = new ToastAdapter(context);
 		getBusinessesByCategory(categoryId);
     }
 

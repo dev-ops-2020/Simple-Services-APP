@@ -4,12 +4,10 @@
 
     <!--Bottom Menu-->
     <string name="search">BUSCAR</string>
-    <string name="businesses">NEGOCIOS</string>
+    <string name="categories">CATEGORÍAS</string>
     <string name="home">INICIO</string>
     <string name="cart">MI CARRITO</string>
     <string name="profile">MI PERFIL</string>
-
-
 
     <!--Social Networks-->
     <string name="fb">FACEBOOK</string>
@@ -35,4 +33,5 @@
     <string name="total">TOTAL</string>
     <string name="total_dollar">$</string>
     <string name="order">ORDENAR</string>
+    <string name="add_to_cart">Añadir al carrito</string>
 </resources>

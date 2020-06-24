@@ -47,5 +47,9 @@
             android:name=".activities.Businesses"/>
         <activity
             android:name=".activities.BusinessDetail"/>
+        <activity
+            android:name=".activities.Products"/>
+        <activity
+            android:name=".activities.ProductDetail"/>
     </application>
 </manifest>

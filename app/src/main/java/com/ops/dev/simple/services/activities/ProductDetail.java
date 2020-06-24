@@ -52,7 +52,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallback {
+public class ProductDetail extends AppCompatActivity implements OnMapReadyCallback {
 
     //Vars
     RecyclerView rvComments;
@@ -96,7 +96,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.floating_bussiness_detail);
         View layout = findViewById(android.R.id.content);
-        context = BusinessDetail.this;
+        context = ProductDetail.this;
 
         toastAdapter = new ToastAdapter(context);
         glideAdapter = new GlideAdapter(context);
@@ -165,10 +165,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         btnProducts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Products.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("business", business);
-                startActivity(intent);
+                // TODO Intent to Products/Services
             }
         });
         btnCoupons.setOnClickListener(new View.OnClickListener() {
@@ -233,7 +230,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
                 arrayList.add(jsonObject.getString("picture"));
             }
             if (viewPager != null) {
-                viewPager.setAdapter(new ViewPagerAdapter(BusinessDetail.this, arrayList));
+                viewPager.setAdapter(new ViewPagerAdapter(ProductDetail.this, arrayList));
             }
         } catch (JSONException e) {
             e.printStackTrace();

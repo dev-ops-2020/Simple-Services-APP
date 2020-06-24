@@ -8,7 +8,9 @@ public class ProductsModel implements Serializable {
     private String name;
     private String description;
     private String available;
+    private String picture;
     private String pictures;
+    private String price;
     private String prices;
     private String status;
     private String categories;
@@ -18,12 +20,14 @@ public class ProductsModel implements Serializable {
 
     }
 
-    public ProductsModel(String id, String name, String available, String description, String pictures, String prices, String status, String categories, String idBusiness) {
+    public ProductsModel(String id, String name, String available, String description, String picture, String pictures, String price, String prices, String status, String categories, String idBusiness) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.available = available;
+        this.picture = picture;
         this.pictures = pictures;
+        this.price = price;
         this.prices = prices;
         this.status = status;
         this.categories = categories;
@@ -62,12 +66,28 @@ public class ProductsModel implements Serializable {
         this.description = description;
     }
 
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
     public String getPictures() {
         return pictures;
     }
 
     public void setPictures(String pictures) {
         this.pictures = pictures;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public String getPrices() {

@@ -56,9 +56,9 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/pictures"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="@dimen/card_height"
                     android:background="@color/colorPrimaryDark"/>
-                <!--Businesses-->
+                <!--Categories-->
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -83,8 +83,7 @@
 
                     <TextView
                         android:id="@+id/description"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        style="@style/TextViewDefault"/>
                 </LinearLayout>
                 <!--Options-->
                 <androidx.core.widget.NestedScrollView

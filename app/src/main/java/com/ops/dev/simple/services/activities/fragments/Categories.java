@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Businesses extends Fragment {
+public class Categories extends Fragment {
 
 	static final String ARG_PARAM1 = "param1";
 	static final String ARG_PARAM2 = "param2";
@@ -51,12 +51,12 @@ public class Businesses extends Fragment {
 	ToastAdapter toastAdapter;
 	GlideAdapter glideAdapter;
 
-	public Businesses() {
+	public Categories() {
 
 	}
 
-	public static Businesses newInstance(String param1, String param2) {
-		Businesses fragment = new Businesses();
+	public static Categories newInstance(String param1, String param2) {
+		Categories fragment = new Categories();
 		Bundle args = new Bundle();
 		args.putString(ARG_PARAM1, param1);
 		args.putString(ARG_PARAM2, param2);
@@ -75,7 +75,7 @@ public class Businesses extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-		final View view = inflater.inflate(R.layout.fragment_businesses, viewGroup, false);
+		final View view = inflater.inflate(R.layout.fragment_categories, viewGroup, false);
 		final View layout = view.findViewById(android.R.id.content);
 
 		context = Objects.requireNonNull(getActivity()).getApplicationContext();
