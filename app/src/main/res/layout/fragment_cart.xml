@@ -46,12 +46,20 @@
 
         <TextView
             style="@style/TextViewHeader"
-            android:id="@+id/cart_text_total_price"
+            android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_margin="@dimen/med_margin"
-            android:text="@string/total_dollar"
             app:layout_constraintBottom_toTopOf="@+id/cart_button_place_order"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            style="@style/TextViewHeader"
+            android:text="@string/price"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/med_margin"
+            app:layout_constraintBottom_toTopOf="@+id/cart_button_place_order"
+            app:layout_constraintEnd_toStartOf="@id/price"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <Button

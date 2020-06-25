@@ -22,7 +22,6 @@ public class GlideAdapter {
         Glide
                 .with(context)
                 .load(mImage)
-                .centerCrop()
                 .override(300, 300)
                 .transform(new RoundedCorners(R.dimen.med_margin))
                 .into(mImageView);
@@ -32,7 +31,6 @@ public class GlideAdapter {
         Glide
                 .with(context)
                 .load(mImage)
-                .centerCrop()
                 .override(300, 300)
                 .transform(new RoundedCorners(R.dimen.med_margin))
                 .into(mImageView);

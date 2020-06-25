@@ -26,7 +26,7 @@ import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.activities.EditProfile;
 import com.ops.dev.simple.services.adapters.GlideAdapter;
-import com.ops.dev.simple.services.adapters.PreferencesAdapter;
+import com.ops.dev.simple.services.adapters.SharedPreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
 import com.ops.dev.simple.services.models.UsersModel;
 
@@ -60,7 +60,7 @@ public class Profile extends Fragment {
 	RequestQueue queue;
 	ToastAdapter toastAdapter;
 	GlideAdapter glideAdapter;
-	PreferencesAdapter preferencesAdapter;
+	SharedPreferencesAdapter sharedPreferencesAdapter;
 
 	UsersModel user;
 
@@ -95,7 +95,7 @@ public class Profile extends Fragment {
 
 		toastAdapter = new ToastAdapter(context);
 		glideAdapter = new GlideAdapter(context);
-		preferencesAdapter = new PreferencesAdapter(context);
+		sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
 		queue = Volley.newRequestQueue(context);
 
 		alias = rootView.findViewById(R.id.alias);
@@ -191,7 +191,7 @@ public class Profile extends Fragment {
 	}
 
 	private void getProfile() {
-		String url = Network.Users +preferencesAdapter.getId();
+		String url = Network.Users + sharedPreferencesAdapter.getId();
 		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response) {

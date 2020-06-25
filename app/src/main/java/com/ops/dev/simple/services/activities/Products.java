@@ -48,7 +48,7 @@ public class Products extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_businesses);
+		setContentView(R.layout.activity_products);
 		View layout = findViewById(android.R.id.content);
 		context = Products.this;
 
@@ -67,7 +67,7 @@ public class Products extends AppCompatActivity {
 		tittle.setText(businessName);
 		glideAdapter.setImage(icon, businessIcon);
 
-		rvProducts = findViewById(R.id.rvBusinesses);
+		rvProducts = findViewById(R.id.rvProducts);
 		listProducts = new ArrayList<>();
 		getProductByBusiness(businessId);
     }
@@ -98,16 +98,14 @@ public class Products extends AppCompatActivity {
 								JSONArray jsonArrayPrices = jsonObject.getJSONArray("prices");
 								for (int j = 0 ; j <jsonArrayPrices.length(); j++ ) {
 									JSONObject jsonObjectPrice = jsonArrayPrices.getJSONObject(j);
-									product.setPicture(jsonObjectPrice.getString("price"));
+									product.setPrice(jsonObjectPrice.getString("price"));
 								}
-								product.setPictures(jsonObject.getString("pictures"));
+								product.setPrices(jsonObject.getString("prices"));
 								product.setStatus(jsonObject.getString("status"));
 								product.setCategories(jsonObject.getString("categories"));
 								product.setIdBusiness(jsonObject.getString("idBusiness"));
 								listProducts.add(product);
 							}
-
-
 							RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context,2);
 							rvProducts.setLayoutManager(layoutManager);
 							productsAdapter = new ProductsAdapter(context, listProducts);

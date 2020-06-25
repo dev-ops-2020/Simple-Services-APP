@@ -37,7 +37,7 @@ import com.ops.dev.simple.services.adapters.GlideAdapter;
 import com.ops.dev.simple.services.adapters.PhonesAdapter;
 import com.ops.dev.simple.services.adapters.SchedulesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
-import com.ops.dev.simple.services.adapters.ViewPagerAdapter;
+import com.ops.dev.simple.services.adapters.PicturesPagerAdapter;
 import com.ops.dev.simple.services.models.BusinessesModel;
 import com.ops.dev.simple.services.models.CategoriesIconModel;
 import com.ops.dev.simple.services.models.CommentsModel;
@@ -233,7 +233,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
                 arrayList.add(jsonObject.getString("picture"));
             }
             if (viewPager != null) {
-                viewPager.setAdapter(new ViewPagerAdapter(BusinessDetail.this, arrayList));
+                viewPager.setAdapter(new PicturesPagerAdapter(context, arrayList));
             }
         } catch (JSONException e) {
             e.printStackTrace();

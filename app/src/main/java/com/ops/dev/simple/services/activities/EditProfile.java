@@ -197,7 +197,7 @@ public class EditProfile extends AppCompatActivity {
 									finish();
 									Intent intent = new Intent(context, MainMenu.class);
 									intent.putExtra("screen", R.id.profile);
-									intent.putExtra("number", 5);
+									intent.putExtra("number", 4);
 									startActivity(intent);
 								}
 							}, 3000);

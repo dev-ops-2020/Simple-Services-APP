@@ -1,5 +1,6 @@
 package com.ops.dev.simple.services.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -76,7 +77,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                 .into(picture);
         name.setText(product.getName());
         description.setText(product.getDescription());
-        price.setText(product.getPrice());
+
+        String uri = " $ " + product.getPrice() + " ";
+        price.setText(uri);
     }
 
     @Override

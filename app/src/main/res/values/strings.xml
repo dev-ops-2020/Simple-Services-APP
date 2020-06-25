@@ -31,7 +31,12 @@
     <string name="message_carrito">Mis productos en el carrito</string>
     <string name="photo">Selecciona una foto</string>
     <string name="total">TOTAL</string>
-    <string name="total_dollar">$</string>
     <string name="order">ORDENAR</string>
     <string name="add_to_cart">Añadir al carrito</string>
+    <string name="price">$</string>
+    <plurals name="items_added_to_cart">
+        <item quantity="one">%d artículo añadido</item>
+        <item quantity="other">%d artículos añadidos</item>
+    </plurals>
+    <string name="go_to_cart">Ver carrito</string>
 </resources>

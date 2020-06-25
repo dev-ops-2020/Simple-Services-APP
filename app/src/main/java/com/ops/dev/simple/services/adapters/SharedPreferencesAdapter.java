@@ -11,13 +11,13 @@ import com.ops.dev.simple.services.R;
 
 import java.util.Objects;
 
-public class PreferencesAdapter {
+public class SharedPreferencesAdapter {
 
     private Context context;
     public SharedPreferences sharedPreferences;
     public SharedPreferences.Editor editor;
 
-    public PreferencesAdapter(Context context) {
+    public SharedPreferencesAdapter(Context context) {
         this.context = context;
     }
 

@@ -17,13 +17,13 @@ import com.ops.dev.simple.services.R;
 
 import java.util.ArrayList;
 
-public class ViewPagerAdapter extends PagerAdapter {
+public class PicturesPagerAdapter extends PagerAdapter {
 
     private Context mContext;
     private ArrayList<String> mData;
     private LayoutInflater mLayoutInflater;
 
-    public ViewPagerAdapter(Context mContext, ArrayList<String> mData) {
+    public PicturesPagerAdapter(Context mContext, ArrayList<String> mData) {
         this.mContext = mContext;
         this.mData = mData;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -42,11 +42,11 @@ public class ViewPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        View itemView = mLayoutInflater.inflate(R.layout.___pager_item, container, false);
+        final View itemView = mLayoutInflater.inflate(R.layout.___pager_item, container, false);
         final TextView counter = itemView.findViewById(R.id.counter);
         final ImageView picture = itemView.findViewById(R.id.picture);
         int count = position + 1;
-        String uri = count + "/" + mData.size();
+        String uri = " " + count + "/" + mData.size() + " ";
         counter.setText(uri);
         Glide
                 .with(mContext)

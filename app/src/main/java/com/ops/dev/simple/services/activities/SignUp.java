@@ -21,7 +21,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.onesignal.OneSignal;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
-import com.ops.dev.simple.services.adapters.PreferencesAdapter;
+import com.ops.dev.simple.services.adapters.SharedPreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
 
 import org.json.JSONException;
@@ -43,7 +43,7 @@ public class SignUp extends AppCompatActivity {
 
 	ProgressDialog progressDialog;
 	ToastAdapter toastAdapter;
-	PreferencesAdapter preferencesAdapter;
+	SharedPreferencesAdapter sharedPreferencesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class SignUp extends AppCompatActivity {
 			}
 		});
 		toastAdapter = new ToastAdapter(context);
-		preferencesAdapter = new PreferencesAdapter(context);
+		sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
 		queue = Volley.newRequestQueue(context);
 
 		OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
@@ -125,8 +125,8 @@ public class SignUp extends AppCompatActivity {
 							__alias = jsonObject.getString("alias");
 							__token = jsonObject.getString("token");
 
-							preferencesAdapter.deletePreferences();
-							preferencesAdapter.savePreferences(__id, __alias, __password, __id, __token, false);
+							sharedPreferencesAdapter.deletePreferences();
+							sharedPreferencesAdapter.savePreferences(__id, __alias, __password, __id, __token, false);
 							progressDialog.dismiss();
 							toastAdapter.makeToast(R.drawable.__ok, __alias + " registrado correctamente");
 

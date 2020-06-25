@@ -20,7 +20,7 @@ public class ProductsModel implements Serializable {
 
     }
 
-    public ProductsModel(String id, String name, String available, String description, String picture, String pictures, String price, String prices, String status, String categories, String idBusiness) {
+    public ProductsModel(String id, String name,String description, String available, String picture, String pictures, String price, String prices, String status, String categories, String idBusiness) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -54,16 +54,16 @@ public class ProductsModel implements Serializable {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setAvailable(String available) {
         this.available = available;
     }
 
     public String getAvailable() {
         return available;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getPicture() {
