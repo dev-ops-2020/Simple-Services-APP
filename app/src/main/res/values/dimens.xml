@@ -14,7 +14,9 @@
     <dimen name="big_icon">64dp</dimen>
     <dimen name="big_icon_alt">128dp</dimen>
 
-    <dimen name="card_height">240dp</dimen>
+    <dimen name="card_height_min">90dp</dimen>
+    <dimen name="card_height_med">160dp</dimen>
+    <dimen name="card_height_big">240dp</dimen>
 
     <dimen name="min_font">7sp</dimen>
     <dimen name="min_font_alt">10sp</dimen>

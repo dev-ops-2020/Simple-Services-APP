@@ -25,7 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/picker_text_number"
         app:layout_constraintTop_toBottomOf="@+id/picker_button_up"
-        app:srcCompat="@drawable/ic_arrow_down" />
+        app:srcCompat="@drawable/arrow_down" />
 
     <ImageView
         android:id="@+id/picker_button_up"
@@ -36,5 +36,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/picker_text_number"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_up" />
+        app:srcCompat="@drawable/arrow_up" />
 </merge>

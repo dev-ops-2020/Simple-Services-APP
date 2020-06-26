@@ -106,9 +106,11 @@ public class Businesses extends AppCompatActivity {
 									business.setPicture(jsonObjectPicture.getString("picture"));
 								}
 								business.setPictures(jsonObject.getString("pictures"));
-								business.setPhones(jsonObject.getString("phones"));
+								business.setPhone(jsonObject.getString("phone"));
+								business.setFb(jsonObject.getString("fb"));
+								business.setIg(jsonObject.getString("ig"));
+								business.setWa(jsonObject.getString("wa"));
 								business.setSchedule(jsonObject.getString("schedule"));
-								business.setNetworks(jsonObject.getString("networks"));
 								business.setCategories(jsonObject.getString("categories"));
 								business.setLatitude(jsonObject.getString("latitude"));
 								business.setLongitude(jsonObject.getString("longitude"));

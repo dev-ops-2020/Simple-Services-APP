@@ -57,7 +57,7 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/pictures"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/card_height"
+                    android:layout_height="@dimen/card_height_big"
                     android:background="@color/colorPrimaryDark"/>
                 <!--Categories-->
                 <androidx.core.widget.NestedScrollView

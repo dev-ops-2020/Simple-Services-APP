@@ -14,9 +14,11 @@ public class BusinessesModel implements Serializable {
     private String logo;
     private String picture;
     private String pictures;
-    private String phones;
+    private String phone;
+    private String fb;
+    private String ig;
+    private String wa;
     private String schedule;
-    private String networks;
     private String categories;
     private String latitude;
     private String longitude;
@@ -26,7 +28,7 @@ public class BusinessesModel implements Serializable {
 
     }
 
-    public BusinessesModel(String id, String name, String description, String slogan, String owner, String score, String status, String logo, String picture ,String pictures, String phones, String schedule, String networks, String categories, String latitude, String longitude, String idMembership) {
+    public BusinessesModel(String id, String name, String description, String slogan, String owner, String score, String status, String logo, String picture, String pictures, String phone, String fb, String ig, String wa, String schedule, String categories, String latitude, String longitude, String idMembership) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -37,9 +39,11 @@ public class BusinessesModel implements Serializable {
         this.logo = logo;
         this.picture = picture;
         this.pictures = pictures;
-        this.phones = phones;
+        this.phone = phone;
+        this.fb = fb;
+        this.ig = ig;
+        this.wa = wa;
         this.schedule = schedule;
-        this.networks = networks;
         this.categories = categories;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -126,12 +130,36 @@ public class BusinessesModel implements Serializable {
         this.pictures = pictures;
     }
 
-    public String getPhones() {
-        return phones;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhones(String phones) {
-        this.phones = phones;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFb() {
+        return fb;
+    }
+
+    public void setFb(String fb) {
+        this.fb = fb;
+    }
+
+    public String getIg() {
+        return ig;
+    }
+
+    public void setIg(String ig) {
+        this.ig = ig;
+    }
+
+    public String getWa() {
+        return wa;
+    }
+
+    public void setWa(String wa) {
+        this.wa = wa;
     }
 
     public String getSchedule() {
@@ -140,14 +168,6 @@ public class BusinessesModel implements Serializable {
 
     public void setSchedule(String schedule) {
         this.schedule = schedule;
-    }
-
-    public String getNetworks() {
-        return networks;
-    }
-
-    public void setNetworks(String networks) {
-        this.networks = networks;
     }
 
     public String getCategories() {

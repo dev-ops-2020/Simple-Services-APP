@@ -18,6 +18,18 @@
             android:orientation="vertical">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/min_margin"
+                android:layout_marginHorizontal="@dimen/med_margin"
+                android:src="@drawable/___contact_phone"
+                app:fabSize="mini"
+                app:maxImageSize="@dimen/med_icon"
+                app:backgroundTint="@color/white"
+                app:rippleColor="@color/white_alt"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

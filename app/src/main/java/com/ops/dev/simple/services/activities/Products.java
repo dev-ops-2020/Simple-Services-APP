@@ -69,10 +69,10 @@ public class Products extends AppCompatActivity {
 
 		rvProducts = findViewById(R.id.rvProducts);
 		listProducts = new ArrayList<>();
-		getProductByBusiness(businessId);
+		getProductsByBusiness(businessId);
     }
 
-    private void getProductByBusiness(final String businessId) {
+    private void getProductsByBusiness(String businessId) {
     	String url = Network.ListProductsByBusiness+businessId;
 		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 			@Override
