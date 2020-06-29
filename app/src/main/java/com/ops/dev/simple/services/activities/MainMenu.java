@@ -65,8 +65,8 @@ public class MainMenu extends AppCompatActivity implements BottomNavigationView.
             viewPager.setCurrentItem(number);
             bottomNavigationView.setSelectedItemId(screen);
         } catch (Exception ex) {
-            viewPager.setCurrentItem(2);
-            bottomNavigationView.setSelectedItemId(R.id.home);
+            viewPager.setCurrentItem(1); // TODO Change to 2
+            bottomNavigationView.setSelectedItemId(R.id.categories); // TODO Change to R.id.home
         }
 
         bottomNavigationView.setItemIconTintList(null);

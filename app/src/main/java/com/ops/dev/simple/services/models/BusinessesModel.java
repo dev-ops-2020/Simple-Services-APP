@@ -8,7 +8,7 @@ public class BusinessesModel implements Serializable {
     private String name;
     private String description;
     private String slogan;
-    private String owner ;
+    private String owner;
     private String score;
     private String status;
     private String logo;

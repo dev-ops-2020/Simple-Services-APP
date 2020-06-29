@@ -191,7 +191,7 @@ public class Profile extends Fragment {
 	}
 
 	private void getProfile() {
-		String url = Network.Users + sharedPreferencesAdapter.getId();
+		String url = Network.Users+sharedPreferencesAdapter.getUserId();
 		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response) {
@@ -205,10 +205,6 @@ public class Profile extends Fragment {
 					user.setEmail(jsonObject.getString("email"));
 					user.setPicture(jsonObject.getString("picture"));
 
-					pictures.setVisibility(View.VISIBLE);
-					info.setVisibility(View.VISIBLE);
-					main.setVisibility(View.VISIBLE);
-
 					alias.setText(user.getAlias());
 					name.setText(user.getName());
 					phone.setText(user.getPhone());
@@ -220,6 +216,9 @@ public class Profile extends Fragment {
 							.transform(new RoundedCorners(R.dimen.med_margin))
 							.into(picture);
 
+					pictures.setVisibility(View.VISIBLE);
+					info.setVisibility(View.VISIBLE);
+					main.setVisibility(View.VISIBLE);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -232,5 +231,4 @@ public class Profile extends Fragment {
 		});
 		queue.add(request);
 	}
-
 }

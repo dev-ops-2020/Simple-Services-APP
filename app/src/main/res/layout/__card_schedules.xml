@@ -2,28 +2,33 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/min_margin"
     card_view:cardCornerRadius="@dimen/med_margin"
     card_view:cardElevation="0dp"
     card_view:cardBackgroundColor="@color/colorPrimary">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="10"
-        android:orientation="horizontal">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <TextView
             style="@style/TextViewDefault"
             android:id="@+id/day"
-            android:layout_weight="7"/>
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="@dimen/med_margin"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             style="@style/TextViewDefault"
             android:id="@+id/time"
-            android:layout_weight="3"/>
-    </LinearLayout>
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="@dimen/med_margin"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/day"
+            card_view:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

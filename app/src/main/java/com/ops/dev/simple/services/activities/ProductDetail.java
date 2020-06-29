@@ -28,6 +28,7 @@ import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.CategoriesIconAdapter;
 import com.ops.dev.simple.services.adapters.GlideAdapter;
 import com.ops.dev.simple.services.adapters.PicturesPagerAdapter;
+import com.ops.dev.simple.services.adapters.SharedPreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
 import com.ops.dev.simple.services.models.BusinessesModel;
 import com.ops.dev.simple.services.models.CategoriesIconModel;
@@ -65,6 +66,9 @@ public class ProductDetail extends AppCompatActivity {
 
     JSONArray picturesArray, categoriesArray;
 
+    SharedPreferencesAdapter sharedPreferencesAdapter;
+    String __message;
+
     AlertDialog.Builder builder;
     AlertDialog alertDialog;
 
@@ -77,33 +81,12 @@ public class ProductDetail extends AppCompatActivity {
 
         toastAdapter = new ToastAdapter(context);
         glideAdapter = new GlideAdapter(context);
+        sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
         queue = Volley.newRequestQueue(context);
 
         viewPager = findViewById(R.id.pictures);
         picker = findViewById(R.id.picker);
         add_to_cart = findViewById(R.id.add_to_cart);
-
-        picker.setOnValueChangedListener(new CustomNumberPicker.OnValueChangedListener() {
-            @Override
-            public void onValueChanged(int newValue) {
-                updatePrice();
-            }
-        });
-
-        add_to_cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int value = picker.getValue();
-                final String message = context.getResources().getQuantityString(R.plurals.items_added_to_cart, value, value);
-                int actionTextColor = ContextCompat.getColor(context, R.color.colorPrimary);
-                Snackbar.make(layout, message, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.go_to_cart, ProductDetail.this.snackBarClickListener())
-                        .setActionTextColor(actionTextColor)
-                        .show();
-                //cartViewModel.add(product, value);
-            }
-        });
-
 
         final ProductsModel product = (ProductsModel) getIntent().getSerializableExtra("product");
         productId = product.getId();
@@ -132,6 +115,33 @@ public class ProductDetail extends AppCompatActivity {
 
         getPictures();
         getIconCategories();
+
+        picker.setOnValueChangedListener(new CustomNumberPicker.OnValueChangedListener() {
+            @Override
+            public void onValueChanged(int newValue) {
+                updatePrice();
+            }
+        });
+
+        add_to_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int value = picker.getValue();
+                final String message = context.getResources().getQuantityString(R.plurals.items_added_to_cart, value, value);
+                final int actionTextColor = ContextCompat.getColor(context, R.color.colorAccent);
+                updateCart(sharedPreferencesAdapter.getCartId(), product.getIdBusiness(), productId, value);
+                Handler h = new Handler();
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar.make(layout, message, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.go_to_cart, ProductDetail.this.snackBarClickListener())
+                                .setActionTextColor(actionTextColor)
+                                .show();
+                    }
+                }, 2000);
+            }
+        });
     }
 
     private void getPictures() {
@@ -195,6 +205,44 @@ public class ProductDetail extends AppCompatActivity {
         price.setText(res);
     }
 
+    private void updateCart(String cartId, String businessId, String productId, int qty) {
+        String url = Network.Cart+cartId+"/"+businessId;
+        JSONObject jsonParams = new JSONObject();
+        try {
+            jsonParams.put("productId", productId);
+            jsonParams.put("qty", qty);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonParams, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    __message = response.getString("message");
+                    switch (__message) {
+                        case "Error":
+                            toastAdapter.makeToast(R.drawable.__error, "¡Vaya! Al parecer tu carrito se perdió 😥");
+                            break;
+                        case "Product updated":
+                            toastAdapter.makeToast(R.drawable.__ok, productName + " actualizado");
+                            break;
+                        case "Product added":
+                            toastAdapter.makeToast(R.drawable.__ok, productName + " agregado");
+                            break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+    }
+
     private View.OnClickListener snackBarClickListener() {
         return new View.OnClickListener() {
             @Override
@@ -210,7 +258,6 @@ public class ProductDetail extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }, 1000);
-
             }
         };
     }

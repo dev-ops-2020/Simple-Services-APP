@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
@@ -9,28 +8,17 @@
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <TextView
             style="@style/TextViewHeader"
             android:text="@string/cart"/>
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
+        android:visibility="invisible"
+        android:id="@+id/footer"
         android:layout_below="@id/header"
-        android:id="@+id/cart_list_main"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-    <View
-        android:id="@+id/view"
-        android:layout_below="@id/cart_list_main"
-        style="@style/ViewLine"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_below="@id/view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary">
@@ -39,60 +27,46 @@
             style="@style/TextViewHeader"
             android:layout_width="wrap_content"
             android:layout_margin="@dimen/med_margin"
-            android:text="@string/total"
-            app:layout_constraintBottom_toTopOf="@+id/cart_button_place_order"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            style="@style/TextViewHeader"
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_margin="@dimen/med_margin"
-            app:layout_constraintBottom_toTopOf="@+id/cart_button_place_order"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:text="@string/total"/>
 
         <TextView
             style="@style/TextViewHeader"
             android:text="@string/price"
             android:layout_width="wrap_content"
-            android:layout_margin="@dimen/med_margin"
-            app:layout_constraintBottom_toTopOf="@+id/cart_button_place_order"
-            app:layout_constraintEnd_toStartOf="@id/price"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_margin="@dimen/med_margin"/>
+
+        <TextView
+            style="@style/TextViewHeader"
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/med_margin"/>
 
         <Button
             style="@style/ButtonDefault"
-            android:id="@+id/cart_button_place_order"
+            android:id="@+id/order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/med_margin"
             android:text="@string/order"
-            android:background="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <!--
-    <LinearLayout
-        android:id="@+id/main"
-        android:layout_below="@+id/header"
+            android:background="@color/colorAccent"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_below="@id/footer"
+        style="@style/ViewLine"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@id/view"
+        android:id="@+id/cart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/min_margin"
-        android:orientation="vertical">
+        android:clipToPadding="true">
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvProductsCart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="true">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
-    -->
+            android:layout_marginVertical="@dimen/min_margin"/>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

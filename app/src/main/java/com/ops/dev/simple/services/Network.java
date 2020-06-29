@@ -15,9 +15,11 @@ public class Network {
     public static final String SignIn = IP + "signin/";
     public static final String ListCategories = IP + "categories/";
     public static final String Users = IP + "users/";
+    public static final String Products = IP + "products/";
     public static final String ListBusinessByCategory = IP + "businesses/category/";
     public static final String ListCommentsByBusiness = IP + "comments/business/";
     public static final String ListProductsByBusiness = IP + "products/business/";
+    public static final String Cart = IP + "cart/";
 
     public static final int STORAGE_PERMISSION_CODE = 1020;
     public static final int PICK_IMAGE_REQUEST_CODE = 1021;

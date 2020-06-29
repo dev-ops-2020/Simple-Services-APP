@@ -27,7 +27,7 @@ public class ToastAdapter {
 
         Toast toast = new Toast(context.getApplicationContext());
         //toast.setGravity(Gravity.BOTTOM, 0, 0);
-        //toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setDuration(Toast.LENGTH_LONG);
         toast.setView(view);
         toast.show();
     }

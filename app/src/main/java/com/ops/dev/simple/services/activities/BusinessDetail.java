@@ -36,6 +36,7 @@ import com.ops.dev.simple.services.adapters.GlideAdapter;
 import com.ops.dev.simple.services.adapters.PicturesPagerAdapter;
 import com.ops.dev.simple.services.adapters.ProductsAdapterMini;
 import com.ops.dev.simple.services.adapters.SchedulesAdapter;
+import com.ops.dev.simple.services.adapters.SharedPreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
 import com.ops.dev.simple.services.models.BusinessesModel;
 import com.ops.dev.simple.services.models.CategoriesIconModel;
@@ -71,6 +72,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
     CommentsAdapter commentsAdapter;
 
     JSONArray picturesArray, categoriesArray, scheduleArray;
+    ArrayList<String> days;
 
     Context context;
     RequestQueue queue;
@@ -90,6 +92,11 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
     String businessPhone, businessFb, businessIg, businessWa;
     boolean isRotate;
 
+    SharedPreferencesAdapter sharedPreferencesAdapter;
+    String __message;
+
+    String currentDay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,12 +106,14 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
         toastAdapter = new ToastAdapter(context);
         glideAdapter = new GlideAdapter(context);
+        sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
         queue = Volley.newRequestQueue(context);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.businessMap);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         zoomLevel = 16.0f;
+
         viewPager = findViewById(R.id.pictures);
 
         final BusinessesModel business = (BusinessesModel) getIntent().getSerializableExtra("business");
@@ -151,6 +160,8 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         getSchedules();
         getProductsByBusiness(businessId);
         getCommentsByEstablishment(businessId);
+
+        createCart(sharedPreferencesAdapter.getUserId(), businessId);
 
         findViewById(R.id.morePromotions).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,22 +255,22 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            JSONObject jsonObject = response.getJSONObject("category");
-                            category.setId(jsonObject.getString("_id"));
-                            category.setName(jsonObject.getString("name"));
-                            int icon = context.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", context.getPackageName());
-                            category.setIcon(icon);
-                            listCategories.add(category);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-                        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-                        rvCategories.setLayoutManager(layoutManager);
-                        rvCategories.setHasFixedSize(true);
-                        categoriesIconAdapter = new CategoriesIconAdapter(context, listCategories);
-                        rvCategories.setAdapter(categoriesIconAdapter);
+                    try {
+                        JSONObject jsonObject = response.getJSONObject("category");
+                        category.setId(jsonObject.getString("_id"));
+                        category.setName(jsonObject.getString("name"));
+                        int icon = context.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", context.getPackageName());
+                        category.setIcon(icon);
+                        listCategories.add(category);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+                    layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+                    rvCategories.setLayoutManager(layoutManager);
+                    rvCategories.setHasFixedSize(true);
+                    categoriesIconAdapter = new CategoriesIconAdapter(context, listCategories);
+                    rvCategories.setAdapter(categoriesIconAdapter);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -267,7 +278,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
                     }
                 });
-                queue.add(request);
+            queue.add(request);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -275,15 +286,34 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private void getSchedules() {
+        /*
+        Locale locale = context.getResources().getConfiguration().locale;
+
+        forceLocale(context, "en");
+
+        //LanguageHelper.setAppLocale(this, "en");
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE", Locale.forLanguageTag(locale.getLanguage()));
+        Date d = new Date();
+        currentDay = sdf.format(d);
+        toastAdapter.makeToast(R.drawable._fav, locale.getLanguage() + " " + currentDay);
+        days = new ArrayList<>();
+        for (int i = 0; i < days.size(); i ++) {
+            toastAdapter.makeToast(R.drawable._fav, days.get(i));
+        }
+        if (days.contains(currentDay)) {
+
+        }
+        */
         try {
             for (int i = 0; i < scheduleArray.length(); i++) {
                 JSONObject jsonObject = scheduleArray.getJSONObject(i);
                 Iterator<String> keys = jsonObject.keys();
                 SchedulesModel schedule = new SchedulesModel();
                 while(keys.hasNext()) {
-                    String key = (String) keys.next();
+                    String key = keys.next();
                     schedule.setDay(key);
                     schedule.setTime(jsonObject.get(key).toString());
+                    //days.add(key);
                 }
                 listSchedules.add(schedule);
             }
@@ -394,8 +424,44 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         queue.add(request);
     }
 
+    private void createCart(String userId, final String businessId) {
+        String url = Network.Cart;
+        JSONObject jsonParams = new JSONObject();
+        try {
+            jsonParams.put("userId", userId);
+            jsonParams.put("businessId", businessId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    __message = response.getString("message");
+                    if (__message.equals("Ok")) {
+                        sharedPreferencesAdapter.setCartId(response.getString("cart"));
+                        sharedPreferencesAdapter.setBusinessId(businessId);
+                    } else {
+                        // TODO If error exists, don't send message to user, just try again or something
+                        toastAdapter.makeToast(R.drawable.__error, "No se pudo crear el carrito para el negocio " + businessName);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+    }
+
     public void phoneIntent() {
         toastAdapter.makeToast(R.drawable._phone, "llamando a " + businessPhone);
+        Intent dial = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+ businessPhone));
+        startActivity(dial);
     }
 
     public void fbIntent() {

@@ -2,14 +2,6 @@ package com.ops.dev.simple.services.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.ops.dev.simple.services.R;
-
-import java.util.Objects;
 
 public class SharedPreferencesAdapter {
 
@@ -19,57 +11,119 @@ public class SharedPreferencesAdapter {
 
     public SharedPreferencesAdapter(Context context) {
         this.context = context;
-    }
-
-    public void savePreferences(String id, String alias, String password, String idDevice, String token, Boolean isFirstTime) {
-        sharedPreferences = context.getSharedPreferences("sharedPreferences", 0);
-        editor = sharedPreferences.edit();
-        editor.putString("id", id);
-        editor.putString("alias", alias);
-        editor.putString("password", password);
-        editor.putString("idDevice", idDevice);
-        editor.putString("token", token);
-        editor.putBoolean("isFirstTime", isFirstTime);
-        editor.apply();
-    }
-
-    public String getId() {
         sharedPreferences = context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
-        if (sharedPreferences.contains("id"))
-            return sharedPreferences.getString("id", "");
+    }
+
+    public String getUserId() {
+        if (sharedPreferences.contains("userId"))
+            return sharedPreferences.getString("userId", "");
         return null;
     }
 
+    public void setUserId(String userId) {
+        editor = sharedPreferences.edit();
+        editor.putString("userId", userId);
+        editor.apply();
+    }
+
     public String getAlias() {
-        sharedPreferences = context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
         if (sharedPreferences.contains("alias"))
             return sharedPreferences.getString("alias", "");
         return null;
     }
 
+    public void setAlias(String alias) {
+        editor = sharedPreferences.edit();
+        editor.putString("alias", alias);
+        editor.apply();
+    }
+
     public String getPassword() {
-        sharedPreferences = context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
         if (sharedPreferences.contains("password"))
             return sharedPreferences.getString("password", "");
         return null;
     }
 
+    public void setPassword(String password) {
+        editor = sharedPreferences.edit();
+        editor.putString("password", password);
+        editor.apply();
+    }
+
     public String getIdDevice() {
-        sharedPreferences = context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
         if (sharedPreferences.contains("idDevice"))
             return sharedPreferences.getString("idDevice", "");
         return null;
     }
 
+    public void setIdDevice(String idDevice) {
+        editor = sharedPreferences.edit();
+        editor.putString("idDevice", idDevice);
+        editor.apply();
+    }
+
     public String getToken() {
-        sharedPreferences = context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
         if (sharedPreferences.contains("token"))
             return sharedPreferences.getString("token", "");
         return null;
     }
 
+    public void setToken(String token) {
+        editor = sharedPreferences.edit();
+        editor.putString("token", token);
+        editor.apply();
+    }
+
+    public String getCartId() {
+        if (sharedPreferences.contains("cartId"))
+            return sharedPreferences.getString("cartId", "");
+        return null;
+    }
+
+    public void setCartId(String cartId) {
+        editor = sharedPreferences.edit();
+        editor.putString("cartId", cartId);
+        editor.apply();
+    }
+
+    public void deleteCartId() {
+        editor = sharedPreferences.edit();
+        editor.remove("cartId");
+        editor.apply();
+    }
+
+    public String getBusinessId() {
+        if (sharedPreferences.contains("businessId"))
+            return sharedPreferences.getString("businessId", "");
+        return null;
+    }
+
+    public void setBusinessId(String businessId) {
+        editor = sharedPreferences.edit();
+        editor.putString("businessId", businessId);
+        editor.apply();
+    }
+
+    public void deleteBusinessId() {
+        editor = sharedPreferences.edit();
+        editor.remove("businessId");
+        editor.apply();
+    }
+
+    public boolean getIsFirstTime() {
+        if (sharedPreferences.contains("isFirstTime"))
+            return sharedPreferences.getBoolean("isFirstTime", true);
+        return false;
+    }
+
+    public void setIsFirstTime(Boolean isFirstTime) {
+        editor = sharedPreferences.edit();
+        editor.putBoolean("isFirstTime", isFirstTime);
+        editor.apply();
+    }
+/*
     public void deletePreferences() {
-        sharedPreferences = context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
     }
+*/
 }

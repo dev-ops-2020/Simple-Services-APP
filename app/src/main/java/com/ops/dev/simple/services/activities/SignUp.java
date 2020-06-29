@@ -80,9 +80,9 @@ public class SignUp extends AppCompatActivity {
 
 		OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
 			@Override
-			public void idsAvailable(String userId, String registrationId) {
+			public void idsAvailable(String signalId, String registrationId) {
 				if (registrationId != null) {
-					__idDevice = userId;
+					__idDevice = signalId;
 				}
 			}
 		});
@@ -125,8 +125,13 @@ public class SignUp extends AppCompatActivity {
 							__alias = jsonObject.getString("alias");
 							__token = jsonObject.getString("token");
 
-							sharedPreferencesAdapter.deletePreferences();
-							sharedPreferencesAdapter.savePreferences(__id, __alias, __password, __id, __token, false);
+							//sharedPreferencesAdapter.deletePreferences();
+							sharedPreferencesAdapter.setUserId(__id);
+							sharedPreferencesAdapter.setAlias(__alias);
+							sharedPreferencesAdapter.setPassword(__password);
+							sharedPreferencesAdapter.setIdDevice(__idDevice);
+							sharedPreferencesAdapter.setToken(__token);
+							sharedPreferencesAdapter.setIsFirstTime(false);
 							progressDialog.dismiss();
 							toastAdapter.makeToast(R.drawable.__ok, __alias + " registrado correctamente");
 

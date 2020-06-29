@@ -79,9 +79,9 @@ public class SignIn extends AppCompatActivity {
 		OneSignal.startInit(context).init();
 		OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
 			@Override
-			public void idsAvailable(String userId, String registrationId) {
+			public void idsAvailable(String signalId, String registrationId) {
 				if (registrationId != null) {
-					__idDevice = userId;
+					__idDevice = signalId;
 				}
 			}
 		});
@@ -118,8 +118,12 @@ public class SignIn extends AppCompatActivity {
 							__alias = jsonObject.getString("alias");
 							__token = jsonObject.getString("token");
 
-							sharedPreferencesAdapter.deletePreferences();
-							sharedPreferencesAdapter.savePreferences(__id, __alias, _password, "", __token, true);
+							//sharedPreferencesAdapter.deletePreferences();
+							sharedPreferencesAdapter.setUserId(__id);
+							sharedPreferencesAdapter.setAlias(_alias);
+							sharedPreferencesAdapter.setPassword(_password);
+							sharedPreferencesAdapter.setToken(__token);
+
 							progressDialog.dismiss();
 							toastAdapter.makeToast(R.drawable.__ok, "Bienvenido " + __alias);
 

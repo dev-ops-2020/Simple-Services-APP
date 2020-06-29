@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/black</color>
-    <color name="colorPrimaryDark">@color/black_alt</color>
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">@color/white_alt</color>
     <color name="colorAccent">@color/blue</color>
 
     <color name="transparent">#80000000</color>
 
     <color name="white">#FFFFFF</color>
-    <color name="white_alt">#F7F7F7</color>
-    <color name="gray">#7F7F7F</color>
-    <color name="gray_alt">#777777</color>
+    <color name="white_alt">#AAAAAA</color>
     <color name="black">#212121</color>
     <color name="black_alt">#121212</color>
 
@@ -22,8 +20,8 @@
 
     <color name="yellow">#f1c40f</color>
     <color name="yellow_alt">#f39c12</color>
-    <color name="light_blue">#1abc9c</color>
-    <color name="light_blue_alt">#16a085</color>
+    <color name="teal">#1abc9c</color>
+    <color name="teal_alt">#16a085</color>
     <color name="purple">#9b59b6</color>
     <color name="purple_alt">#8e44ad</color>
 
