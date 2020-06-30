@@ -65,7 +65,6 @@ public class ProductDetail extends AppCompatActivity {
     GlideAdapter glideAdapter;
 
     TextView price;
-    ProductsModel product;
     ViewPager viewPager;
     CustomNumberPicker picker;
     Button add_to_cart;

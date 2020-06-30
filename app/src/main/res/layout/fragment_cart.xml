@@ -16,65 +16,76 @@
             android:text="@string/cart"/>
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
-        android:visibility="invisible"
-        android:id="@+id/footer"
+    <TextView
         android:layout_below="@id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/min_margin"
-        card_view:cardCornerRadius="@dimen/med_margin"
-        card_view:cardElevation="0dp"
-        card_view:cardBackgroundColor="@color/colorPrimary">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
-
-            <LinearLayout
-                android:layout_margin="@dimen/min_margin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    style="@style/TextViewHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_margin="@dimen/min_margin"
-                    android:text="@string/total"/>
-
-                <TextView
-                    style="@style/TextViewHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_margin="@dimen/min_margin"
-                    android:text="@string/price"/>
-
-                <TextView
-                    style="@style/TextViewHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_margin="@dimen/min_margin"
-                    android:id="@+id/total_price"/>
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/order"
-                style="@style/ButtonDefault"
-                android:text="@string/order"
-                android:layout_alignParentEnd="true"/>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+        android:id="@+id/container_message"
+        style="@style/TextViewHeader"
+        android:layout_height="match_parent"
+        android:text="Validando carrito..."/>
 
     <androidx.core.widget.NestedScrollView
-        android:layout_below="@id/footer"
+        android:visibility="invisible"
+        android:layout_below="@id/container_message"
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="true">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvProductsCart"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/min_margin"/>
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvProductsCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/min_margin"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/min_margin"
+                card_view:cardCornerRadius="@dimen/med_margin"
+                card_view:cardElevation="0dp"
+                card_view:cardBackgroundColor="@color/colorPrimary">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary">
+
+                    <LinearLayout
+                        android:layout_margin="@dimen/min_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/TextViewHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_margin="@dimen/min_margin"
+                            android:text="@string/total"/>
+
+                        <TextView
+                            style="@style/TextViewHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_margin="@dimen/min_margin"
+                            android:text="@string/price"/>
+
+                        <TextView
+                            style="@style/TextViewHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_margin="@dimen/min_margin"
+                            android:id="@+id/total_price"/>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/order"
+                        style="@style/ButtonDefault"
+                        android:text="@string/order"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

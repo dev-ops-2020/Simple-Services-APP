@@ -13,9 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,15 +29,11 @@ import com.android.volley.toolbox.Volley;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.activities.MainMenu;
-import com.ops.dev.simple.services.adapters.CommentsAdapter;
 import com.ops.dev.simple.services.adapters.GlideAdapter;
-import com.ops.dev.simple.services.adapters.ProductsAdapter;
 import com.ops.dev.simple.services.adapters.ProductsCartAdapter;
 import com.ops.dev.simple.services.adapters.SharedPreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
-import com.ops.dev.simple.services.models.CommentsModel;
 import com.ops.dev.simple.services.models.ProductsCartModel;
-import com.ops.dev.simple.services.models.ProductsModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,7 +57,8 @@ public class Cart extends Fragment {
 	RecyclerView rvProductsCart;
 	List<ProductsCartModel> listProductsCart;
 	ProductsCartAdapter productsCartAdapter;
-	CardView footer;
+	TextView container_message;
+	NestedScrollView main;
 	Context context ;
 	RequestQueue queue;
 	ToastAdapter toastAdapter;
@@ -108,7 +105,9 @@ public class Cart extends Fragment {
 		sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
 		queue = Volley.newRequestQueue(context);
 
-		footer = view.findViewById(R.id.footer);
+
+		container_message = view.findViewById(R.id.container_message);
+		main = view.findViewById(R.id.main);
 
 		rvProductsCart = view.findViewById(R.id.rvProductsCart);
 		listProductsCart = new ArrayList<>();
@@ -159,9 +158,10 @@ public class Cart extends Fragment {
 						if (productsArray.length() > 0) {
 							showCart(productsArray);
 						} else {
-							toastAdapter.makeToast(R.drawable.__warning, "El carrito aún está vacío, prueba agregar algún producto 😉");
-							//goToCategories();
+							container_message.setText("El carrito aún está vacío, prueba agregar algún producto 😉");
 						}
+					} else {
+						container_message.setText("El carrito aún está vacío, prueba agregar algún producto 😉");
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -217,9 +217,8 @@ public class Cart extends Fragment {
 							@Override
 							public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
 								int position = viewHolder.getAdapterPosition();
+								deleteCartProduct(sharedPreferencesAdapter.getCartId(), listProductsCart.get(position).getId(), listProductsCart.get(position).getQuantity());
 								listProductsCart.remove(position);
-								initAdapter();
-								productsCartAdapter.notifyDataSetChanged();
 							}
 						});
 						itemTouchHelper.attachToRecyclerView(rvProductsCart);
@@ -237,19 +236,46 @@ public class Cart extends Fragment {
 		}
 	}
 
+
+	private void deleteCartProduct(final String cartId, final String productId, final int qty) {
+		String url = Network.Cart+cartId+"/"+productId;
+		JSONObject jsonParams = new JSONObject();
+		try {
+			jsonParams.put("productId", productId);
+			jsonParams.put("qty", qty);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				initAdapter();
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+
+			}
+		});
+		queue.add(request);
+	}
+
 	private void initAdapter() {
-		footer.setVisibility(View.VISIBLE);
+		container_message.setVisibility(View.GONE);
+		main.setVisibility(View.VISIBLE);
 		LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 		layoutManager.setOrientation(RecyclerView.VERTICAL);
 		rvProductsCart.setLayoutManager(layoutManager);
 		rvProductsCart.setHasFixedSize(true);
-		productsCartAdapter = new ProductsCartAdapter(context, listProductsCart);
+		productsCartAdapter = new ProductsCartAdapter(context, listProductsCart, sharedPreferencesAdapter.getCartId(), sharedPreferencesAdapter.getBusinessId());
+		productsCartAdapter.notifyDataSetChanged();
+		productsCartAdapter.onAttachedToRecyclerView(rvProductsCart);
 		rvProductsCart.setAdapter(productsCartAdapter);
+		rvProductsCart.setItemAnimator(new DefaultItemAnimator());
 		total_price.setText(String.valueOf(productsCartAdapter.getTotal()));
 	}
 
 	private void goToCategories() {
-		toastAdapter.makeToast(R.drawable.__warning, "El carrito aún está vacío, prueba agregar algún producto 😉");
 		Handler h = new Handler();
 		h.postDelayed(new Runnable() {
 			@Override

@@ -47,4 +47,6 @@
     <string name="signup">Registrarme</string>
     <string name="signin">Iniciar Sesión</string>
     <string name="description">Descripción:</string>
+    <string name="subtotal">Subtotal: $</string>
+    <string name="unit_price">Precio unitario: $</string>
 </resources>
