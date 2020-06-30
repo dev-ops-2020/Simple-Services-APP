@@ -161,7 +161,8 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         getProductsByBusiness(businessId);
         getCommentsByEstablishment(businessId);
 
-        createCart(sharedPreferencesAdapter.getUserId(), businessId);
+        if (!sharedPreferencesAdapter.keyExists("cartId"))
+            createCart(sharedPreferencesAdapter.getUserId(), businessId);
 
         findViewById(R.id.morePromotions).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -441,9 +442,6 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
                     if (__message.equals("Ok")) {
                         sharedPreferencesAdapter.setCartId(response.getString("cart"));
                         sharedPreferencesAdapter.setBusinessId(businessId);
-                    } else {
-                        // TODO If error exists, don't send message to user, just try again or something
-                        toastAdapter.makeToast(R.drawable.__error, "No se pudo crear el carrito para el negocio " + businessName);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

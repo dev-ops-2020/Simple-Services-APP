@@ -11,7 +11,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/main_margin_bottom">
+        android:layout_margin="@dimen/big_margin">
 
         <TextView
             style="@style/TextViewHeader"
@@ -32,85 +32,50 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputLayout"
                 android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nombre Completo">
+                android:hint="@string/name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/med_margin"
-                    android:layout_gravity="center"
-                    android:gravity="center"
                     android:inputType="textPersonName"/>
             </com.google.android.material.textfield.TextInputLayout>
             <!--Alias-->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputLayout"
                 android:id="@+id/alias"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Alias">
+                android:hint="@string/alias">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/med_margin"
-                    android:layout_gravity="center"
-                    android:gravity="center"
                     android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
             <!--Phone-->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputLayout"
                 android:id="@+id/phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Teléfono">
+                android:hint="@string/phone">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/med_margin"
-                    android:layout_gravity="center"
-                    android:gravity="center"
                     android:inputType="phone"/>
             </com.google.android.material.textfield.TextInputLayout>
             <!--Email-->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputLayout"
                 android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Correo">
+                android:hint="@string/email">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/med_margin"
-                    android:layout_gravity="center"
-                    android:gravity="center"
                     android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
             <!--Password-->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputLayout"
                 android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Contraseña">
+                android:hint="@string/password">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/med_margin"
-                    android:layout_gravity="center"
-                    android:gravity="center"
                     android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
             <!--SingIn-->
@@ -123,12 +88,9 @@
                 card_view:cardBackgroundColor="@color/colorPrimary">
 
                 <Button
-                    android:id="@+id/signUp"
                     style="@style/ButtonDefault"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
-                    android:text="Registrarme"/>
+                    android:id="@+id/signUp"
+                    android:text="@string/signup"/>
             </androidx.cardview.widget.CardView>
             <!--SingUp-->
             <LinearLayout
@@ -138,8 +100,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/TextInputLayout"
                     android:text="@string/already_account"/>
             </LinearLayout>
         </LinearLayout>

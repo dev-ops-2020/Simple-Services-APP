@@ -39,4 +39,12 @@
         <item quantity="other">%d artículos añadidos</item>
     </plurals>
     <string name="go_to_cart">Ver carrito</string>
+    <string name="alias">Alias</string>
+    <string name="password">Contraseña</string>
+    <string name="name">Nombre Completo</string>
+    <string name="phone">Teléfono</string>
+    <string name="email">Correo</string>
+    <string name="signup">Registrarme</string>
+    <string name="signin">Iniciar Sesión</string>
+    <string name="description">Descripción:</string>
 </resources>

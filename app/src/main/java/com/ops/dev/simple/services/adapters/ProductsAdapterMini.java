@@ -65,12 +65,16 @@ public class ProductsAdapterMini extends RecyclerView.Adapter<ProductsAdapterMin
         ProductsModel product = mData.get(position);
         ImageView picture = holder.picture;
         TextView name = holder.name;
+        TextView price = holder.price;
 
         Glide
                 .with(mContext)
                 .load(product.getPicture())
                 .into(picture);
         name.setText(product.getName());
+
+        String uri = " $ " + product.getPrice() + " ";
+        price.setText(uri);
     }
 
     @Override
@@ -80,13 +84,14 @@ public class ProductsAdapterMini extends RecyclerView.Adapter<ProductsAdapterMin
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView picture;
-        TextView name;
+        TextView name, price;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             picture = itemView.findViewById(R.id.picture);
             name = itemView.findViewById(R.id.name);
+            price = itemView.findViewById(R.id.price);
         }
     }
 }

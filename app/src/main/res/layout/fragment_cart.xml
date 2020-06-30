@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
@@ -15,50 +16,57 @@
             android:text="@string/cart"/>
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:visibility="invisible"
         android:id="@+id/footer"
         android:layout_below="@id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:layout_margin="@dimen/min_margin"
+        card_view:cardCornerRadius="@dimen/med_margin"
+        card_view:cardElevation="0dp"
+        card_view:cardBackgroundColor="@color/colorPrimary">
 
-        <TextView
-            style="@style/TextViewHeader"
-            android:layout_width="wrap_content"
-            android:layout_margin="@dimen/med_margin"
-            android:text="@string/total"/>
-
-        <TextView
-            style="@style/TextViewHeader"
-            android:text="@string/price"
-            android:layout_width="wrap_content"
-            android:layout_margin="@dimen/med_margin"/>
-
-        <TextView
-            style="@style/TextViewHeader"
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_margin="@dimen/med_margin"/>
-
-        <Button
-            style="@style/ButtonDefault"
-            android:id="@+id/order"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/med_margin"
-            android:text="@string/order"
-            android:background="@color/colorAccent"/>
-    </LinearLayout>
+            android:background="@color/colorPrimary">
 
-    <View
-        android:id="@+id/view"
-        android:layout_below="@id/footer"
-        style="@style/ViewLine"/>
+            <LinearLayout
+                android:layout_margin="@dimen/min_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/TextViewHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_margin="@dimen/min_margin"
+                    android:text="@string/total"/>
+
+                <TextView
+                    style="@style/TextViewHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_margin="@dimen/min_margin"
+                    android:text="@string/price"/>
+
+                <TextView
+                    style="@style/TextViewHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_margin="@dimen/min_margin"
+                    android:id="@+id/total_price"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/order"
+                style="@style/ButtonDefault"
+                android:text="@string/order"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.core.widget.NestedScrollView
-        android:layout_below="@id/view"
-        android:id="@+id/cart"
+        android:layout_below="@id/footer"
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="true">
@@ -67,6 +75,6 @@
             android:id="@+id/rvProductsCart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginVertical="@dimen/min_margin"/>
+            android:layout_margin="@dimen/min_margin"/>
     </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

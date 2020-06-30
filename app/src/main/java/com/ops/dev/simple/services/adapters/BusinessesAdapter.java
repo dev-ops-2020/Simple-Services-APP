@@ -75,7 +75,6 @@ public class BusinessesAdapter extends RecyclerView.Adapter<BusinessesAdapter.Vi
         ImageView picture = holder.picture;
         TextView name = holder.name;
         TextView slogan = holder.slogan;
-        TextView score = holder.score;
 
         Glide
                 .with(mContext)
@@ -84,7 +83,6 @@ public class BusinessesAdapter extends RecyclerView.Adapter<BusinessesAdapter.Vi
         glideAdapter.setImage(logo, business.getLogo());
         name.setText(business.getName());
         slogan.setText(business.getSlogan());
-        score.setText(business.getScore());
     }
 
     @Override
@@ -94,7 +92,7 @@ public class BusinessesAdapter extends RecyclerView.Adapter<BusinessesAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView logo, picture;
-        TextView name, slogan, score;
+        TextView name, slogan;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -103,7 +101,6 @@ public class BusinessesAdapter extends RecyclerView.Adapter<BusinessesAdapter.Vi
             picture = itemView.findViewById(R.id.picture);
             name = itemView.findViewById(R.id.name);
             slogan = itemView.findViewById(R.id.slogan);
-            score = itemView.findViewById(R.id.score);
         }
     }
 }

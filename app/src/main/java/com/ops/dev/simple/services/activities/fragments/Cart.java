@@ -12,8 +12,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,7 +61,7 @@ public class Cart extends Fragment {
 	RecyclerView rvProductsCart;
 	List<ProductsCartModel> listProductsCart;
 	ProductsCartAdapter productsCartAdapter;
-	LinearLayout footer;
+	CardView footer;
 	Context context ;
 	RequestQueue queue;
 	ToastAdapter toastAdapter;
@@ -68,7 +71,7 @@ public class Cart extends Fragment {
 	JSONArray productsArray;
 
 	String __message;
-	TextView price;
+	TextView total_price;
 	Button order;
 
 	public Cart() {
@@ -109,6 +112,8 @@ public class Cart extends Fragment {
 
 		rvProductsCart = view.findViewById(R.id.rvProductsCart);
 		listProductsCart = new ArrayList<>();
+
+		total_price = view.findViewById(R.id.total_price);
 
 		getProducts(sharedPreferencesAdapter.getCartId());
 
@@ -154,10 +159,9 @@ public class Cart extends Fragment {
 						if (productsArray.length() > 0) {
 							showCart(productsArray);
 						} else {
-							goToCategories();
+							toastAdapter.makeToast(R.drawable.__warning, "El carrito aún está vacío, prueba agregar algún producto 😉");
+							//goToCategories();
 						}
-					} else {
-						goToCategories();
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -172,12 +176,13 @@ public class Cart extends Fragment {
 		queue.add(request);
 	}
 
-	private void showCart(JSONArray list) {
+	private void showCart(final JSONArray list) {
 		try {
 			for (int i = 0; i < list.length(); i++) {
 				JSONObject jsonObject = list.getJSONObject(i);
 				final ProductsCartModel productCart = new ProductsCartModel();
-				final int qty = jsonObject.getInt("qty");
+				final int qty;
+				qty = jsonObject.getInt("qty");
 				String url = Network.Products+jsonObject.getString("productId");
 				JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 					@Override
@@ -202,13 +207,22 @@ public class Cart extends Fragment {
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
-						footer.setVisibility(View.VISIBLE);
-						LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-						layoutManager.setOrientation(RecyclerView.VERTICAL);
-						rvProductsCart.setLayoutManager(layoutManager);
-						rvProductsCart.setHasFixedSize(true);
-						productsCartAdapter = new ProductsCartAdapter(context, listProductsCart);
-						rvProductsCart.setAdapter(productsCartAdapter);
+						initAdapter();
+						ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+							@Override
+							public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+								return false;
+							}
+
+							@Override
+							public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+								int position = viewHolder.getAdapterPosition();
+								listProductsCart.remove(position);
+								initAdapter();
+								productsCartAdapter.notifyDataSetChanged();
+							}
+						});
+						itemTouchHelper.attachToRecyclerView(rvProductsCart);
 					}
 				}, new Response.ErrorListener() {
 					@Override
@@ -221,6 +235,17 @@ public class Cart extends Fragment {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void initAdapter() {
+		footer.setVisibility(View.VISIBLE);
+		LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+		layoutManager.setOrientation(RecyclerView.VERTICAL);
+		rvProductsCart.setLayoutManager(layoutManager);
+		rvProductsCart.setHasFixedSize(true);
+		productsCartAdapter = new ProductsCartAdapter(context, listProductsCart);
+		rvProductsCart.setAdapter(productsCartAdapter);
+		total_price.setText(String.valueOf(productsCartAdapter.getTotal()));
 	}
 
 	private void goToCategories() {

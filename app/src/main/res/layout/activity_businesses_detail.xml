@@ -9,8 +9,7 @@
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/logo"
@@ -61,12 +60,13 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:text="Descripción:"
-                    style="@style/TextViewDefault"/>
+                    style="@style/TextViewDefault"
+                    android:text="@string/description"/>
 
                 <TextView
                     android:id="@+id/description"
-                    style="@style/TextViewDefault"/>
+                    style="@style/TextViewDefault"
+                    android:layout_gravity="center"/>
             </LinearLayout>
             <!--Categories-->
             <LinearLayout
@@ -75,9 +75,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:text="Categorías:"
-                    android:gravity="start"
-                    style="@style/TextViewDefault"/>
+                    style="@style/TextViewDefault"
+                    android:text="Categorías:"/>
 
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
@@ -98,9 +97,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:text="Horarios:"
-                    android:gravity="start"
-                    style="@style/TextViewDefault"/>
+                    style="@style/TextViewDefault"
+                    android:text="Horarios:"/>
 
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
@@ -121,9 +119,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:text="Productos:"
-                    android:gravity="start"
-                    style="@style/TextViewDefault"/>
+                    style="@style/TextViewDefault"
+                    android:text="Productos:"/>
 
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
@@ -138,10 +135,10 @@
                 </androidx.core.widget.NestedScrollView>
 
                 <TextView
+                    style="@style/TextViewDefault"
                     android:id="@+id/morePromotions"
                     android:text="Ver más productos..."
-                    android:gravity="end"
-                    style="@style/TextViewDefault"/>
+                    android:layout_gravity="end"/>
             </LinearLayout>
             <!--Location-->
             <LinearLayout
@@ -150,9 +147,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:text="Ubicación:"
-                    android:gravity="start"
-                    style="@style/TextViewDefault"/>
+                    style="@style/TextViewDefault"
+                    android:text="Ubicación:"/>
 
                 <fragment
                     android:id="@+id/businessMap"
@@ -168,9 +164,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:text="Últimos Comentarios:"
-                    android:gravity="start"
-                    style="@style/TextViewDefault"/>
+                    style="@style/TextViewDefault"
+                    android:text="Últimos Comentarios:"/>
 
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"

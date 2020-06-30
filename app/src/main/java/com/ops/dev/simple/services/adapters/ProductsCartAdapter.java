@@ -20,11 +20,11 @@ public class ProductsCartAdapter extends RecyclerView.Adapter<ProductsCartAdapte
     private Context mContext;
     private List<ProductsCartModel> mData;
     private GlideAdapter glideAdapter;
-    private int lastPosition = 0;
 
     public ProductsCartAdapter(Context mContext, List<ProductsCartModel> mData) {
         this.mContext = mContext;
         this.mData = mData;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -40,43 +40,37 @@ public class ProductsCartAdapter extends RecyclerView.Adapter<ProductsCartAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         ProductsCartModel product = mData.get(position);
+        ImageView picture = holder.picture;
+        TextView name = holder.name;
+        TextView description = holder.description;
+        TextView price = holder.price;
+        TextView qty = holder.qty;
+        ImageView subtract = holder.subtract;
+        ImageView add = holder.add;
 
-        glideAdapter.setImage(holder.picture, product.getPicture());
-        holder.name.setText(product.getName());
-        holder.description.setText(product.getDescription());
-        holder.price.setText(product.getPrice());
-        holder.qty.setText(product.getPrice());
-        //holder.qty.setText(product.getQuantity());
-/*
-        holder.subtract.setOnClickListener(new View.OnClickListener() {
+        glideAdapter.setImage(picture, product.getPicture());
+        name.setText(product.getName());
+        description.setText(product.getDescription());
+        price.setText(product.getPrice());
+        qty.setText(String.valueOf(product.getQuantity()));
+
+        subtract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int temp = Integer.parseInt((String) holder.qty.getText());
                 int res = temp - 1;
-                holder.qty.setText(res);
+                holder.qty.setText(String.valueOf(res));
             }
         });
-        holder.add.setOnClickListener(new View.OnClickListener() {
+        add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int temp = Integer.parseInt((String) holder.qty.getText());
                 int res = temp + 1;
-                holder.qty.setText(res);
+                holder.qty.setText(String.valueOf(res));
             }
         });
- */
     }
-/*
-    private void setAnimation(View viewToAnimate, int position)
-    {
-        if (position > lastPosition) {
-            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.some_anim);
-            viewToAnimate.startAnimation(animation);
-            lastPosition=position;
-        }
-        position++;
-    }
-*/
 
     @Override
     public int getItemCount() {
@@ -85,8 +79,7 @@ public class ProductsCartAdapter extends RecyclerView.Adapter<ProductsCartAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView picture, subtract, add;
-        TextView name, description, price;
-        TextView qty;
+        TextView name, description, price, qty;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -99,5 +92,13 @@ public class ProductsCartAdapter extends RecyclerView.Adapter<ProductsCartAdapte
             subtract = itemView.findViewById(R.id.subtract);
             add = itemView.findViewById(R.id.add);
         }
+    }
+
+    public double getTotal() {
+        double totalPrice = 0;
+        for (int i = 0; i < mData.size(); i++) {
+            totalPrice += Double.parseDouble(mData.get(i).getPrice());
+        }
+        return totalPrice;
     }
 }

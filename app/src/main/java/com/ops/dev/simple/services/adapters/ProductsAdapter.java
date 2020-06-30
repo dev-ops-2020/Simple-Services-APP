@@ -68,7 +68,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         ProductsModel product = mData.get(position);
         ImageView picture = holder.picture;
         TextView name = holder.name;
-        TextView description = holder.description;
         TextView price = holder.price;
 
         Glide
@@ -76,7 +75,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
                 .load(product.getPicture())
                 .into(picture);
         name.setText(product.getName());
-        description.setText(product.getDescription());
 
         String uri = " $ " + product.getPrice() + " ";
         price.setText(uri);
@@ -89,14 +87,13 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView picture;
-        TextView name, description, price;
+        TextView name, price;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             picture = itemView.findViewById(R.id.picture);
             name = itemView.findViewById(R.id.name);
-            description = itemView.findViewById(R.id.description);
             price = itemView.findViewById(R.id.price);
         }
     }

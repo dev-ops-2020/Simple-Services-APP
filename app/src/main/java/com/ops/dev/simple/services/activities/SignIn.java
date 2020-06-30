@@ -36,7 +36,7 @@ public class SignIn extends AppCompatActivity {
 	String  _alias, _password;
 	TextInputLayout alias, password;
 	Button signIn;
-	LinearLayout signUp;
+	LinearLayout main, signUp;
 	Context context;
 	RequestQueue queue;
 
@@ -50,16 +50,23 @@ public class SignIn extends AppCompatActivity {
 		setContentView(R.layout.activity_sign_in);
 		View layout = findViewById(android.R.id.content);
 		context = SignIn.this;
+		toastAdapter = new ToastAdapter(context);
+		sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
+		queue = Volley.newRequestQueue(context);
 
 		alias = findViewById(R.id.alias);
 		password = findViewById(R.id.password);
+		main = findViewById(R.id.main);
 		signIn = findViewById(R.id.signIn);
 		signUp = findViewById(R.id.signUp);
+
+		final String msjLogin = "Bienvenido ";
+		final String msjBack = "Bienvenido de nuevo ";
 
 		signIn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				signIn();
+				signIn(msjLogin);
 			}
 		});
 		signUp.setOnClickListener(new View.OnClickListener() {
@@ -70,11 +77,6 @@ public class SignIn extends AppCompatActivity {
 				startActivity(intent);
 			}
 		});
-		toastAdapter = new ToastAdapter(context);
-		sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
-		Objects.requireNonNull(alias.getEditText()).setText(sharedPreferencesAdapter.getAlias());
-		Objects.requireNonNull(password.getEditText()).setText(sharedPreferencesAdapter.getPassword());
-		queue = Volley.newRequestQueue(context);
 
 		OneSignal.startInit(context).init();
 		OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
@@ -85,9 +87,17 @@ public class SignIn extends AppCompatActivity {
 				}
 			}
 		});
+
+		Objects.requireNonNull(alias.getEditText()).setText(sharedPreferencesAdapter.getAlias());
+		Objects.requireNonNull(password.getEditText()).setText(sharedPreferencesAdapter.getPassword());
+
+		if (sharedPreferencesAdapter.getIsLoggedIn())
+			signIn(msjBack);
+		else
+			main.setVisibility(View.VISIBLE);
     }
 
-	private void signIn() {
+	private void signIn(final String msj) {
 		String url = Network.SignIn;
 		_alias = String.valueOf(Objects.requireNonNull(alias.getEditText()).getText());
 		_password = String.valueOf(Objects.requireNonNull(password.getEditText()).getText());
@@ -112,36 +122,40 @@ public class SignIn extends AppCompatActivity {
 				public void onResponse(JSONObject response) {
 					try {
 						__message = response.getString("message");
-						if (__message.equals("Ok")) {
-							JSONObject jsonObject = response.getJSONObject("user");
-							__id = jsonObject.getString("_id");
-							__alias = jsonObject.getString("alias");
-							__token = jsonObject.getString("token");
+						switch (__message) {
+							case "Ok":
+								JSONObject jsonObject = response.getJSONObject("user");
+								__id = jsonObject.getString("_id");
+								__alias = jsonObject.getString("alias");
+								__token = jsonObject.getString("token");
 
-							//sharedPreferencesAdapter.deletePreferences();
-							sharedPreferencesAdapter.setUserId(__id);
-							sharedPreferencesAdapter.setAlias(_alias);
-							sharedPreferencesAdapter.setPassword(_password);
-							sharedPreferencesAdapter.setToken(__token);
+								sharedPreferencesAdapter.setUserId(__id);
+								sharedPreferencesAdapter.setAlias(_alias);
+								sharedPreferencesAdapter.setPassword(_password);
+								sharedPreferencesAdapter.setToken(__token);
+								sharedPreferencesAdapter.setIsLoggedIn(true);
 
-							progressDialog.dismiss();
-							toastAdapter.makeToast(R.drawable.__ok, "Bienvenido " + __alias);
+								progressDialog.dismiss();
+								toastAdapter.makeToast(R.drawable.__ok, msj + __alias);
 
-							Handler h = new Handler();
-							h.postDelayed(new Runnable() {
-								@Override
-								public void run() {
-									finish();
-									Intent intent = new Intent(context, MainMenu.class);
-									startActivity(intent);
-								}
-							}, 3000);
-						} else if (__message.equals("User not found")) {
-							progressDialog.dismiss();
-							toastAdapter.makeToast(R.drawable.__error, "!Vaya! No encontramos ninguna cuenta registrada con estos datos");
-						} else {
-							progressDialog.dismiss();
-							toastAdapter.makeToast(R.drawable.__warning, "Revisa los datos de ingreso");
+								Handler h = new Handler();
+								h.postDelayed(new Runnable() {
+									@Override
+									public void run() {
+										finish();
+										Intent intent = new Intent(context, MainMenu.class);
+										startActivity(intent);
+									}
+								}, 3000);
+								break;
+							case "User not found":
+								progressDialog.dismiss();
+								toastAdapter.makeToast(R.drawable.__error, "!Vaya! No encontramos ninguna cuenta registrada con estos datos");
+								break;
+							default:
+								progressDialog.dismiss();
+								toastAdapter.makeToast(R.drawable.__warning, "Revisa los datos de ingreso");
+								break;
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();

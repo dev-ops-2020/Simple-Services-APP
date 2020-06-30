@@ -14,6 +14,25 @@ public class SharedPreferencesAdapter {
         sharedPreferences = context.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE);
     }
 
+    public Boolean keyExists(String key) {
+        if (sharedPreferences.contains(key))
+            return true;
+        else
+            return false;
+    }
+
+    public Boolean getIsLoggedIn() {
+        if (sharedPreferences.contains("isLoggedIn"))
+            return sharedPreferences.getBoolean("isLoggedIn", false);
+        return false;
+    }
+
+    public void setIsLoggedIn(Boolean status) {
+        editor = sharedPreferences.edit();
+        editor.putBoolean("isLoggedIn", status);
+        editor.apply();
+    }
+
     public String getUserId() {
         if (sharedPreferences.contains("userId"))
             return sharedPreferences.getString("userId", "");

@@ -10,7 +10,6 @@ import com.ops.dev.simple.services.activities.fragments.Home;
 import com.ops.dev.simple.services.activities.fragments.Cart;
 import com.ops.dev.simple.services.activities.fragments.Profile;
 
-
 public class MenuPagerAdapter extends FragmentStatePagerAdapter {
 
     public MenuPagerAdapter(FragmentManager fm) {

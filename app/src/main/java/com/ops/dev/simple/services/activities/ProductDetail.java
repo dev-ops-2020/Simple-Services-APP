@@ -1,14 +1,23 @@
 package com.ops.dev.simple.services.activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -42,6 +51,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ProductDetail extends AppCompatActivity {
 
@@ -60,7 +70,7 @@ public class ProductDetail extends AppCompatActivity {
     CustomNumberPicker picker;
     Button add_to_cart;
 
-    String productId, productName, productDescription, productPrice;
+    String productId, productName, productDescription, productPrice, productBusinessId;
 
     String catId, catName;
 
@@ -69,6 +79,7 @@ public class ProductDetail extends AppCompatActivity {
     SharedPreferencesAdapter sharedPreferencesAdapter;
     String __message;
 
+    View layout;
     AlertDialog.Builder builder;
     AlertDialog alertDialog;
 
@@ -76,7 +87,7 @@ public class ProductDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_detail);
-        final View layout = findViewById(android.R.id.content);
+        layout = findViewById(android.R.id.content);
         context = ProductDetail.this;
 
         toastAdapter = new ToastAdapter(context);
@@ -93,6 +104,7 @@ public class ProductDetail extends AppCompatActivity {
         productName = product.getName();
         productPrice = product.getPrice();
         productDescription = product.getDescription();
+        productBusinessId = product.getIdBusiness();
 
         final TextView tittle = findViewById(R.id.tittle);
         final TextView description = findViewById(R.id.description);
@@ -127,19 +139,7 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int value = picker.getValue();
-                final String message = context.getResources().getQuantityString(R.plurals.items_added_to_cart, value, value);
-                final int actionTextColor = ContextCompat.getColor(context, R.color.colorAccent);
                 updateCart(sharedPreferencesAdapter.getCartId(), product.getIdBusiness(), productId, value);
-                Handler h = new Handler();
-                h.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Snackbar.make(layout, message, Snackbar.LENGTH_LONG)
-                                .setAction(R.string.go_to_cart, ProductDetail.this.snackBarClickListener())
-                                .setActionTextColor(actionTextColor)
-                                .show();
-                    }
-                }, 2000);
             }
         });
     }
@@ -205,6 +205,37 @@ public class ProductDetail extends AppCompatActivity {
         price.setText(res);
     }
 
+    private void createCart(String userId, final String businessId) {
+        String url = Network.Cart;
+        JSONObject jsonParams = new JSONObject();
+        try {
+            jsonParams.put("userId", userId);
+            jsonParams.put("businessId", businessId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    __message = response.getString("message");
+                    if (__message.equals("Ok")) {
+                        sharedPreferencesAdapter.setCartId(response.getString("cart"));
+                        sharedPreferencesAdapter.setBusinessId(businessId);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+    }
+
     private void updateCart(String cartId, String businessId, String productId, int qty) {
         String url = Network.Cart+cartId+"/"+businessId;
         JSONObject jsonParams = new JSONObject();
@@ -219,15 +250,118 @@ public class ProductDetail extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     __message = response.getString("message");
+                    int value = picker.getValue();
+                    final String message = context.getResources().getQuantityString(R.plurals.items_added_to_cart, value, value);
+                    final int actionTextColor = ContextCompat.getColor(context, R.color.colorAccent);
+                    Handler h = new Handler();
                     switch (__message) {
-                        case "Error":
-                            toastAdapter.makeToast(R.drawable.__error, "¡Vaya! Al parecer tu carrito se perdió 😥");
+                        case "Wrong business":
+                            builder = new AlertDialog.Builder(context);
+                            builder.setTitle("¡Vaya! Nos hemos topado con una barricada...");
+                            builder.setMessage("Ya tienes un carrito de otro negocio ☹ ¿Deseas cancelarlo y crear uno nuevo para el negocio actual 😁?");
+                            builder.setNegativeButton("Continuar con el carrito anterior", null);
+                            builder.setPositiveButton("Crear carrito nuevo", null);
+                            alertDialog = builder.create();
+                            alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                                @Override
+                                public void onShow(DialogInterface dialogInterface) {
+                                    Button btnCancel = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+                                    Button btnOk = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Handler h = new Handler();
+                                            h.postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    finish();
+                                                    Intent intent = new Intent(context, MainMenu.class);
+                                                    intent.putExtra("screen", R.id.cart);
+                                                    intent.putExtra("number", 3);
+                                                    startActivity(intent);
+                                                }
+                                            }, 1000);
+                                            alertDialog.dismiss();
+                                        }
+                                    });
+                                    btnOk.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            deleteCart(sharedPreferencesAdapter.getCartId());
+                                            alertDialog.dismiss();
+                                        }
+                                    });
+                                }
+                            });
+                            alertDialog.setCancelable(false);
+                            alertDialog.setCanceledOnTouchOutside(false);
+                            alertDialog.show();
                             break;
                         case "Product updated":
                             toastAdapter.makeToast(R.drawable.__ok, productName + " actualizado");
+                            h.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Snackbar.make(layout, message, Snackbar.LENGTH_LONG)
+                                            .setAction(R.string.go_to_cart, snackBarClickListener())
+                                            .setActionTextColor(actionTextColor)
+                                            .show();
+                                }
+                            }, 2000);
                             break;
                         case "Product added":
                             toastAdapter.makeToast(R.drawable.__ok, productName + " agregado");
+                            h.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Snackbar.make(layout, message, Snackbar.LENGTH_LONG)
+                                            .setAction(R.string.go_to_cart, snackBarClickListener())
+                                            .setActionTextColor(actionTextColor)
+                                            .show();
+                                }
+                            }, 2000);
+                            break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        queue.add(request);
+    }
+
+    private void deleteCart(final String cartId) {
+        String url = Network.Cart+cartId;
+        JSONObject jsonParams = new JSONObject();try {
+            jsonParams.put("", "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonParams, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    __message = response.getString("message");
+                    switch (__message) {
+                        case "Error":
+                            toastAdapter.makeToast(R.drawable.__error, "Errol al borrar el carrito");
+                            break;
+                        case "Ok":
+                            toastAdapter.makeToast(R.drawable.__warning, "Carrito eliminado, creando nuevo carrito... Por favor agrega tu producto nuevamente");
+                            sharedPreferencesAdapter.deleteCartId();
+                            sharedPreferencesAdapter.deleteBusinessId();
+                            Handler h = new Handler();
+                            h.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    createCart(sharedPreferencesAdapter.getUserId(), productBusinessId);
+                                }
+                            }, 1000);
                             break;
                     }
                 } catch (JSONException e) {

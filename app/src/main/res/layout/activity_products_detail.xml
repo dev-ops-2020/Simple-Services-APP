@@ -59,46 +59,58 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/card_height_big"
                     android:background="@color/colorPrimaryDark"/>
-                <!--Categories-->
-                <androidx.core.widget.NestedScrollView
+                <!--Description-->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clipToPadding="true"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                    android:orientation="vertical">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvCategories"
+                    <TextView
+                        style="@style/TextViewDefault"
+                        android:text="@string/description"/>
+
+                    <TextView
+                        style="@style/TextViewDefault"
+                        android:id="@+id/description"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+                <!--Categories-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextViewDefault"
+                        android:text="Categorías:"/>
+
+                    <androidx.core.widget.NestedScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/min_margin"/>
-                </androidx.core.widget.NestedScrollView>
-                <!--Info-->
-                <View
-                    style="@style/ViewLine"/>
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="true">
 
-                <TextView
-                    style="@style/TextViewDefault"
-                    android:id="@+id/description"/>
-
-                <View
-                    style="@style/ViewLine"/>
-
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvCategories"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/min_margin"/>
+                    </androidx.core.widget.NestedScrollView>
+                </LinearLayout>
+                <!--Picker-->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginVertical="@dimen/min_margin"
-                    android:layout_marginHorizontal="@dimen/med_margin"
-                    android:orientation="horizontal">
+                    android:layout_margin="@dimen/med_margin"
+                    android:background="@drawable/border_menu">
 
                     <com.ops.dev.simple.services.widget.CustomNumberPicker
                         android:id="@+id/picker"
-                        android:layout_width="100dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@color/colorPrimary"
+                        android:layout_width="@dimen/main_margin_top"
+                        android:layout_height="@dimen/main_margin_bottom"
+                        android:layout_gravity="center"
                         app:min="1"
-                        app:max="10"
+                        app:max="20"
                         app:value="1"/>
 
                     <TextView
@@ -113,13 +125,10 @@
                         android:layout_width="wrap_content"
                         android:layout_margin="@dimen/med_margin"/>
                 </LinearLayout>
-
+                <!--Add button-->
                 <Button
-                    android:id="@+id/add_to_cart"
                     style="@style/ButtonDefault"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
+                    android:id="@+id/add_to_cart"
                     android:text="@string/add_to_cart"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

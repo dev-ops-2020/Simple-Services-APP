@@ -25,27 +25,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            style="@style/TextInputLayout"
             android:id="@+id/name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/picture"/>
 
         <TextView
-            android:id="@+id/description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name"/>
-
-        <TextView
+            style="@style/TextViewDefault"
             android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_margin="@dimen/min_margin"
-            android:background="@drawable/background"
+            android:background="@drawable/border_menu"
             app:layout_constraintBottom_toBottomOf="@id/picture"
             app:layout_constraintEnd_toEndOf="@id/picture"/>
 

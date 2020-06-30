@@ -52,6 +52,8 @@ public class SignUp extends AppCompatActivity {
 		View layout = findViewById(android.R.id.content);
 		context = SignUp.this;
 
+
+
 		name = findViewById(R.id.name);
 		alias = findViewById(R.id.alias);
 		phone = findViewById(R.id.phone);
@@ -120,33 +122,36 @@ public class SignUp extends AppCompatActivity {
 				public void onResponse(JSONObject response) {
 					try {
 						__message = response.getString("message");
-						if (__message.equals("Ok")) {JSONObject jsonObject = response.getJSONObject("user");
-							__id = jsonObject.getString("_id");
-							__alias = jsonObject.getString("alias");
-							__token = jsonObject.getString("token");
+						switch (__message) {
+							case "Ok":
+								JSONObject jsonObject = response.getJSONObject("user");
+								__id = jsonObject.getString("_id");
+								__alias = jsonObject.getString("alias");
+								__token = jsonObject.getString("token");
 
-							//sharedPreferencesAdapter.deletePreferences();
-							sharedPreferencesAdapter.setUserId(__id);
-							sharedPreferencesAdapter.setAlias(__alias);
-							sharedPreferencesAdapter.setPassword(__password);
-							sharedPreferencesAdapter.setIdDevice(__idDevice);
-							sharedPreferencesAdapter.setToken(__token);
-							sharedPreferencesAdapter.setIsFirstTime(false);
-							progressDialog.dismiss();
-							toastAdapter.makeToast(R.drawable.__ok, __alias + " registrado correctamente");
+								sharedPreferencesAdapter.setUserId(__id);
+								sharedPreferencesAdapter.setAlias(__alias);
+								sharedPreferencesAdapter.setPassword(__password);
+								sharedPreferencesAdapter.setIdDevice(__idDevice);
+								sharedPreferencesAdapter.setToken(__token);
+								sharedPreferencesAdapter.setIsFirstTime(false);
+								progressDialog.dismiss();
+								toastAdapter.makeToast(R.drawable.__ok, __alias + " registrado correctamente");
 
-							Handler h = new Handler();
-							h.postDelayed(new Runnable() {
-								@Override
-								public void run() {
-									finish();
-									Intent intent = new Intent(context, SignIn.class);
-									startActivity(intent);
-								}
-							}, 3000);
-						} else {
-							progressDialog.dismiss();
-							toastAdapter.makeToast(R.drawable.__error, "!Vaya! Al parecer tenemos una cuenta registrada con estos datos");
+								Handler h = new Handler();
+								h.postDelayed(new Runnable() {
+									@Override
+									public void run() {
+										finish();
+										Intent intent = new Intent(context, SignIn.class);
+										startActivity(intent);
+									}
+								}, 3000);
+								break;
+							default:
+								progressDialog.dismiss();
+								toastAdapter.makeToast(R.drawable.__error, "!Vaya! Al parecer tenemos una cuenta registrada con estos datos");
+								break;
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();

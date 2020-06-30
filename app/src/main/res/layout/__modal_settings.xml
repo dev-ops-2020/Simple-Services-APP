@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimaryDark">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,9 +13,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:text="@string/options"
-            style="@style/TextViewHeader"/>
-    </LinearLayout>
+            style="@style/TextViewHeader"
+            android:text="@string/options"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_below="@id/header"

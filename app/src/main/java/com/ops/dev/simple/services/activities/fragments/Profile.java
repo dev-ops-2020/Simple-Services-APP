@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
@@ -48,7 +49,8 @@ public class Profile extends Fragment {
 	// Vars
 	TextView alias, name, phone, email;
 	ImageView settings, picture;
-	LinearLayout pictures, info, main;
+	CardView pictures;
+	LinearLayout info, main;
 
 	static int lSettings = R.layout.__modal_settings;
 	static int lPicture = R.layout.__modal_picture;

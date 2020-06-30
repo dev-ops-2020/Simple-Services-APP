@@ -17,16 +17,12 @@
         <TextView
             style="@style/TextViewDefault"
             android:id="@+id/day"
-            android:layout_width="wrap_content"
-            android:layout_marginHorizontal="@dimen/med_margin"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             style="@style/TextViewDefault"
             android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_marginHorizontal="@dimen/med_margin"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/day"
             card_view:layout_constraintEnd_toEndOf="parent"/>

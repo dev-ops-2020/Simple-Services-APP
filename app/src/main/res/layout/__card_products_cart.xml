@@ -11,14 +11,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/picture"
             android:layout_width="@dimen/big_icon"
             android:layout_height="@dimen/big_icon"
-            android:layout_margin="@dimen/min_margin"/>
+            android:layout_margin="@dimen/min_margin"
+            android:layout_gravity="center"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,32 +27,22 @@
 
             <TextView
                 style="@style/TextViewDefault"
-                android:gravity="start"
-                android:id="@+id/name"
-                android:layout_marginHorizontal="@dimen/min_margin"/>
+                android:id="@+id/name"/>
 
             <TextView
                 style="@style/TextViewDefault"
-                android:gravity="start"
-                android:id="@+id/description"
-                android:layout_marginHorizontal="@dimen/min_margin"/>
+                android:id="@+id/description"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/min_margin">
-
-
-                <TextView
-                    android:text="@string/price"
-                    style="@style/TextViewDefault"
-                    android:gravity="start"
-                    android:layout_width="wrap_content"/>
+                android:layout_height="wrap_content">
 
                 <TextView
                     style="@style/TextViewDefault"
-                    android:gravity="start"
-                    android:layout_width="wrap_content"
+                    android:text="@string/price"/>
+
+                <TextView
+                    style="@style/TextViewDefault"
                     android:id="@+id/price"/>
 
                 <LinearLayout
@@ -64,21 +54,21 @@
                         android:id="@+id/subtract"
                         android:layout_width="@dimen/min_icon_alt"
                         android:layout_height="@dimen/min_icon_alt"
+                        android:layout_gravity="center"
                         android:src="@drawable/__subtract"/>
 
                     <TextView
-                        android:id="@+id/qty"
                         style="@style/TextViewDefault"
-                        android:layout_width="wrap_content"
-                        android:layout_marginHorizontal="@dimen/min_margin"/>
+                        android:id="@+id/qty"/>
 
                     <ImageView
                         android:id="@+id/add"
                         android:layout_width="@dimen/min_icon_alt"
                         android:layout_height="@dimen/min_icon_alt"
+                        android:layout_gravity="center"
                         android:src="@drawable/__add"/>
                 </LinearLayout>
-                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
