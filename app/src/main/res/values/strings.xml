@@ -49,4 +49,5 @@
     <string name="description">Descripción:</string>
     <string name="subtotal">Subtotal: $</string>
     <string name="unit_price">Precio unitario: $</string>
+    <string name="terms">He leído y acepto los <b>Términos y Condiciones</b></string>
 </resources>

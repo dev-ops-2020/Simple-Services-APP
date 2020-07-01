@@ -78,6 +78,23 @@
                     style="@style/TextInputLayout"
                     android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
+            <!--Terms-->
+            <LinearLayout
+                android:layout_margin="@dimen/med_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    style="@style/TextViewDefault"
+                    android:id="@+id/accept"
+                    android:layout_gravity="center"
+                    android:checked="false"/>
+
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:id="@+id/terms"
+                    android:text="@string/terms"/>
+            </LinearLayout>
             <!--SingIn-->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

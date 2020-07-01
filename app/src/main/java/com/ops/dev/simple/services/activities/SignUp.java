@@ -1,5 +1,6 @@
 package com.ops.dev.simple.services.activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +8,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,11 +35,12 @@ import java.util.Objects;
 
 public class SignUp extends AppCompatActivity {
 
-
     //Vars
 	String __message, __id, __alias, __password, __idDevice, __token;
 	String _name, _alias, _phone, _email, _password;
 	TextInputLayout name, alias, phone, email, password;
+	CheckBox accept;
+	TextView terms;
 	Button signUp;
 	LinearLayout signIn;
 	Context context;
@@ -45,22 +50,55 @@ public class SignUp extends AppCompatActivity {
 	ToastAdapter toastAdapter;
 	SharedPreferencesAdapter sharedPreferencesAdapter;
 
+	AlertDialog.Builder builder;
+	AlertDialog alertDialog;
+
+	static int lTerms = R.layout.__modal_terms;
+	String _header, _terms;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sign_up);
 		View layout = findViewById(android.R.id.content);
 		context = SignUp.this;
-
-
+		toastAdapter = new ToastAdapter(context);
+		sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
+		queue = Volley.newRequestQueue(context);
 
 		name = findViewById(R.id.name);
 		alias = findViewById(R.id.alias);
 		phone = findViewById(R.id.phone);
 		email = findViewById(R.id.email);
 		password = findViewById(R.id.password);
+		accept = findViewById(R.id.accept);
+		terms = findViewById(R.id.terms);
 		signUp = findViewById(R.id.signUp);
 		signIn = findViewById(R.id.signIn);
+
+		getTerms();
+		signUp.setEnabled(false);
+		signUp.setBackgroundResource(R.drawable.border_buttons_disable);
+
+		accept.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (accept.isChecked()) {
+					signUp.setEnabled(true);
+					signUp.setBackgroundResource(R.drawable.border_buttons_enable);
+				} else {
+					signUp.setEnabled(false);
+					signUp.setBackgroundResource(R.drawable.border_buttons_disable);
+				}
+			}
+		});
+
+		terms.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showModal(lTerms);
+			}
+		});
 
 		signUp.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -76,9 +114,6 @@ public class SignUp extends AppCompatActivity {
 				startActivity(intent);
 			}
 		});
-		toastAdapter = new ToastAdapter(context);
-		sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
-		queue = Volley.newRequestQueue(context);
 
 		OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
 			@Override
@@ -89,6 +124,52 @@ public class SignUp extends AppCompatActivity {
 			}
 		});
     }
+
+	private void showModal(final int layout) {
+		final View layoutView = getLayoutInflater().inflate(layout, null);
+		builder = new AlertDialog.Builder(context);
+		builder.setView(layoutView);
+
+		if (layout == lTerms) {
+			//Vars
+			final TextView header = layoutView.findViewById(R.id.header);
+			final TextView terms = layoutView.findViewById(R.id.terms_conditions);
+
+			header.setText(_header);
+			terms.setText(_terms);
+		}
+		alertDialog = builder.create();
+		alertDialog.setCancelable(true);
+		alertDialog.show();
+	}
+
+	public boolean isValidEmail(String email) {
+		boolean isValid = false;
+		if (email.contains("@") && email.contains(".com"))
+			isValid = true;
+		return isValid;
+	}
+
+	private void getTerms() {
+		String url = Network.Terms;
+		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					_header = response.getString("header");
+					_terms = response.getString("message");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+
+			}
+		});
+		queue.add(request);
+	}
 
     private void signUp() {
 		String url = Network.SignUp;

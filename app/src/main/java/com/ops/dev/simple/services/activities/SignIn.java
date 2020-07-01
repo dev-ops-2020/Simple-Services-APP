@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class SignIn extends AppCompatActivity {
 
@@ -35,7 +39,9 @@ public class SignIn extends AppCompatActivity {
 	String __message, __id, __alias, __password, __idDevice, __token;
 	String  _alias, _password;
 	TextInputLayout alias, password;
+	TextView tittle;
 	Button signIn;
+	RelativeLayout container;
 	LinearLayout main, signUp;
 	Context context;
 	RequestQueue queue;
@@ -54,19 +60,18 @@ public class SignIn extends AppCompatActivity {
 		sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
 		queue = Volley.newRequestQueue(context);
 
+		container = findViewById(R.id.container);
+		tittle = findViewById(R.id.tittle);
 		alias = findViewById(R.id.alias);
 		password = findViewById(R.id.password);
 		main = findViewById(R.id.main);
 		signIn = findViewById(R.id.signIn);
 		signUp = findViewById(R.id.signUp);
 
-		final String msjLogin = "Bienvenido ";
-		final String msjBack = "Bienvenido de nuevo ";
-
 		signIn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				signIn(msjLogin);
+				signIn();
 			}
 		});
 		signUp.setOnClickListener(new View.OnClickListener() {
@@ -91,13 +96,27 @@ public class SignIn extends AppCompatActivity {
 		Objects.requireNonNull(alias.getEditText()).setText(sharedPreferencesAdapter.getAlias());
 		Objects.requireNonNull(password.getEditText()).setText(sharedPreferencesAdapter.getPassword());
 
-		if (sharedPreferencesAdapter.getIsLoggedIn())
-			signIn(msjBack);
-		else
+		if (sharedPreferencesAdapter.getIsLoggedIn()) {
+			int[] backgrounds = {R.drawable.gradient_blue, R.drawable.gradient_red, R.drawable.gradient_green};
+			int randomBackground = new Random().nextInt(backgrounds.length);
+			container.setBackgroundResource(backgrounds[randomBackground]);
+			tittle.setVisibility(View.VISIBLE);
+			tittle.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animation));
+			findViewById(R.id.image).setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animation));
+			goMain();
+		} else {
 			main.setVisibility(View.VISIBLE);
+		}
     }
 
-	private void signIn(final String msj) {
+    public boolean isValidEmail(String email) {
+		boolean isValid = false;
+		if (email.contains("@") && email.contains(".com"))
+			isValid = true;
+		return isValid;
+	}
+
+	private void signIn() {
 		String url = Network.SignIn;
 		_alias = String.valueOf(Objects.requireNonNull(alias.getEditText()).getText());
 		_password = String.valueOf(Objects.requireNonNull(password.getEditText()).getText());
@@ -136,17 +155,8 @@ public class SignIn extends AppCompatActivity {
 								sharedPreferencesAdapter.setIsLoggedIn(true);
 
 								progressDialog.dismiss();
-								toastAdapter.makeToast(R.drawable.__ok, msj + __alias);
-
-								Handler h = new Handler();
-								h.postDelayed(new Runnable() {
-									@Override
-									public void run() {
-										finish();
-										Intent intent = new Intent(context, MainMenu.class);
-										startActivity(intent);
-									}
-								}, 3000);
+								toastAdapter.makeToast(R.drawable.__ok, R.string.welcome + " " + __alias);
+								goMain();
 								break;
 							case "User not found":
 								progressDialog.dismiss();
@@ -169,6 +179,19 @@ public class SignIn extends AppCompatActivity {
 			});
 			queue.add(request);
 		}
+	}
+
+	private void goMain() {
+		Handler h = new Handler();
+		h.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				finish();
+				Intent intent = new Intent(context, MainMenu.class);
+				startActivity(intent);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			}
+		}, 5000);
 	}
 
 	@Override

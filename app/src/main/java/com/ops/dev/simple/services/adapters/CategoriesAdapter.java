@@ -39,17 +39,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final int pos) {
         final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.__card_categories, viewGroup, false);
         final ViewHolder vh = new ViewHolder(view);
-        final RelativeLayout container = view.findViewById(R.id.container);
 
         toastAdapter = new ToastAdapter(mContext);
         glideAdapter = new GlideAdapter(mContext);
-
-        //int[] colors = {R.color.yellow, R.color.light_blue, R.color.purple, R.color.yellow_alt, R.color.light_blue_alt, R.color.purple_alt};
-        //int[] colors = {R.color.yellow_alt, R.color.light_blue, R.color.purple};
-        //int randomColor = new Random().nextInt(colors.length);
-        //container.setBackgroundResource(colors[randomColor]);
-
-        //container.setBackgroundResource(R.color.colorPrimary);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

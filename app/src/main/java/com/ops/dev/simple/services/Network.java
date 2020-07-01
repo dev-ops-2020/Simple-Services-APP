@@ -13,6 +13,7 @@ public class Network {
     private static final String IP = "https://simple-services.herokuapp.com/api/";
     public static final String SignUp = IP + "signup/";
     public static final String SignIn = IP + "signin/";
+    public static final String Terms = IP + "terms/";
     public static final String ListCategories = IP + "categories/";
     public static final String Users = IP + "users/";
     public static final String Products = IP + "products/";
