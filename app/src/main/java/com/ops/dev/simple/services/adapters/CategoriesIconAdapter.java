@@ -11,20 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.bumptech.glide.Glide;
 import com.ops.dev.simple.services.R;
-import com.ops.dev.simple.services.activities.Businesses;
-import com.ops.dev.simple.services.models.CategoriesIconModel;
+import com.ops.dev.simple.services.activities.Business;
+import com.ops.dev.simple.services.models.CategoriesModelListIcon;
 
 import java.util.List;
 
 public class CategoriesIconAdapter extends RecyclerView.Adapter<CategoriesIconAdapter.ViewHolder>{
 
     private Context mContext;
-    private List<CategoriesIconModel> mData;
+    private List<CategoriesModelListIcon> mData;
     GlideAdapter glideAdapter;
 
-    public CategoriesIconAdapter(Context mContext, List<CategoriesIconModel> mData) {
+    public CategoriesIconAdapter(Context mContext, List<CategoriesModelListIcon> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -40,12 +39,12 @@ public class CategoriesIconAdapter extends RecyclerView.Adapter<CategoriesIconAd
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CategoriesIconModel category = new CategoriesIconModel(
+                CategoriesModelListIcon category = new CategoriesModelListIcon(
                         mData.get(vh.getAdapterPosition()).getId(),
                         mData.get(vh.getAdapterPosition()).getName(),
                         mData.get(vh.getAdapterPosition()).getIcon()
                 );
-                Intent intent = new Intent(mContext.getApplicationContext(), Businesses.class);
+                Intent intent = new Intent(mContext.getApplicationContext(), Business.class);
                 intent.putExtra("category", category);
                 mContext.startActivity(intent);
             }
@@ -55,9 +54,9 @@ public class CategoriesIconAdapter extends RecyclerView.Adapter<CategoriesIconAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        CategoriesIconModel category = mData.get(position);
+        CategoriesModelListIcon category = mData.get(position);
         ImageView icon = holder.icon;
-        glideAdapter.setImage(icon, category.getIcon());
+        glideAdapter.setImageCircle(icon, category.getIcon());
     }
 
     @Override

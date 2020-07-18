@@ -15,13 +15,13 @@
         android:layout_height="wrap_content">
 
         <TextView
-            style="@style/TextViewDefault"
+            style="@style/TextView"
             android:id="@+id/day"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
-            style="@style/TextViewDefault"
+            style="@style/TextView"
             android:id="@+id/time"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/day"

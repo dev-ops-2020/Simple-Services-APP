@@ -10,6 +10,8 @@
     <color name="white_alt">#DDDDDD</color>
     <color name="black">#212121</color>
     <color name="black_alt">#121212</color>
+    <color name="gray">#999999</color>
+    <color name="gray_alt">#555555</color>
 
     <color name="red">#e74c3c</color>
     <color name="red_alt">#c0392b</color>

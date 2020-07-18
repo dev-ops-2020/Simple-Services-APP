@@ -6,21 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.ops.dev.simple.services.R;
-import com.ops.dev.simple.services.activities.BusinessDetail;
-import com.ops.dev.simple.services.activities.Businesses;
+import com.ops.dev.simple.services.activities.Business;
 import com.ops.dev.simple.services.models.CategoriesModel;
 
 import java.util.List;
-import java.util.Random;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder>{
 
@@ -52,7 +47,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                         mData.get(vh.getAdapterPosition()).getDescription(),
                         mData.get(vh.getAdapterPosition()).getIcon()
                 );
-                Intent intent = new Intent(mContext.getApplicationContext(), Businesses.class);
+                Intent intent = new Intent(mContext.getApplicationContext(), Business.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("category", category);
                 mContext.startActivity(intent);
@@ -77,9 +72,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         TextView name = holder.name;
 
         if (category.getIcon() != 0)
-            glideAdapter.setImage(icon, category.getIcon());
+            glideAdapter.setImageCircle(icon, category.getIcon());
         else
-            glideAdapter.setImage(icon, R.drawable._fav);
+            glideAdapter.setImageCircle(icon, R.drawable._fav);
         name.setText(category.getName());
     }
 

@@ -2,13 +2,14 @@ package com.ops.dev.simple.services.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,11 +21,22 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.DrawableImageViewTarget;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
-import com.onesignal.OneSignal;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
-import com.ops.dev.simple.services.adapters.SharedPreferencesAdapter;
+import com.ops.dev.simple.services.adapters.GlideAdapter;
+import com.ops.dev.simple.services.adapters.IntentAdapter;
+import com.ops.dev.simple.services.adapters.PreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
 
 import org.json.JSONException;
@@ -36,19 +48,25 @@ import java.util.Random;
 public class SignIn extends AppCompatActivity {
 
     //Vars
-	String __message, __id, __alias, __password, __idDevice, __token;
-	String  _alias, _password;
-	TextInputLayout alias, password;
-	TextView tittle;
+	String __message;
+	String _email, _pass;
+	TextInputLayout email, pass;
 	Button signIn;
+	TextView signUp;
 	RelativeLayout container;
-	LinearLayout main, signUp;
+	LinearLayout main;
+	RadioButton isUser, isBusiness;
 	Context context;
 	RequestQueue queue;
 
 	ProgressDialog progressDialog;
+	IntentAdapter intentAdapter;
 	ToastAdapter toastAdapter;
-	SharedPreferencesAdapter sharedPreferencesAdapter;
+	GlideAdapter glideAdapter;
+	PreferencesAdapter preferencesAdapter;
+
+	Location userLocation;
+	FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,78 +74,84 @@ public class SignIn extends AppCompatActivity {
 		setContentView(R.layout.activity_sign_in);
 		View layout = findViewById(android.R.id.content);
 		context = SignIn.this;
+		intentAdapter = new IntentAdapter(this, context);
 		toastAdapter = new ToastAdapter(context);
-		sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
+		glideAdapter = new GlideAdapter(context);
+		preferencesAdapter = new PreferencesAdapter(context);
 		queue = Volley.newRequestQueue(context);
 
+		Glide.with(context).load(R.drawable.______icon_gif).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE)).transform(new RoundedCorners(R.dimen.med_margin)).into(new DrawableImageViewTarget((ImageView) findViewById(R.id.gif)));
+
 		container = findViewById(R.id.container);
-		tittle = findViewById(R.id.tittle);
-		alias = findViewById(R.id.alias);
-		password = findViewById(R.id.password);
+		email = findViewById(R.id.email);
+		pass = findViewById(R.id.pass);
 		main = findViewById(R.id.main);
 		signIn = findViewById(R.id.signIn);
 		signUp = findViewById(R.id.signUp);
+		isUser = findViewById(R.id.isUser);
+		isBusiness = findViewById(R.id.isBusiness);
+
+		if (preferencesAdapter.getIsUser())
+			isUser.setChecked(true);
+		else if (preferencesAdapter.getIsBusiness())
+			isBusiness.setChecked(true);
 
 		signIn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				signIn();
+				if (isUser.isChecked())
+					signIn(Network.SignIn, true);
+				else if (isBusiness.isChecked())
+					signIn(Network.LogIn, false);
+				else
+					toastAdapter.makeToast(R.drawable.__info, "Selecciona si eres usuario o negocio 😄");
 			}
 		});
 		signUp.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(context, SignUp.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
+				if (isUser.isChecked())
+					intentAdapter.goActivityDefault(SignUpUser.class);
+				else if (isBusiness.isChecked())
+					intentAdapter.goActivityDefault(SignUpBusiness.class);
+				else
+				toastAdapter.makeToast(R.drawable.__info, "Selecciona si eres usuario o negocio 😄");
 			}
 		});
 
-		OneSignal.startInit(context).init();
-		OneSignal.idsAvailable(new OneSignal.IdsAvailableHandler() {
-			@Override
-			public void idsAvailable(String signalId, String registrationId) {
-				if (registrationId != null) {
-					__idDevice = signalId;
-				}
-			}
-		});
+		Objects.requireNonNull(email.getEditText()).setText(preferencesAdapter.getEmail());
+		Objects.requireNonNull(pass.getEditText()).setText(preferencesAdapter.getPass());
 
-		Objects.requireNonNull(alias.getEditText()).setText(sharedPreferencesAdapter.getAlias());
-		Objects.requireNonNull(password.getEditText()).setText(sharedPreferencesAdapter.getPassword());
-
-		if (sharedPreferencesAdapter.getIsLoggedIn()) {
-			int[] backgrounds = {R.drawable.gradient_blue, R.drawable.gradient_red, R.drawable.gradient_green};
+		// Auto LogIn
+		if (preferencesAdapter.getIsLoggedIn()) {
+			 int[] backgrounds = {R.drawable.gradient_red, R.drawable.gradient_green, R.drawable.gradient_blue};
 			int randomBackground = new Random().nextInt(backgrounds.length);
 			container.setBackgroundResource(backgrounds[randomBackground]);
-			tittle.setVisibility(View.VISIBLE);
-			tittle.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animation));
-			findViewById(R.id.image).setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animation));
-			goMain();
+			findViewById(R.id.tittle).setVisibility(View.VISIBLE);
+			findViewById(R.id.tittle).setAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animation));
+			if (preferencesAdapter.getIsUser())
+				intentAdapter.goActivityAnimated(MainMenuUser.class, Network.DURATION_LONG);
+			else if (preferencesAdapter.getIsBusiness())
+				intentAdapter.goActivityAnimated(MainMenuBusiness.class, Network.DURATION_LONG);
 		} else {
 			main.setVisibility(View.VISIBLE);
 		}
+
+		fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+		getLocation();
     }
 
-    public boolean isValidEmail(String email) {
-		boolean isValid = false;
-		if (email.contains("@") && email.contains(".com"))
-			isValid = true;
-		return isValid;
-	}
+	private void signIn(String url, final boolean isUser) {
+    	_email = String.valueOf(Objects.requireNonNull(email.getEditText()).getText());
+		_pass = String.valueOf(Objects.requireNonNull(pass.getEditText()).getText());
 
-	private void signIn() {
-		String url = Network.SignIn;
-		_alias = String.valueOf(Objects.requireNonNull(alias.getEditText()).getText());
-		_password = String.valueOf(Objects.requireNonNull(password.getEditText()).getText());
-
-		if (_alias.length() == 0 || _password.length() == 0) {
-			toastAdapter.makeToast(R.drawable.__warning, "Alias y contraseñas requeridos");
+		if (_email.length() == 0 || _pass.length() == 0) {
+			toastAdapter.makeToast(R.drawable.__warning, "Correo y contraseña requeridos");
 		} else {
 			JSONObject jsonParams = new JSONObject();
 			try {
-				jsonParams.put("alias", _alias);
-				jsonParams.put("password", _password);
+				jsonParams.put("email", _email);
+				jsonParams.put("pass", _pass);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -143,28 +167,35 @@ public class SignIn extends AppCompatActivity {
 						__message = response.getString("message");
 						switch (__message) {
 							case "Ok":
-								JSONObject jsonObject = response.getJSONObject("user");
-								__id = jsonObject.getString("_id");
-								__alias = jsonObject.getString("alias");
-								__token = jsonObject.getString("token");
-
-								sharedPreferencesAdapter.setUserId(__id);
-								sharedPreferencesAdapter.setAlias(_alias);
-								sharedPreferencesAdapter.setPassword(_password);
-								sharedPreferencesAdapter.setToken(__token);
-								sharedPreferencesAdapter.setIsLoggedIn(true);
-
+								preferencesAdapter.setIsLoggedIn();
+								JSONObject jsonObject = response.getJSONObject("object");
+								preferencesAdapter.setId(jsonObject.getString("_id"));
+								preferencesAdapter.setEmail(_email);
+								preferencesAdapter.setPass(_pass);
+								preferencesAdapter.setToken(jsonObject.getString("token"));
+								preferencesAdapter.setDeviceId(jsonObject.getString("deviceId"));
+								preferencesAdapter.setLat((float) userLocation.getLatitude());
+								preferencesAdapter.setLng((float) userLocation.getLongitude());
+								if (isUser) {
+									preferencesAdapter.setIsUser();
+									preferencesAdapter.setAlias(jsonObject.getString("alias"));
+									toastAdapter.makeToast(R.drawable.__ok, "Bienvenido " + preferencesAdapter.getAlias() + " 😎");
+									intentAdapter.goActivityAnimated(MainMenuUser.class, Network.DURATION_NORMAL);
+								} else  {
+									preferencesAdapter.setIsBusiness();
+									preferencesAdapter.setAlias(jsonObject.getString("name"));
+									toastAdapter.makeToast(R.drawable.__ok, "Bienvenido " + preferencesAdapter.getAlias() + " 😎");
+									intentAdapter.goActivityAnimated(MainMenuBusiness.class, Network.DURATION_NORMAL);
+								}
 								progressDialog.dismiss();
-								toastAdapter.makeToast(R.drawable.__ok, R.string.welcome + " " + __alias);
-								goMain();
 								break;
-							case "User not found":
+							case "Passwords do not match":
 								progressDialog.dismiss();
-								toastAdapter.makeToast(R.drawable.__error, "!Vaya! No encontramos ninguna cuenta registrada con estos datos");
+								toastAdapter.makeToast(R.drawable.__warning, "Revisa los datos de ingreso 😉");
 								break;
-							default:
+							case "Object not found":
 								progressDialog.dismiss();
-								toastAdapter.makeToast(R.drawable.__warning, "Revisa los datos de ingreso");
+								toastAdapter.makeToast(R.drawable.__error, "!Vaya! No encontramos ninguna cuenta registrada con estos datos ☹");
 								break;
 						}
 					} catch (JSONException e) {
@@ -181,21 +212,18 @@ public class SignIn extends AppCompatActivity {
 		}
 	}
 
-	private void goMain() {
-		Handler h = new Handler();
-		h.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				finish();
-				Intent intent = new Intent(context, MainMenu.class);
-				startActivity(intent);
-				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-			}
-		}, 5000);
-	}
-
 	@Override
 	public void onBackPressed() {
 
+	}
+
+	private void getLocation() {
+		Task<Location> locationTask = fusedLocationProviderClient.getLastLocation();
+		locationTask.addOnSuccessListener(new OnSuccessListener<Location>() {
+			@Override
+			public void onSuccess(Location location) {
+				userLocation = location;
+			}
+		});
 	}
 }

@@ -26,11 +26,11 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/TextViewDefault"
+                style="@style/TextView"
                 android:id="@+id/name"/>
 
             <TextView
-                style="@style/TextViewDefault"
+                style="@style/TextView"
                 android:id="@+id/description"/>
 
             <LinearLayout
@@ -49,11 +49,11 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/TextViewDefault"
+                            style="@style/TextView"
                             android:text="@string/unit_price"/>
 
                         <TextView
-                            style="@style/TextViewDefault"
+                            style="@style/TextView"
                             android:id="@+id/price"/>
                     </LinearLayout>
 
@@ -63,11 +63,11 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/TextViewDefault"
+                            style="@style/TextView"
                             android:text="@string/subtotal"/>
 
                         <TextView
-                            style="@style/TextViewDefault"
+                            style="@style/TextView"
                             android:id="@+id/subtotal"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -87,7 +87,7 @@
                         android:src="@drawable/__add"/>
 
                     <TextView
-                        style="@style/TextViewDefault"
+                        style="@style/TextView"
                         android:id="@+id/qty"/>
 
                     <ImageView

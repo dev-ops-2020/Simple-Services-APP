@@ -2,7 +2,6 @@
 <RelativeLayout
     android:id="@+id/container"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -14,19 +13,18 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/gif"
             android:layout_width="match_parent"
             android:layout_height="@dimen/big_icon_alt"
-            android:layout_margin="@dimen/min_margin"
-            android:src="@drawable/_____icon_circle"/>
+            android:layout_margin="@dimen/min_margin"/>
 
         <TextView
-            android:visibility="invisible"
+            android:visibility="gone"
             style="@style/TextInputLayout"
-            android:layout_below="@id/image"
             android:id="@+id/tittle"
+            android:layout_below="@id/gif"
             android:textColor="@color/colorPrimary"
-            android:text="Amámos Simple Services ❤"/>
+            android:text="@string/app_slogan"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -44,8 +42,8 @@
         <!--Alias-->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/TextInputLayout"
-            android:id="@+id/alias"
-            android:hint="@string/alias">
+            android:id="@+id/email"
+            android:hint="@string/email">
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/TextInputLayout"
@@ -54,36 +52,43 @@
         <!--Password-->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/TextInputLayout"
-            android:id="@+id/password"
-            android:hint="@string/password">
+            android:id="@+id/pass"
+            android:hint="@string/pass">
 
             <com.google.android.material.textfield.TextInputEditText
                 style="@style/TextInputLayout"
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <!--SingIn-->
-        <androidx.cardview.widget.CardView
+        <RadioGroup
+            android:id="@+id/radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/min_margin"
-            card_view:cardCornerRadius="@dimen/med_margin"
-            card_view:cardElevation="0dp"
-            card_view:cardBackgroundColor="@color/colorPrimary">
+            android:orientation="horizontal">
 
-            <Button
-                style="@style/ButtonDefault"
-                android:id="@+id/signIn"
-                android:text="@string/signin"/>
-        </androidx.cardview.widget.CardView>
+            <RadioButton
+                style="@style/RadioButton"
+                android:id="@+id/isUser"
+                android:text="@string/user"/>
+
+            <RadioButton
+                style="@style/RadioButton"
+                android:id="@+id/isBusiness"
+                android:text="@string/business"/>
+        </RadioGroup>
+        <!--SingIn-->
+        <Button
+            style="@style/Button"
+            android:id="@+id/signIn"
+            android:text="@string/signIn"/>
         <!--SingUp-->
         <LinearLayout
-            android:id="@+id/signUp"
             android:layout_margin="@dimen/med_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 style="@style/TextInputLayout"
+                android:id="@+id/signUp"
                 android:text="@string/create_account"/>
         </LinearLayout>
     </LinearLayout>

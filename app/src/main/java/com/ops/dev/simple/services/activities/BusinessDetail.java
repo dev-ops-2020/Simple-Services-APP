@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,10 +37,10 @@ import com.ops.dev.simple.services.adapters.GlideAdapter;
 import com.ops.dev.simple.services.adapters.PicturesPagerAdapter;
 import com.ops.dev.simple.services.adapters.ProductsAdapterMini;
 import com.ops.dev.simple.services.adapters.SchedulesAdapter;
-import com.ops.dev.simple.services.adapters.SharedPreferencesAdapter;
+import com.ops.dev.simple.services.adapters.PreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
 import com.ops.dev.simple.services.models.BusinessesModel;
-import com.ops.dev.simple.services.models.CategoriesIconModel;
+import com.ops.dev.simple.services.models.CategoriesModelListIcon;
 import com.ops.dev.simple.services.models.CommentsModel;
 import com.ops.dev.simple.services.models.ProductsModel;
 import com.ops.dev.simple.services.models.SchedulesModel;
@@ -47,8 +48,11 @@ import com.ops.dev.simple.services.models.SchedulesModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -56,7 +60,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
     //Vars
     RecyclerView rvCategories;
-    List<CategoriesIconModel> listCategories;
+    List<CategoriesModelListIcon> listCategories;
     CategoriesIconAdapter categoriesIconAdapter;
 
     RecyclerView rvSchedules;
@@ -71,17 +75,17 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
     List<CommentsModel> listComments;
     CommentsAdapter commentsAdapter;
 
-    JSONArray picturesArray, categoriesArray, scheduleArray;
+    JSONArray scheduleArray, categoriesArray, picturesArray;
     ArrayList<String> days;
 
     Context context;
     RequestQueue queue;
     ToastAdapter toastAdapter;
     GlideAdapter glideAdapter;
+    PreferencesAdapter preferencesAdapter;
 
-    String businessId, businessName;
-    double latitude, longitude;
-    float zoomLevel;
+    String businessId, businessName, businessDesc, businessSlogan, businessAddress;
+    double lat, lng;
     GoogleMap map;
 
     ViewPager viewPager;
@@ -92,10 +96,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
     String businessPhone, businessFb, businessIg, businessWa;
     boolean isRotate;
 
-    SharedPreferencesAdapter sharedPreferencesAdapter;
     String __message;
-
-    String currentDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,20 +107,22 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
         toastAdapter = new ToastAdapter(context);
         glideAdapter = new GlideAdapter(context);
-        sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
+        preferencesAdapter = new PreferencesAdapter(context);
         queue = Volley.newRequestQueue(context);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.businessMap);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        zoomLevel = 16.0f;
 
         viewPager = findViewById(R.id.pictures);
 
         final BusinessesModel business = (BusinessesModel) getIntent().getSerializableExtra("business");
         businessId = business.getId();
         businessName = business.getName();
+        businessDesc = business.getDesc();
+        businessSlogan = business.getSlogan();
         businessPhone = business.getPhone();
+        businessAddress = business.getAddress();
         businessFb = business.getFb();
         businessIg = business.getIg();
         businessWa = business.getWa();
@@ -127,18 +130,20 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         final TextView tittle = findViewById(R.id.tittle);
         final ImageView logo = findViewById(R.id.logo);
         final TextView description = findViewById(R.id.description);
+        final TextView address = findViewById(R.id.address);
 
         tittle.setText(businessName);
-        glideAdapter.setImage(logo, business.getLogo());
-        description.setText(business.getDescription());
+        glideAdapter.setImageCircle(logo, business.getLogo());
+        description.setText(businessDesc);
+        address.setText(businessAddress);
 
-        latitude = Double.parseDouble(business.getLatitude());
-        longitude = Double.parseDouble(business.getLongitude());
+        lat = business.getLat();
+        lng = business.getLng();
 
         try {
+            scheduleArray = new JSONArray(business.getSchedule());
             picturesArray = new JSONArray(business.getPictures());
             categoriesArray = new JSONArray(business.getCategories());
-            scheduleArray = new JSONArray(business.getSchedule());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -159,15 +164,15 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         getIconCategories();
         getSchedules();
         getProductsByBusiness(businessId);
-        getCommentsByEstablishment(businessId);
+        //getCommentsByEstablishment(businessId);
 
-        if (!sharedPreferencesAdapter.keyExists("cartId"))
-            createCart(sharedPreferencesAdapter.getUserId(), businessId);
+        if (!preferencesAdapter.keyExists("cartId"))
+            createCart(preferencesAdapter.getId(), businessId);
 
         findViewById(R.id.morePromotions).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, Products.class);
+                Intent intent = new Intent(context, Product.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("business", business);
                 startActivity(intent);
@@ -250,7 +255,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         try {
             for (int i = 0; i < categoriesArray.length(); i++) {
                 JSONObject jsonObject = categoriesArray.getJSONObject(i);
-                final CategoriesIconModel category = new CategoriesIconModel();
+                final CategoriesModelListIcon category = new CategoriesModelListIcon();
                 catId = jsonObject.getString("category");
                 String url = Network.ListCategories+catId;
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -287,24 +292,6 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
     }
 
     private void getSchedules() {
-        /*
-        Locale locale = context.getResources().getConfiguration().locale;
-
-        forceLocale(context, "en");
-
-        //LanguageHelper.setAppLocale(this, "en");
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE", Locale.forLanguageTag(locale.getLanguage()));
-        Date d = new Date();
-        currentDay = sdf.format(d);
-        toastAdapter.makeToast(R.drawable._fav, locale.getLanguage() + " " + currentDay);
-        days = new ArrayList<>();
-        for (int i = 0; i < days.size(); i ++) {
-            toastAdapter.makeToast(R.drawable._fav, days.get(i));
-        }
-        if (days.contains(currentDay)) {
-
-        }
-        */
         try {
             for (int i = 0; i < scheduleArray.length(); i++) {
                 JSONObject jsonObject = scheduleArray.getJSONObject(i);
@@ -337,30 +324,23 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
                 try {
                     String __message = response.getString("message");
                     if (__message.equals("Ok")) {
-                        if (response.getJSONArray("products").length() > 0) {
+                        if (response.getJSONArray("products").length() >= 4) {
                             JSONArray jsonArray = response.getJSONArray("products");
-                            for (int i = 0; i < 5; i++) {
+                            for (int i = 0; i <= 4; i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                                 ProductsModel product = new ProductsModel();
                                 product.setId(jsonObject.getString("_id"));
+                                product.setType(jsonObject.getString("type"));
                                 product.setName(jsonObject.getString("name"));
-                                product.setDescription(jsonObject.getString("description"));
-                                product.setAvailable(jsonObject.getString("available"));
+                                product.setDesc(jsonObject.getString("desc"));
+                                product.setPrice(jsonObject.getString("price"));
+                                product.setAvailable(jsonObject.getBoolean("available"));
                                 JSONArray jsonArrayPictures = jsonObject.getJSONArray("pictures");
-                                for (int j = 0 ; j <jsonArrayPictures.length(); j++ ) {
-                                    JSONObject jsonObjectPicture = jsonArrayPictures.getJSONObject(j);
-                                    product.setPicture(jsonObjectPicture.getString("picture"));
-                                }
+                                JSONObject jsonObjectPicture = jsonArrayPictures.getJSONObject(0);
+                                product.setPicture(jsonObjectPicture.getString("picture"));
                                 product.setPictures(jsonObject.getString("pictures"));
-                                JSONArray jsonArrayPrices = jsonObject.getJSONArray("prices");
-                                for (int j = 0 ; j <jsonArrayPrices.length(); j++ ) {
-                                    JSONObject jsonObjectPrice = jsonArrayPrices.getJSONObject(j);
-                                    product.setPrice(jsonObjectPrice.getString("price"));
-                                }
-                                product.setPrices(jsonObject.getString("prices"));
-                                product.setStatus(jsonObject.getString("status"));
-                                product.setCategories(jsonObject.getString("categories"));
-                                product.setIdBusiness(jsonObject.getString("idBusiness"));
+                                product.setTags(jsonObject.getString("tags"));
+                                product.setBusinessId(jsonObject.getString("businessId"));
                                 listProducts.add(product);
                             }
                             LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -371,8 +351,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
                             rvProducts.setAdapter(productsAdapter);
                         }
                     } else {
-                        toastAdapter.makeToast(R.drawable.__info, "No se encontraron productos para el negocio " + businessName);
-                        finish();
+                        findViewById(R.id.layoutProducts).setVisibility(View.GONE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -386,7 +365,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         });
         queue.add(request);
     }
-
+/*
     private void getCommentsByEstablishment(String businessId) {
         String url = Network.ListCommentsByBusiness+businessId;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -400,10 +379,10 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
                         comment.setId(jsonObject.getString("_id"));
                         comment.setComment(jsonObject.getString("comment"));
                         comment.setDate(jsonObject.getString("date"));
-                        comment.setIdUser(jsonObject.getString("idUser"));
-                        comment.setNameUser(jsonObject.getString("nameUser"));
-                        comment.setPictureUser(jsonObject.getString("pictureUser"));
-                        comment.setIdBusiness(jsonObject.getString("idBusiness"));
+                        comment.setUserId(jsonObject.getString("userId"));
+                        comment.setUserAlias(jsonObject.getString("userName"));
+                        comment.setUserPicture(jsonObject.getString("userPicture"));
+                        comment.setBusinessId(jsonObject.getString("businessId"));
                         listComments.add(comment);
                     }
                     LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -424,7 +403,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         });
         queue.add(request);
     }
-
+*/
     private void createCart(String userId, final String businessId) {
         String url = Network.Cart;
         JSONObject jsonParams = new JSONObject();
@@ -440,8 +419,8 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
                 try {
                     __message = response.getString("message");
                     if (__message.equals("Ok")) {
-                        sharedPreferencesAdapter.setCartId(response.getString("cart"));
-                        sharedPreferencesAdapter.setBusinessId(businessId);
+                        preferencesAdapter.setCartId(response.getString("cart"));
+                        preferencesAdapter.setBusinessId(businessId);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -463,31 +442,31 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
     }
 
     public void fbIntent() {
-        if (businessFb == null)
+        if (businessFb.equals(""))
             toastAdapter.makeToast(R.drawable.__warning, "Este negocio no ha vinculado aún su cuenta de Facebook");
         else {
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(businessFb)));
             } catch (Exception e) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://fb.com")));
+                toastAdapter.makeToast(R.drawable.__warning, "Este negocio no ha vinculado aún su cuenta de Facebook");
             }
         }
     }
 
     public void igIntent() {
-        if (businessIg == null)
+        if (businessIg.equals(""))
             toastAdapter.makeToast(R.drawable.__warning, "Este negocio no ha vinculado aún su cuenta de Instagram");
         else {
             try {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(businessIg)));
             } catch (ActivityNotFoundException ex) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com")));
+                toastAdapter.makeToast(R.drawable.__warning, "Este negocio no ha vinculado aún su cuenta de Instagram");
             }
         }
     }
 
     public void waIntent() {
-        if (businessWa == null)
+        if (businessWa.equals(""))
             toastAdapter.makeToast(R.drawable.__warning, "Este negocio no ha vinculado aún su cuenta de WhatsApp");
         else {
             try {
@@ -496,18 +475,22 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
                 sendMsg.setData(Uri.parse(businessWa));
                 startActivity(sendMsg);
             } catch (Exception e) {
-                e.printStackTrace();
+                toastAdapter.makeToast(R.drawable.__warning, "Este negocio no ha vinculado aún su cuenta de WhatsApp");
             }
         }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng loc = new LatLng(latitude, longitude);
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(loc).title(businessName));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, zoomLevel));
+        map = googleMap;
+        LatLng latLng = new LatLng(lat, lng);
+        map.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(businessName)
+                .snippet(businessSlogan)
+                .draggable(false));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, Network.ZOOM_LEVEL));
         googleMap.getUiSettings().setZoomControlsEnabled(true);
     }
 }

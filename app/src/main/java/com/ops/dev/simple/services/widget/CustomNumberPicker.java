@@ -15,7 +15,7 @@ public class CustomNumberPicker extends ConstraintLayout {
 
     private static final int DEFAULT_VALUE = 1;
     private static final int DEFAULT_MIN = 1;
-    private static final int DEFAULT_MAX = 100;
+    private static final int DEFAULT_MAX = 20;
     private int value = DEFAULT_VALUE;
     private int min = DEFAULT_MIN;
     private int max = DEFAULT_MAX;
@@ -40,7 +40,7 @@ public class CustomNumberPicker extends ConstraintLayout {
 
     private void init(Context context, AttributeSet attrs) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.____widget_number_picker, this);
+        inflater.inflate(R.layout.______widget_number_picker, this);
         findViewById(R.id.picker_button_down).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

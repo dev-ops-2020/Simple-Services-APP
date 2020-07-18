@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/colorPrimary">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/med_margin">
+
+        <TextView
+            style="@style/TextViewHeader"
+            android:text="@string/sign_up_business"/>
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--Personal Data-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/lay1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewHeader"
+                    android:text="@string/personal_data"/>
+                <!--Owner-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:id="@+id/owner"
+                    android:hint="@string/name">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputLayout"
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--Email-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:id="@+id/email"
+                    android:hint="@string/email">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputLayout"
+                        android:inputType="textEmailAddress"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--Password-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:id="@+id/pass"
+                    android:hint="@string/pass">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputLayout"
+                        android:inputType="textPassword"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    style="@style/Button"
+                    android:id="@+id/next1"
+                    android:text="@string/next"/>
+            </LinearLayout>
+            <!--Business Data (Logo)-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/lay2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewHeader"
+                    android:text="@string/business_data"/>
+                <!--Logo-->
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:text="@string/logo"/>
+                <ImageView
+                    android:id="@+id/businessLogo"
+                    android:layout_width="@dimen/big_icon_alt"
+                    android:layout_height="@dimen/big_icon_alt"
+                    android:layout_margin="@dimen/min_margin"
+                    android:layout_gravity="center"
+                    android:src="@drawable/_camera"/>
+                <!--Name-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:id="@+id/businessName"
+                    android:hint="Nombre Negocio">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputLayout"
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--Desc-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:id="@+id/businessDesc"
+                    android:hint="Descripción">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputLayout"
+                        android:inputType="textAutoCorrect"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--Slogan-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:id="@+id/businessSlogan"
+                    android:hint="@string/slogan">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputLayout"
+                        android:inputType="textAutoCorrect"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--Phone-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:id="@+id/businessPhone"
+                    android:hint="@string/phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputLayout"
+                        android:inputType="phone"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--Address-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:id="@+id/businessAddress"
+                    android:hint="@string/address">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputLayout"
+                        android:inputType="textAutoCorrect"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    style="@style/Button"
+                    android:id="@+id/next2"
+                    android:text="@string/next"/>
+            </LinearLayout>
+            <!--Business Data (Map)-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/lay3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:text="@string/select_map_location"/>
+
+                <fragment
+                    android:id="@+id/businessMap"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_height_big"
+                    android:layout_margin="@dimen/min_margin"/>
+
+                <Button
+                    style="@style/Button"
+                    android:id="@+id/next3"
+                    android:text="@string/next"/>
+            </LinearLayout>
+            <!--Business Data (Pictures)-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/lay4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:text="@string/business_photos"/>
+                <!--Pictures-->
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/picture1"
+                                android:layout_width="@dimen/big_icon_alt"
+                                android:layout_height="@dimen/big_icon_alt"
+                                android:layout_margin="@dimen/min_margin"
+                                android:layout_gravity="center"
+                                android:src="@drawable/_camera"/>
+
+                            <TextView
+                                style="@style/TextInputLayout"
+                                android:text="Foto 1"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/picture2"
+                                android:layout_width="@dimen/big_icon_alt"
+                                android:layout_height="@dimen/big_icon_alt"
+                                android:layout_margin="@dimen/min_margin"
+                                android:layout_gravity="center"
+                                android:src="@drawable/_camera"/>
+
+                            <TextView
+                                style="@style/TextInputLayout"
+                                android:text="Foto 2"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/picture3"
+                                android:layout_width="@dimen/big_icon_alt"
+                                android:layout_height="@dimen/big_icon_alt"
+                                android:layout_margin="@dimen/min_margin"
+                                android:layout_gravity="center"
+                                android:src="@drawable/_camera"/>
+
+                            <TextView
+                                style="@style/TextInputLayout"
+                                android:text="Foto 3"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <Button
+                    style="@style/Button"
+                    android:id="@+id/next4"
+                    android:text="@string/next"/>
+            </LinearLayout>
+            <!--Business Data (Schedule)-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/lay5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:text="@string/schedules"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <!--Day 1-->
+                    <TextView
+                        style="@style/TextInputLayout"
+                        android:text="@string/day1"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputLayout"
+                        android:id="@+id/day1"
+                        android:hint="@string/example_schedule_1">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/TextInputLayout"
+                            android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--Day 2-->
+                    <TextView
+                        style="@style/TextInputLayout"
+                        android:text="@string/day2"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputLayout"
+                        android:id="@+id/day2"
+                        android:hint="@string/example_schedule_2">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/TextInputLayout"
+                            android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--Day 3-->
+                    <TextView
+                        style="@style/TextInputLayout"
+                        android:text="@string/day2"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputLayout"
+                        android:id="@+id/day3"
+                        android:hint="@string/example_schedule_3">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/TextInputLayout"
+                            android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--Day 4-->
+                    <TextView
+                        style="@style/TextInputLayout"
+                        android:text="@string/day4"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputLayout"
+                        android:id="@+id/day4"
+                        android:hint="@string/example_schedule_4">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/TextInputLayout"
+                            android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--Day 5-->
+                    <TextView
+                        style="@style/TextInputLayout"
+                        android:text="@string/day5"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputLayout"
+                        android:id="@+id/day5"
+                        android:hint="@string/example_schedule_5">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/TextInputLayout"
+                            android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--Day 6-->
+                    <TextView
+                        style="@style/TextInputLayout"
+                        android:text="@string/day6"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputLayout"
+                        android:id="@+id/day6"
+                        android:hint="@string/example_schedule_6">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/TextInputLayout"
+                            android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--Day 7-->
+                    <TextView
+                        style="@style/TextInputLayout"
+                        android:text="@string/day7"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputLayout"
+                        android:id="@+id/day7"
+                        android:hint="@string/example_schedule_7">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/TextInputLayout"
+                            android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <Button
+                    style="@style/Button"
+                    android:id="@+id/next5"
+                    android:text="@string/next"/>
+            </LinearLayout>
+            <!--Business Data (Networks)-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/lay6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:text="@string/business_networks"/>
+
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:text="(Debes colocar la URL de tu perfil, si no sabes cómo déjalo así y envía un correo a simple.services.sv@gmail.com, desde el correo que indicaste anteriormente y te ayudaremos)"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <!--Fb-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputLayout"
+                        android:id="@+id/fb"
+                        android:hint="@string/fb">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/TextInputLayout"
+                            android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--Ig-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputLayout"
+                        android:id="@+id/ig"
+                        android:hint="@string/ig">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/TextInputLayout"
+                            android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--Wa-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/TextInputLayout"
+                        android:id="@+id/wa"
+                        android:hint="@string/wa">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/TextInputLayout"
+                            android:inputType="textPersonName"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <Button
+                    style="@style/Button"
+                    android:id="@+id/next6"
+                    android:text="@string/next"/>
+            </LinearLayout>
+            <!--Business Data (Categories)-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/lay7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:text="@string/business_categories"/>
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_height_big"
+                    android:clipToPadding="true">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvCategories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </androidx.core.widget.NestedScrollView>
+
+                <Button
+                    style="@style/Button"
+                    android:id="@+id/next7"
+                    android:text="@string/next"/>
+            </LinearLayout>
+            <!--Terms & SingUp-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/lay8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewSubHeader"
+                    android:text="@string/accept_terms"/>
+
+                <LinearLayout
+                    android:layout_margin="@dimen/med_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <CheckBox
+                        style="@style/TextView"
+                        android:id="@+id/accept"
+                        android:layout_gravity="center"
+                        android:checked="false"/>
+
+                    <TextView
+                        style="@style/TextInputLayout"
+                        android:id="@+id/terms"
+                        android:text="@string/terms"/>
+                </LinearLayout>
+
+                <Button
+                    style="@style/Button"
+                    android:id="@+id/signUp"
+                    android:text="@string/signUp"/>
+            </LinearLayout>
+            <!--SingIn-->
+            <LinearLayout
+                android:layout_margin="@dimen/med_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:id="@+id/signIn"
+                    android:text="@string/already_account"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

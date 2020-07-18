@@ -51,7 +51,7 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/pictures"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/card_height_big"
+                android:layout_height="@dimen/card_height_med"
                 android:background="@color/colorPrimaryDark"/>
             <!--Description-->
             <LinearLayout
@@ -60,12 +60,13 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextViewDefault"
+                    style="@style/TextView"
+                    android:textStyle="bold"
                     android:text="@string/description"/>
 
                 <TextView
                     android:id="@+id/description"
-                    style="@style/TextViewDefault"
+                    style="@style/TextView"
                     android:layout_gravity="center"/>
             </LinearLayout>
             <!--Categories-->
@@ -75,7 +76,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextViewDefault"
+                    style="@style/TextView"
+                    android:textStyle="bold"
                     android:text="Categorías:"/>
 
                 <androidx.core.widget.NestedScrollView
@@ -86,8 +88,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvCategories"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/min_margin"/>
+                        android:layout_height="match_parent"/>
                 </androidx.core.widget.NestedScrollView>
             </LinearLayout>
             <!--Schedule-->
@@ -97,7 +98,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextViewDefault"
+                    style="@style/TextView"
+                    android:textStyle="bold"
                     android:text="Horarios:"/>
 
                 <androidx.core.widget.NestedScrollView
@@ -108,19 +110,20 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvSchedules"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/min_margin"/>
+                        android:layout_height="match_parent"/>
                 </androidx.core.widget.NestedScrollView>
             </LinearLayout>
-            <!--Products-->
+            <!--Product-->
             <LinearLayout
+                android:id="@+id/layoutProducts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextViewDefault"
-                    android:text="Productos:"/>
+                    style="@style/TextView"
+                    android:textStyle="bold"
+                    android:text="Productos y Servicios:"/>
 
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
@@ -130,13 +133,13 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvProducts"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/min_margin"/>
+                        android:layout_height="match_parent"/>
                 </androidx.core.widget.NestedScrollView>
 
                 <TextView
-                    style="@style/TextViewDefault"
+                    style="@style/TextView"
                     android:id="@+id/morePromotions"
+                    android:textStyle="bold"
                     android:text="Ver más productos..."
                     android:layout_gravity="end"/>
             </LinearLayout>
@@ -147,8 +150,14 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextViewDefault"
+                    style="@style/TextView"
+                    android:textStyle="bold"
                     android:text="Ubicación:"/>
+
+                <TextView
+                    android:id="@+id/address"
+                    style="@style/TextView"
+                    android:layout_gravity="center"/>
 
                 <fragment
                     android:id="@+id/businessMap"
@@ -159,12 +168,13 @@
             </LinearLayout>
             <!--Comments-->
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextViewDefault"
+                    style="@style/TextView"
                     android:text="Últimos Comentarios:"/>
 
                 <androidx.core.widget.NestedScrollView
@@ -175,8 +185,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvComments"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/min_margin"/>
+                        android:layout_height="match_parent"/>
                 </androidx.core.widget.NestedScrollView>
             </LinearLayout>
         </LinearLayout>

@@ -10,8 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.models.CommentsModel;
 
@@ -46,9 +44,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         TextView date = holder.date;
         TextView user = holder.user;
         TextView commentary = holder.comment;
-        glideAdapter.setImage(picture, comment.getPictureUser());
+        glideAdapter.setImageCircle(picture, comment.getUserPicture());
         date.setText(comment.getDate());
-        user.setText(comment.getNameUser());
+        user.setText(comment.getUserAlias());
         commentary.setText(comment.getComment());
     }
 

@@ -18,10 +18,51 @@
             android:id="@+id/picture"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="16:9"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/delivery"
+            android:layout_width="@dimen/med_icon"
+            android:layout_height="@dimen/med_icon"
+            android:layout_margin="@dimen/min_margin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/_delivery"/>
+
+        <ImageView
+            android:id="@+id/score"
+            android:layout_width="@dimen/med_icon"
+            android:layout_height="@dimen/med_icon"
+            android:layout_margin="@dimen/min_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/main"
+            android:src="@drawable/_star"/>
+
+        <TextView
+            style="@style/TextView"
+            android:id="@+id/type"
+            android:textColor="@color/colorPrimary"
+            android:padding="@dimen/min_margin"
+            android:layout_margin="@dimen/min_margin"
+            android:background="@drawable/border_type"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            style="@style/TextView"
+            android:id="@+id/dist"
+            android:textColor="@color/colorPrimary"
+            android:padding="@dimen/min_margin"
+            android:layout_margin="@dimen/min_margin"
+            android:background="@drawable/border_tag"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/main"/>
 
         <RelativeLayout
             android:id="@+id/main"
@@ -48,6 +89,7 @@
 
                 <TextView
                     style="@style/TextInputLayout"
+                    android:textStyle="bold"
                     android:id="@+id/name"/>
 
                 <TextView

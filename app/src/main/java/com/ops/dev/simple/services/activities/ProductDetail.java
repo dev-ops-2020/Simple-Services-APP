@@ -1,23 +1,15 @@
 package com.ops.dev.simple.services.activities;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -37,11 +29,12 @@ import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.CategoriesIconAdapter;
 import com.ops.dev.simple.services.adapters.GlideAdapter;
 import com.ops.dev.simple.services.adapters.PicturesPagerAdapter;
-import com.ops.dev.simple.services.adapters.SharedPreferencesAdapter;
+import com.ops.dev.simple.services.adapters.PreferencesAdapter;
+import com.ops.dev.simple.services.adapters.TagsAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
-import com.ops.dev.simple.services.models.BusinessesModel;
-import com.ops.dev.simple.services.models.CategoriesIconModel;
+import com.ops.dev.simple.services.models.CategoriesModelListIcon;
 import com.ops.dev.simple.services.models.ProductsModel;
+import com.ops.dev.simple.services.models.TagsModel;
 import com.ops.dev.simple.services.widget.CustomNumberPicker;
 
 import org.json.JSONArray;
@@ -51,14 +44,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class ProductDetail extends AppCompatActivity {
 
     //Vars
-    RecyclerView rvCategories;
-    List<CategoriesIconModel> listCategories;
-    CategoriesIconAdapter categoriesIconAdapter;
     Context context;
     RequestQueue queue;
     ToastAdapter toastAdapter;
@@ -73,9 +62,13 @@ public class ProductDetail extends AppCompatActivity {
 
     String catId, catName;
 
-    JSONArray picturesArray, categoriesArray;
+    JSONArray picturesArray, tagsArray;
 
-    SharedPreferencesAdapter sharedPreferencesAdapter;
+    RecyclerView rvTags;
+    List<TagsModel> listTags;
+    TagsAdapter tagsAdapter;
+
+    PreferencesAdapter preferencesAdapter;
     String __message;
 
     View layout;
@@ -91,7 +84,7 @@ public class ProductDetail extends AppCompatActivity {
 
         toastAdapter = new ToastAdapter(context);
         glideAdapter = new GlideAdapter(context);
-        sharedPreferencesAdapter = new SharedPreferencesAdapter(context);
+        preferencesAdapter = new PreferencesAdapter(context);
         queue = Volley.newRequestQueue(context);
 
         viewPager = findViewById(R.id.pictures);
@@ -102,8 +95,8 @@ public class ProductDetail extends AppCompatActivity {
         productId = product.getId();
         productName = product.getName();
         productPrice = product.getPrice();
-        productDescription = product.getDescription();
-        productBusinessId = product.getIdBusiness();
+        productDescription = product.getDesc();
+        productBusinessId = product.getBusinessId();
 
         final TextView tittle = findViewById(R.id.tittle);
         final TextView description = findViewById(R.id.description);
@@ -116,16 +109,17 @@ public class ProductDetail extends AppCompatActivity {
 
         try {
             picturesArray = new JSONArray(product.getPictures());
-            categoriesArray = new JSONArray(product.getCategories());
+            tagsArray = new JSONArray(product.getTags());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        rvCategories = findViewById(R.id.rvCategories);
-        listCategories = new ArrayList<>();
-
         getPictures();
-        getIconCategories();
+
+        rvTags = findViewById(R.id.rvTags);
+        listTags = new ArrayList<>();
+
+        getTags();
 
         picker.setOnValueChangedListener(new CustomNumberPicker.OnValueChangedListener() {
             @Override
@@ -138,7 +132,7 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int value = picker.getValue();
-                updateCart(sharedPreferencesAdapter.getCartId(), product.getIdBusiness(), productId, value);
+                updateCart(preferencesAdapter.getCartId(), preferencesAdapter.getId() ,product.getBusinessId(), productId, value);
             }
         });
     }
@@ -158,41 +152,20 @@ public class ProductDetail extends AppCompatActivity {
         }
     }
 
-    private void getIconCategories() {
+    private void getTags() {
         try {
-            for (int i = 0; i < categoriesArray.length(); i++) {
-                JSONObject jsonObject = categoriesArray.getJSONObject(i);
-                final CategoriesIconModel category = new CategoriesIconModel();
-                catId = jsonObject.getString("category");
-                String url = Network.ListCategories+catId;
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONObject jsonObject = response.getJSONObject("category");
-                            category.setId(jsonObject.getString("_id"));
-                            category.setName(jsonObject.getString("name"));
-                            int icon = context.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", context.getPackageName());
-                            category.setIcon(icon);
-                            listCategories.add(category);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-                        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-                        rvCategories.setLayoutManager(layoutManager);
-                        rvCategories.setHasFixedSize(true);
-                        categoriesIconAdapter = new CategoriesIconAdapter(context, listCategories);
-                        rvCategories.setAdapter(categoriesIconAdapter);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-                queue.add(request);
+            for (int i = 0; i < tagsArray.length(); i++) {
+                JSONObject jsonObject = tagsArray.getJSONObject(i);
+                TagsModel tag = new TagsModel();
+                tag.setName(jsonObject.getString("tag"));
+                listTags.add(tag);
             }
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+            layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+            rvTags.setLayoutManager(layoutManager);
+            rvTags.setHasFixedSize(true);
+            tagsAdapter = new TagsAdapter(context, listTags);
+            rvTags.setAdapter(tagsAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -219,8 +192,8 @@ public class ProductDetail extends AppCompatActivity {
                 try {
                     __message = response.getString("message");
                     if (__message.equals("Ok")) {
-                        sharedPreferencesAdapter.setCartId(response.getString("cart"));
-                        sharedPreferencesAdapter.setBusinessId(businessId);
+                        preferencesAdapter.setCartId(response.getString("cart"));
+                        preferencesAdapter.setBusinessId(businessId);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -235,8 +208,8 @@ public class ProductDetail extends AppCompatActivity {
         queue.add(request);
     }
 
-    private void updateCart(String cartId, String businessId, String productId, int qty) {
-        String url = Network.Cart+cartId+"/"+businessId;
+    private void updateCart(String cartId, String userId, String businessId, String productId, int qty) {
+        String url = Network.Cart+cartId+"/"+userId+"/"+businessId;
         JSONObject jsonParams = new JSONObject();
         try {
             jsonParams.put("productId", productId);
@@ -254,6 +227,29 @@ public class ProductDetail extends AppCompatActivity {
                     final int actionTextColor = ContextCompat.getColor(context, R.color.colorAccent);
                     Handler h = new Handler();
                     switch (__message) {
+                        case "Wrong user":
+                            builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Esto no debería haber pasado");
+                            builder.setMessage("Hemos confundido un poco las cosas y este es el carrito de alguien más 😕");
+                            builder.setPositiveButton("Crear carrito nuevo (solo para mí 😎)", null);
+                            alertDialog = builder.create();
+                            alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                                @Override
+                                public void onShow(DialogInterface dialogInterface) {
+                                    Button btnOk = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                                    btnOk.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            deleteCart(preferencesAdapter.getCartId());
+                                            alertDialog.dismiss();
+                                        }
+                                    });
+                                }
+                            });
+                            alertDialog.setCancelable(false);
+                            alertDialog.setCanceledOnTouchOutside(false);
+                            alertDialog.show();
+                            break;
                         case "Wrong business":
                             builder = new AlertDialog.Builder(context);
                             builder.setTitle("¡Vaya! Nos hemos topado con una barricada...");
@@ -269,24 +265,13 @@ public class ProductDetail extends AppCompatActivity {
                                     btnCancel.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Handler h = new Handler();
-                                            h.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    finish();
-                                                    Intent intent = new Intent(context, MainMenu.class);
-                                                    intent.putExtra("screen", R.id.cart);
-                                                    intent.putExtra("number", 3);
-                                                    startActivity(intent);
-                                                }
-                                            }, 1000);
                                             alertDialog.dismiss();
                                         }
                                     });
                                     btnOk.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            deleteCart(sharedPreferencesAdapter.getCartId());
+                                            deleteCart(preferencesAdapter.getCartId());
                                             alertDialog.dismiss();
                                         }
                                     });
@@ -302,7 +287,15 @@ public class ProductDetail extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     Snackbar.make(layout, message, Snackbar.LENGTH_LONG)
-                                            .setAction(R.string.go_to_cart, snackBarClickListener())
+                                            .setAction(R.string.go_to_cart, new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Intent intent = new Intent(context, MainMenuUser.class);
+                                                    intent.putExtra("screen", R.id.cart);
+                                                    intent.putExtra("number", 3);
+                                                    startActivity(intent);
+                                                }
+                                            })
                                             .setActionTextColor(actionTextColor)
                                             .show();
                                 }
@@ -314,7 +307,15 @@ public class ProductDetail extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     Snackbar.make(layout, message, Snackbar.LENGTH_LONG)
-                                            .setAction(R.string.go_to_cart, snackBarClickListener())
+                                            .setAction(R.string.go_to_cart, new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Intent intent = new Intent(context, MainMenuUser.class);
+                                                    intent.putExtra("screen", R.id.cart);
+                                                    intent.putExtra("number", 3);
+                                                    startActivity(intent);
+                                                }
+                                            })
                                             .setActionTextColor(actionTextColor)
                                             .show();
                                 }
@@ -352,13 +353,13 @@ public class ProductDetail extends AppCompatActivity {
                             break;
                         case "Ok":
                             toastAdapter.makeToast(R.drawable.__warning, "Carrito eliminado, creando nuevo carrito... Por favor agrega tu producto nuevamente");
-                            sharedPreferencesAdapter.deleteCartId();
-                            sharedPreferencesAdapter.deleteBusinessId();
+                            preferencesAdapter.deleteCartId();
+                            preferencesAdapter.deleteBusinessId();
                             Handler h = new Handler();
                             h.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    createCart(sharedPreferencesAdapter.getUserId(), productBusinessId);
+                                    createCart(preferencesAdapter.getId(), productBusinessId);
                                 }
                             }, 1000);
                             break;
@@ -374,24 +375,5 @@ public class ProductDetail extends AppCompatActivity {
             }
         });
         queue.add(request);
-    }
-
-    private View.OnClickListener snackBarClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Handler h = new Handler();
-                h.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        finish();
-                        Intent intent = new Intent(context, MainMenu.class);
-                        intent.putExtra("screen", R.id.cart);
-                        intent.putExtra("number", 3);
-                        startActivity(intent);
-                    }
-                }, 1000);
-            }
-        };
     }
 }

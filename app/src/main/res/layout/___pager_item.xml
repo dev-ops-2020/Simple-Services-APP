@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/min_margin"
     card_view:cardCornerRadius="@dimen/med_margin"
-    card_view:cardElevation="0dp"
+    card_view:cardElevation="@dimen/min_margin"
     card_view:cardBackgroundColor="@color/colorPrimary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,14 +18,14 @@
             android:id="@+id/picture"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintDimensionRatio="16:9"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        style="@style/TextViewDefault"
+        style="@style/TextView"
         android:id="@+id/counter"
         android:layout_margin="@dimen/med_margin"
         android:layout_gravity="bottom|end"

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/med_icon"
+            android:layout_height="@dimen/med_icon"
+            android:layout_margin="@dimen/min_margin"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            style="@style/TextViewHeader"
+            android:id="@+id/alias"
+            android:layout_toStartOf="@id/settings"
+            android:layout_toEndOf="@id/icon"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/settings"
+            android:layout_alignParentEnd="true"
+            android:layout_width="@dimen/med_icon"
+            android:layout_height="@dimen/med_icon"
+            android:layout_margin="@dimen/min_margin"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/_settings"/>
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:visibility="invisible"
+        android:layout_below="@+id/header"
+        android:id="@+id/pictures"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/min_margin"
+        card_view:cardCornerRadius="@dimen/med_margin"
+        card_view:cardElevation="0dp"
+        card_view:cardBackgroundColor="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="10"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:id="@+id/picture"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/big_icon_alt"
+                android:layout_margin="@dimen/min_margin"
+                android:layout_weight="5"/>
+
+            <View
+                style="@style/ViewLine"
+                android:layout_margin="@dimen/min_margin"
+                android:layout_width="@dimen/med_divider"
+                android:layout_height="match_parent"/>
+
+            <ImageView
+                android:id="@+id/qrCode"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/big_icon_alt"
+                android:layout_margin="@dimen/min_margin"
+                android:layout_weight="5"
+                android:src="@drawable/_qr_code"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:visibility="invisible"
+        android:layout_below="@+id/pictures"
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/min_margin">
+
+        <View
+            style="@style/ViewLine"/>
+
+        <TextView
+            style="@style/TextInputLayout"
+            android:id="@+id/name"/>
+
+        <TextView
+            style="@style/TextInputLayout"
+            android:id="@+id/phone"/>
+
+        <TextView
+            style="@style/TextInputLayout"
+            android:id="@+id/email"/>
+
+        <View
+            style="@style/ViewLine"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="invisible"
+        android:layout_below="@+id/info"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/min_margin">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    style="@style/ViewLine"/>
+
+                <Button
+                    android:id="@+id/btnMyPoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableStart="@drawable/_next"
+                    android:text="Mis Puntos"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+
+                <Button
+                    android:id="@+id/btnMyVouchers"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableStart="@drawable/_next"
+                    android:text="Mis Cupones"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+
+                <Button
+                    android:id="@+id/btnMyLocations"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableStart="@drawable/_next"
+                    android:text="Mis Direcciones"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+
+                <Button
+                    android:id="@+id/btnMyFavorites"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableStart="@drawable/_next"
+                    android:text="Mis Favoritos"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+
+                <Button
+                    android:id="@+id/btnMyActivities"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableStart="@drawable/_next"
+                    android:text="Compras | Órdenes | Carrito"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+
+                <Button
+                    android:id="@+id/btnLogOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableStart="@drawable/_next"
+                    android:text="Salir"
+                    android:textColor="@color/white"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+                <View
+                    style="@style/ViewLine"/>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</RelativeLayout>

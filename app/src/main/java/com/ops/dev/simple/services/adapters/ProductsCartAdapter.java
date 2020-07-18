@@ -1,20 +1,16 @@
 package com.ops.dev.simple.services.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
-import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -23,53 +19,51 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.google.android.material.snackbar.Snackbar;
 import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
-import com.ops.dev.simple.services.activities.MainMenu;
-import com.ops.dev.simple.services.models.ProductsCartModel;
+import com.ops.dev.simple.services.activities.fragments.Cart;
+import com.ops.dev.simple.services.activities.fragments.Catalog;
+import com.ops.dev.simple.services.models.CartsModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ProductsCartAdapter extends RecyclerView.Adapter<ProductsCartAdapter.ViewHolder>{
 
     private Context mContext;
-    private List<ProductsCartModel> mData;
-    private String cartId, businessId;
-    private ToastAdapter toastAdapter;
+    private List<CartsModel> mData;
+    private String cartId, userId, businessId;
     private GlideAdapter glideAdapter;
     private RequestQueue queue;
+    private Cart cart;
 
-    public ProductsCartAdapter(Context mContext, List<ProductsCartModel> mData, String cartId, String businessId) {
+    public ProductsCartAdapter(Context mContext, List<CartsModel> mData, String cartId, String userId, String businessId) {
         this.mContext = mContext;
         this.mData = mData;
+        this.userId = userId;
         this.cartId = cartId;
         this.businessId = businessId;
-        notifyDataSetChanged();
+        cart = (Cart) Cart.cart;
+        cart.getFragmentManager().findFragmentByTag("cart");
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, final int pos) {
         final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.__card_products_cart, viewGroup, false);
         final ViewHolder vh = new ViewHolder(view);
 
-        toastAdapter = new ToastAdapter(mContext);
         glideAdapter = new GlideAdapter(mContext);
         queue = Volley.newRequestQueue(mContext);
-
-        getTotal();
 
         return vh;
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        ProductsCartModel product = mData.get(position);
+        final CartsModel product = mData.get(position);
         ImageView picture = holder.picture;
         TextView name = holder.name;
         TextView description = holder.description;
@@ -79,7 +73,7 @@ public class ProductsCartAdapter extends RecyclerView.Adapter<ProductsCartAdapte
         final ImageView subtract = holder.subtract;
         final ImageView add = holder.add;
 
-        glideAdapter.setImage(picture, product.getPicture());
+        glideAdapter.setImageDefault(picture, product.getPicture());
         name.setText(product.getName());
         description.setText(product.getDescription());
         price.setText(product.getPrice());
@@ -92,6 +86,7 @@ public class ProductsCartAdapter extends RecyclerView.Adapter<ProductsCartAdapte
                 subtract(position);
                 holder.subtotal.setText(String.valueOf(getSubTotal(position)));
                 holder.qty.setText(String.valueOf(mData.get(position).getQuantity()));
+                refreshFragment();
             }
         });
         add.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +94,7 @@ public class ProductsCartAdapter extends RecyclerView.Adapter<ProductsCartAdapte
             public void onClick(View v) {
                 add(position);
                 holder.subtotal.setText(String.valueOf(getSubTotal(position)));
-                holder.qty.setText(String.valueOf(mData.get(position).getQuantity()));
+                refreshFragment();
             }
         });
     }
@@ -133,7 +128,7 @@ public class ProductsCartAdapter extends RecyclerView.Adapter<ProductsCartAdapte
         if (res < 1)
             res = 1;
         mData.get(pos).setQuantity(res);
-        updateCart(cartId, businessId, mData.get(pos).getId(), mData.get(pos).getQuantity());
+        updateCart(cartId, userId, businessId, mData.get(pos).getId(), mData.get(pos).getQuantity());
     }
 
     public void add (final int pos) {
@@ -142,11 +137,11 @@ public class ProductsCartAdapter extends RecyclerView.Adapter<ProductsCartAdapte
         if (res > 20)
             res = 20;
         mData.get(pos).setQuantity(res);
-        updateCart(cartId, businessId, mData.get(pos).getId(), mData.get(pos).getQuantity());
+        updateCart(cartId, userId, businessId, mData.get(pos).getId(), mData.get(pos).getQuantity());
     }
 
-    private void updateCart(final String cartId, final String businessId, final String productId, int qty) {
-        String url = Network.Cart+cartId+"/"+businessId;
+    private void updateCart(String cartId, String userId, String businessId, String productId, int qty) {
+        String url = Network.Cart+cartId+"/"+userId+"/"+businessId;
         JSONObject jsonParams = new JSONObject();
         try {
             jsonParams.put("productId", productId);
@@ -157,7 +152,7 @@ public class ProductsCartAdapter extends RecyclerView.Adapter<ProductsCartAdapte
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonParams, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                notifyDataSetChanged();
+                refreshFragment();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -178,5 +173,9 @@ public class ProductsCartAdapter extends RecyclerView.Adapter<ProductsCartAdapte
             totalPrice += Double.parseDouble(mData.get(i).getPrice()) * mData.get(i).getQuantity();
         }
         return totalPrice;
+    }
+
+    private void refreshFragment() {
+        cart.refreshFragment();
     }
 }

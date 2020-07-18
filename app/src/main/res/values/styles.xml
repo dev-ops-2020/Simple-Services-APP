@@ -1,5 +1,4 @@
 <resources>
-
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -10,9 +9,10 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:textViewStyle">@style/TextViewDefault</item>
-        <item name="android:editTextStyle">@style/EditTextDefault</item>
-        <item name="android:button">@style/ButtonDefault</item>
+        <item name="android:button">@style/Button</item>
+        <item name="android:textViewStyle">@style/TextView</item>
+        <item name="android:editTextStyle">@style/EditText</item>
+        <item name="android:alertDialogTheme">@style/Dialog</item>
     </style>
 
     <style name="ViewLine">
@@ -22,11 +22,12 @@
         <item name="android:background">@color/colorAccent</item>
     </style>
 
-    <style name="TextViewDefault">
+    <style name="TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/min_margin</item>
         <item name="android:layout_marginEnd">@dimen/min_margin</item>
+        <item name="android:fontFamily">@font/comfortaa</item>
         <item name="android:textSize">@dimen/med_font</item>
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textColorHint">@color/colorAccent</item>
@@ -34,10 +35,9 @@
         <item name="colorControlNormal">@color/colorAccent</item>
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/comfortaa</item>
     </style>
 
-    <style name="TextInputLayout" parent="TextViewDefault">
+    <style name="TextInputLayout" parent="TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
@@ -58,7 +58,7 @@
         <item name="android:textStyle">italic</item>
     </style>
 
-    <style name="EditTextDefault">
+    <style name="EditText">
         <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="colorControlActivated">@color/colorPrimaryDark</item>
         <item name="android:textSize">@dimen/med_font</item>
@@ -66,7 +66,7 @@
         <item name="android:textColorHighlight">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="ButtonDefault">
+    <style name="Button">
         <item name="android:background">@drawable/border_buttons_enable</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -79,5 +79,49 @@
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textColorHighlight">@color/colorPrimaryDark</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="RadioButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">@dimen/min_margin</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/med_margin</item>
+        <item name="android:textSize">@dimen/med_font</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="CheckBox">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/min_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:padding">@dimen/med_margin</item>
+        <item name="android:textSize">@dimen/med_font</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="Dialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <!--
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        -->
+        <item name="android:background">@drawable/border_dialog</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowMinWidthMinor">100%</item>
+
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
     </style>
 </resources>

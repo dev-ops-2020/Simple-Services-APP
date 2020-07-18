@@ -24,7 +24,7 @@
     <dimen name="big_font_alt">25sp</dimen>
 
     <dimen name="main_margin_top">90dp</dimen>
-    <dimen name="main_margin_bottom">40dp</dimen>
+    <dimen name="main_margin_bottom">60dp</dimen>
 
 
     <dimen name="appintro_statusbar_height">24dp</dimen>

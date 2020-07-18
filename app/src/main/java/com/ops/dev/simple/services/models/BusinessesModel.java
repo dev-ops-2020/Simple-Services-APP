@@ -5,49 +5,56 @@ import java.io.Serializable;
 public class BusinessesModel implements Serializable {
 
     private String id;
-    private String name;
-    private String description;
-    private String slogan;
+    // Owner info
     private String owner;
-    private String score;
-    private String status;
+    private String email;
+    // Business info
+    private String type;
     private String logo;
-    private String picture;
-    private String pictures;
+    private String name;
+    private String desc;
+    private String slogan;
     private String phone;
+    private String address;
+    private double lat;
+    private double lng;
+    private double dist;
     private String fb;
     private String ig;
     private String wa;
+    private boolean delivery;
     private String schedule;
     private String categories;
-    private String latitude;
-    private String longitude;
-    private String idMembership;
+    private String picture;
+    private String pictures;
+    private String membershipId;
 
     public BusinessesModel() {
 
     }
 
-    public BusinessesModel(String id, String name, String description, String slogan, String owner, String score, String status, String logo, String picture, String pictures, String phone, String fb, String ig, String wa, String schedule, String categories, String latitude, String longitude, String idMembership) {
+    public BusinessesModel(String id, String owner, String email, String type, String logo, String name, String desc, String slogan, String phone, String address, double lat, double lng, double dist, String fb, String ig, String wa, boolean delivery, String schedule, String categories, String picture, String pictures, String membershipId) {
         this.id = id;
-        this.name = name;
-        this.description = description;
-        this.slogan = slogan;
         this.owner = owner;
-        this.score = score;
-        this.status = status;
+        this.email = email;
+        this.type = type;
         this.logo = logo;
-        this.picture = picture;
-        this.pictures = pictures;
+        this.name = name;
+        this.desc = desc;
+        this.slogan = slogan;
         this.phone = phone;
+        this.address = address;
+        this.lat = lat;
+        this.dist = dist;
         this.fb = fb;
         this.ig = ig;
         this.wa = wa;
+        this.delivery = delivery;
         this.schedule = schedule;
         this.categories = categories;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.idMembership = idMembership;
+        this.picture = picture;
+        this.pictures = pictures;
+        this.membershipId = membershipId;
     }
 
     public String getId() {
@@ -58,30 +65,6 @@ public class BusinessesModel implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getSlogan() {
-        return slogan;
-    }
-
-    public void setSlogan(String slogan) {
-        this.slogan = slogan;
-    }
-
     public String getOwner() {
         return owner;
     }
@@ -90,20 +73,20 @@ public class BusinessesModel implements Serializable {
         this.owner = owner;
     }
 
-    public String getScore() {
-        return score;
+    public String getEmail() {
+        return email;
     }
 
-    public void setScore(String score) {
-        this.score = score;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getStatus() {
-        return status;
+    public String getType() {
+        return type;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getLogo() {
@@ -114,20 +97,28 @@ public class BusinessesModel implements Serializable {
         this.logo = logo;
     }
 
-    public String getPicture() {
-        return picture;
+    public String getName() {
+        return name;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPictures() {
-        return pictures;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setPictures(String pictures) {
-        this.pictures = pictures;
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getSlogan() {
+        return slogan;
+    }
+
+    public void setSlogan(String slogan) {
+        this.slogan = slogan;
     }
 
     public String getPhone() {
@@ -136,6 +127,38 @@ public class BusinessesModel implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public double getDist() {
+        return dist;
+    }
+
+    public void setDist(double dist) {
+        this.dist = dist;
     }
 
     public String getFb() {
@@ -162,6 +185,14 @@ public class BusinessesModel implements Serializable {
         this.wa = wa;
     }
 
+    public boolean getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(boolean delivery) {
+        this.delivery = delivery;
+    }
+
     public String getSchedule() {
         return schedule;
     }
@@ -178,27 +209,27 @@ public class BusinessesModel implements Serializable {
         this.categories = categories;
     }
 
-    public String getLatitude() {
-        return latitude;
+    public String getPicture() {
+        return picture;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
-    public String getLongitude() {
-        return longitude;
+    public String getPictures() {
+        return pictures;
     }
 
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setPictures(String pictures) {
+        this.pictures = pictures;
     }
 
-    public String getIdMembership() {
-        return idMembership;
+    public String getMembershipId() {
+        return membershipId;
     }
 
-    public void setIdMembership(String idMembership) {
-        this.idMembership = idMembership;
+    public void setMembershipId(String membershipId) {
+        this.membershipId = membershipId;
     }
 }

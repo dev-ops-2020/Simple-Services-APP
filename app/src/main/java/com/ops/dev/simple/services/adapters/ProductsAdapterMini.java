@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.activities.ProductDetail;
 import com.ops.dev.simple.services.models.ProductsModel;
@@ -40,16 +39,15 @@ public class ProductsAdapterMini extends RecyclerView.Adapter<ProductsAdapterMin
             public void onClick(View v) {
                 ProductsModel product = new ProductsModel(
                         mData.get(vh.getAdapterPosition()).getId(),
+                        mData.get(vh.getAdapterPosition()).getType(),
                         mData.get(vh.getAdapterPosition()).getName(),
-                        mData.get(vh.getAdapterPosition()).getDescription(),
-                        mData.get(vh.getAdapterPosition()).getAvailable(),
-                        mData.get(vh.getAdapterPosition()).getPicture(),
-                        mData.get(vh.getAdapterPosition()).getPictures(),
+                        mData.get(vh.getAdapterPosition()).getDesc(),
                         mData.get(vh.getAdapterPosition()).getPrice(),
-                        mData.get(vh.getAdapterPosition()).getPrices(),
-                        mData.get(vh.getAdapterPosition()).getStatus(),
-                        mData.get(vh.getAdapterPosition()).getCategories(),
-                        mData.get(vh.getAdapterPosition()).getIdBusiness()
+                        mData.get(vh.getAdapterPosition()).getAvailable(),
+                        mData.get(vh.getAdapterPosition()).getPictures(),
+                        mData.get(vh.getAdapterPosition()).getPictures(),
+                        mData.get(vh.getAdapterPosition()).getTags(),
+                        mData.get(vh.getAdapterPosition()).getBusinessId()
                 );
                 Intent intent = new Intent(mContext.getApplicationContext(), ProductDetail.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -67,10 +65,7 @@ public class ProductsAdapterMini extends RecyclerView.Adapter<ProductsAdapterMin
         TextView name = holder.name;
         TextView price = holder.price;
 
-        Glide
-                .with(mContext)
-                .load(product.getPicture())
-                .into(picture);
+        glideAdapter.setImageDefault(picture, product.getPicture());
         name.setText(product.getName());
 
         String uri = " $ " + product.getPrice() + " ";

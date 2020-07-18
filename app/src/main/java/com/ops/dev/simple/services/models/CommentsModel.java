@@ -7,23 +7,23 @@ public class CommentsModel implements Serializable {
     private String id;
     private String comment;
     private String date;
-    private String idUser;
-    private String nameUser;
-    private String pictureUser;
-    private String idBusiness;
+    private String userId;
+    private String userAlias;
+    private String userPicture;
+    private String businessId;
 
     public CommentsModel() {
 
     }
 
-    public CommentsModel(String id, String comment, String date, String idUser, String nameUser, String pictureUser, String idBusiness) {
+    public CommentsModel(String id, String comment, String date, String userId, String userAlias, String userPicture, String businessId) {
         this.id = id;
         this.comment = comment;
         this.date = date;
-        this.idUser = idUser;
-        this.nameUser = nameUser;
-        this.pictureUser = pictureUser;
-        this.idBusiness = idBusiness;
+        this.userId = userId;
+        this.userAlias = userAlias;
+        this.userPicture = userPicture;
+        this.businessId = businessId;
     }
 
     public String getId() {
@@ -50,35 +50,35 @@ public class CommentsModel implements Serializable {
         this.date = date;
     }
 
-    public String getIdUser() {
-        return idUser;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getNameUser() {
-        return nameUser;
+    public String getUserAlias() {
+        return userAlias;
     }
 
-    public void setNameUser(String nameUser) {
-        this.nameUser = nameUser;
+    public void setUserAlias(String userAlias) {
+        this.userAlias = userAlias;
     }
 
-    public String getPictureUser() {
-        return pictureUser;
+    public String getUserPicture() {
+        return userPicture;
     }
 
-    public void setPictureUser(String pictureUser) {
-        this.pictureUser = pictureUser;
+    public void setUserPicture(String userPicture) {
+        this.userPicture = userPicture;
     }
 
-    public String getIdBusiness() {
-        return idBusiness;
+    public String getBusinessId() {
+        return businessId;
     }
 
-    public void setIdBusiness(String idBusiness) {
-        this.idBusiness = idBusiness;
+    public void setBusinessId(String businessId) {
+        this.businessId = businessId;
     }
 }

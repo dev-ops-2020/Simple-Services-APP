@@ -36,10 +36,10 @@ public class SchedulesAdapter extends RecyclerView.Adapter<SchedulesAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         SchedulesModel schedulesModel = mData.get(position);
-        TextView name = holder.day;
+        TextView day = holder.day;
         TextView number = holder.time;
 
-        name.setText(schedulesModel.getDay());
+        day.setText(schedulesModel.getDay());
         number.setText(schedulesModel.getTime());
     }
 

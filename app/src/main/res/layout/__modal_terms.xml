@@ -22,7 +22,7 @@
                 android:layout_marginBottom="@dimen/big_margin"/>
 
             <TextView
-                style="@style/TextViewDefault"
+                style="@style/TextView"
                 android:id="@+id/terms_conditions"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

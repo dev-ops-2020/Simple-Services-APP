@@ -1,35 +1,48 @@
 <resources>
     <string name="app_name" translatable="false">Simple Services</string>
+    <string name="app_slogan" translatable="false">Simplificando El Salvador ❤.</string>
     <string name="map_key" translatable="false">AIzaSyC5O1tu0l8x-4gV3Mp-vcdvhxl08zxYshQ</string>
 
-    <!--Bottom Menu-->
-    <string name="search">BUSCAR</string>
-    <string name="categories">CATEGORÍAS</string>
-    <string name="home">INICIO</string>
-    <string name="cart">MI CARRITO</string>
-    <string name="profile">MI PERFIL</string>
+    <string name="welcome">Bienvenid@</string>
 
-    <!--Social Networks-->
-    <string name="fb">FACEBOOK</string>
-    <string name="ig">INSTAGRAM</string>
-    <string name="wa">WHATSAPP</string>
+    <!--Bottom Menu-->
+    <string name="menu_search">BUSCAR</string>
+    <string name="menu_categories">CATEGORÍAS</string>
+    <string name="menu_home">INICIO</string>
+    <string name="menu_cart">MI CARRITO</string>
+    <string name="menu_profile">MI PERFIL</string>
+    <string name="menu_catalog">CATÁLOGO</string>
+    <string name="menu_entries">ENTRADAS</string>
+    <string name="menu_orders">ÓRDENES</string>
 
     <!--SignIn & SignUp-->
+    <string name="user">Usuario</string>
+    <string name="business">Negocio</string>
     <string name="sign_in">Iniciar Sesión</string>
-    <string name="sign_up">Registro</string>
+    <string name="sign_up_user">Registro Clientes</string>
+    <string name="sign_up_business">Registro Negocios</string>
     <string name="already_account">Ya tengo cuenta</string>
     <string name="create_account">Crear cuenta</string>
 
+    <string name="alias">Alias</string>
+    <string name="name">Nombre Completo</string>
+    <string name="name_">Nombre</string>
+    <string name="phone">Teléfono</string>
+    <string name="email">Correo</string>
+    <string name="pass">Contraseña</string>
+    <string name="signUp">Registrarme</string>
+    <string name="signIn">Iniciar Sesión</string>
+    <string name="terms">He leído y acepto los <b>Términos y Condiciones</b></string>
+
+    <string name="next">Siguiente</string>
+
     <string name="loading">Cargando…</string>
     <string name="options">Opciones</string>
-    <string name="welcome">Bienvenido</string>
     <string name="update">Actualizar Datos</string>
 
     <!--Modules-->
     <string name="message_categories">Explora nuestras categorías</string>
-    <string name="message_home">Bienvenido</string>
-    <string name="message_carrito">Mis productos en el carrito</string>
-    <string name="photo">Selecciona una foto</string>
+    <string name="select_image">Selecciona una imagen</string>
     <string name="total">TOTAL</string>
     <string name="order">ORDENAR</string>
     <string name="add_to_cart">Añadir al carrito</string>
@@ -39,15 +52,45 @@
         <item quantity="other">%d artículos añadidos</item>
     </plurals>
     <string name="go_to_cart">Ver carrito</string>
-    <string name="alias">Alias</string>
-    <string name="password">Contraseña</string>
-    <string name="name">Nombre Completo</string>
-    <string name="phone">Teléfono</string>
-    <string name="email">Correo</string>
-    <string name="signup">Registrarme</string>
-    <string name="signin">Iniciar Sesión</string>
+
     <string name="description">Descripción:</string>
     <string name="subtotal">Subtotal: $</string>
     <string name="unit_price">Precio unitario: $</string>
-    <string name="terms">He leído y acepto los <b>Términos y Condiciones</b></string>
+
+
+    <string name="personal_data">Datos personales</string>
+    <string name="business_data">Datos del negocio</string>
+    <string name="logo">Logo</string>
+    <string name="slogan">Slogan</string>
+    <string name="address">Dirección</string>
+    <string name="select_map_location">Selecciona la ubicación de tu negocio en el mapa</string>
+    <string name="business_networks">Redes Sociales</string>
+    <string name="fb">Facebook</string>
+    <string name="ig">Instagram</string>
+    <string name="wa">WhatsApp</string>
+    <string name="schedules">Horarios</string>
+    <string name="day1">Lunes</string>
+    <string name="day2">Martes</string>
+    <string name="day3">Míercoles</string>
+    <string name="day4">Jueves</string>
+    <string name="day5">Viernes</string>
+    <string name="day6">Sábado</string>
+    <string name="day7">Domingo</string>
+    <string name="example_schedule_1">Ej.: Abierto todo el día</string>
+    <string name="example_schedule_2">Ej.: 10:00 am - 4:00 pm</string>
+    <string name="example_schedule_3">Ej.: Abierto todo el día (cerrado al medio día)</string>
+    <string name="example_schedule_4">Ej.: 7:30 am - 5:30 pm</string>
+    <string name="example_schedule_5">Ej.: 24 horas al día.</string>
+    <string name="example_schedule_6">Ej.: 8:00 am - 12:00 pm y 2:00 pm - 4:00 pm</string>
+    <string name="example_schedule_7">Ej.: Cerrado</string>
+    <string name="business_photos">Fotos del local</string>
+    <string name="business_categories">Selecciona hasta 3 categorías para tu negocio</string>
+    <string name="accept_terms">Hemos terminado, acepta los términos y condiciones para crear tu cuenta</string>
+    <string name="opt_available">DISPONIBLES</string>
+    <string name="opt_unavailable">NO DISPONIBLES</string>
+    <string name="product">Producto</string>
+    <string name="add">Agregar</string>
+    <string name="example_price">Precio Ej. 12.99</string>
+    <string name="example_tags">Etiquetas Ej. #Oferta, #Nuevo, #Promoción</string>
+    <string name="available">Disponible</string>
 </resources>

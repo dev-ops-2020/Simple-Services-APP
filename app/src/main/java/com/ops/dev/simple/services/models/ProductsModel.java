@@ -5,33 +5,31 @@ import java.io.Serializable;
 public class ProductsModel implements Serializable {
 
     private String id;
+    private String type;
     private String name;
-    private String description;
-    private String available;
+    private String desc;
+    private String price;
+    private boolean available;
     private String picture;
     private String pictures;
-    private String price;
-    private String prices;
-    private String status;
-    private String categories;
-    private String idBusiness;
+    private String tags;
+    private String businessId;
 
     public ProductsModel() {
 
     }
 
-    public ProductsModel(String id, String name,String description, String available, String picture, String pictures, String price, String prices, String status, String categories, String idBusiness) {
+    public ProductsModel(String id, String type, String name, String desc, String price, boolean available, String picture, String pictures, String tags, String businessId) {
         this.id = id;
+        this.type = type;
         this.name = name;
-        this.description = description;
+        this.desc = desc;
+        this.price = price;
         this.available = available;
         this.picture = picture;
         this.pictures = pictures;
-        this.price = price;
-        this.prices = prices;
-        this.status = status;
-        this.categories = categories;
-        this.idBusiness = idBusiness;
+        this.tags = tags;
+        this.businessId = businessId;
     }
 
     public String getId() {
@@ -42,6 +40,14 @@ public class ProductsModel implements Serializable {
         this.id = id;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getName() {
         return name;
     }
@@ -50,20 +56,28 @@ public class ProductsModel implements Serializable {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public void setAvailable(String available) {
-        this.available = available;
+    public String getPrice() {
+        return price;
     }
 
-    public String getAvailable() {
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public boolean getAvailable() {
         return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public String getPicture() {
@@ -82,43 +96,19 @@ public class ProductsModel implements Serializable {
         this.pictures = pictures;
     }
 
-    public String getPrice() {
-        return price;
+    public String getTags() {
+        return tags;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
-    public String getPrices() {
-        return prices;
+    public String getBusinessId() {
+        return businessId;
     }
 
-    public void setPrices(String prices) {
-        this.prices = prices;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getCategories() {
-        return categories;
-    }
-
-    public void setCategories(String categories) {
-        this.categories = categories;
-    }
-
-    public String getIdBusiness() {
-        return idBusiness;
-    }
-
-    public void setIdBusiness(String idBusiness) {
-        this.idBusiness = idBusiness;
+    public void setBusinessId(String businessId) {
+        this.businessId = businessId;
     }
 }

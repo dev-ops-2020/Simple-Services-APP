@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/min_margin"
+    card_view:cardCornerRadius="@dimen/med_margin"
+    card_view:cardElevation="@dimen/min_margin"
+    card_view:cardBackgroundColor="@color/colorPrimary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:layout_margin="@dimen/min_margin"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    style="@style/CheckBox"
+                    android:id="@+id/available"
+                    android:text="@string/available"
+                    android:padding="0dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextView"
+                        android:textStyle="bold"
+                        android:id="@+id/type"/>
+
+                    <TextView
+                        style="@style/TextView"
+                        android:textStyle="bold"
+                        android:id="@+id/price"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/TextView"
+                android:id="@+id/name"/>
+
+            <TextView
+                style="@style/TextView"
+                android:id="@+id/desc"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:layout_margin="@dimen/min_margin"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/picture"
+                android:layout_width="@dimen/big_icon"
+                android:layout_height="@dimen/big_icon"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

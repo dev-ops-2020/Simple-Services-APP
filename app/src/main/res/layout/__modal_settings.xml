@@ -16,7 +16,7 @@
             style="@style/TextViewHeader"
             android:text="@string/options"/>
     </RelativeLayout>
-
+    <!-- TODO Change to ConstraintLayouts those LinearLayouts-->
     <LinearLayout
         android:layout_below="@id/header"
         android:id="@+id/theme"
@@ -58,6 +58,28 @@
         <TextView
             style="@style/TextViewSubHeader"
             android:text="Editar perfil"
+            android:layout_weight="2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/edit"
+        android:id="@+id/log_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/min_margin"
+        android:weightSum="10"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:padding="@dimen/min_margin"
+            android:src="@drawable/__log_out"/>
+
+        <TextView
+            style="@style/TextViewSubHeader"
+            android:text="Cerrar sesión"
             android:layout_weight="2"/>
     </LinearLayout>
 </RelativeLayout>
