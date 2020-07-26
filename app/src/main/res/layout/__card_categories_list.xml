@@ -28,13 +28,13 @@
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/icon"
-            card_view:layout_constraintEnd_toEndOf="@id/checkBox"/>
+            card_view:layout_constraintEnd_toEndOf="@id/radioButton"/>
 
         <CheckBox
-            android:id="@+id/checkBox"
+            style="@style/CheckBox"
+            android:id="@+id/radioButton"
             android:layout_width="@dimen/med_icon"
             android:layout_height="@dimen/med_icon"
-            android:layout_gravity="center"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

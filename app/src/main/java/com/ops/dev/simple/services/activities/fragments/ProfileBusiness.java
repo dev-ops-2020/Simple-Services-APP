@@ -1,6 +1,5 @@
 package com.ops.dev.simple.services.activities.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +28,6 @@ import com.ops.dev.simple.services.Network;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.activities.SignIn;
 import com.ops.dev.simple.services.adapters.GlideAdapter;
-import com.ops.dev.simple.services.adapters.IntentAdapter;
 import com.ops.dev.simple.services.adapters.PreferencesAdapter;
 import com.ops.dev.simple.services.adapters.SchedulesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
@@ -106,7 +104,7 @@ public class ProfileBusiness extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.fragment_profile_business, container, false);
 		View layout = rootView.findViewById(android.R.id.content);
 
@@ -126,7 +124,7 @@ public class ProfileBusiness extends Fragment {
 
 		businessDesc = rootView.findViewById(R.id.businessDesc);
 		businessSlogan = rootView.findViewById(R.id.businessSlogan);
-		businessPhone = rootView.findViewById(R.id.businessPhone);
+		businessPhone = rootView.findViewById(R.id.phone);
 		businessAddress = rootView.findViewById(R.id.businessAddress);
 
 		pictures = rootView.findViewById(R.id.pictures);
@@ -226,7 +224,7 @@ public class ProfileBusiness extends Fragment {
 	}
 
 	private void getProfile() {
-		String url = Network.Business+ preferencesAdapter.getId();
+		String url = Network.Businesses + preferencesAdapter.getId();
 		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response) {

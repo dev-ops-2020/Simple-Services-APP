@@ -27,6 +27,17 @@
     <color name="purple">#9b59b6</color>
     <color name="purple_alt">#8e44ad</color>
 
+    <color name="fb">#4267B2</color>
+    <color name="fb_alt">#3B5998</color>
+    <color name="ig">#833AB4</color>
+    <color name="ig_alt">#C13584</color>
+    <color name="wa">#075E55</color>
+    <color name="wa_alt">#128C7E</color>
+
+    <color name="basic">#cd7f32</color>
+    <color name="plus">#c0c0c0</color>
+    <color name="vip">#ffd116</color>
+
     <!--
     <color name="red">#aa3333</color>
     <color name="red_alt">#ff3333</color>
@@ -42,11 +53,4 @@
     <color name="purple">#aa33aa</color>
     <color name="purple_alt">#ff33ff</color>
     -->
-
-    <color name="fb">#4267B2</color>
-    <color name="fb_alt">#3B5998</color>
-    <color name="ig">#833AB4</color>
-    <color name="ig_alt">#C13584</color>
-    <color name="wa">#075E55</color>
-    <color name="wa_alt">#128C7E</color>
 </resources>

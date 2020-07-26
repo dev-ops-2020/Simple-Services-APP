@@ -44,7 +44,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                 CategoriesModel category = new CategoriesModel(
                         mData.get(vh.getAdapterPosition()).getId(),
                         mData.get(vh.getAdapterPosition()).getName(),
-                        mData.get(vh.getAdapterPosition()).getDescription(),
                         mData.get(vh.getAdapterPosition()).getIcon()
                 );
                 Intent intent = new Intent(mContext.getApplicationContext(), Business.class);
@@ -53,15 +52,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
                 mContext.startActivity(intent);
             }
         });
-
-        view.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-            toastAdapter.makeToast(mData.get(vh.getAdapterPosition()).getIcon(),  "" + mData.get(vh.getAdapterPosition()).getDescription());
-            return true;
-            }
-        });
-
         return vh;
     }
 

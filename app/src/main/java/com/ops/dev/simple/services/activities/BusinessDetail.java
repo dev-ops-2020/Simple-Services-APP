@@ -24,7 +24,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,7 +39,7 @@ import com.ops.dev.simple.services.adapters.SchedulesAdapter;
 import com.ops.dev.simple.services.adapters.PreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
 import com.ops.dev.simple.services.models.BusinessesModel;
-import com.ops.dev.simple.services.models.CategoriesModelListIcon;
+import com.ops.dev.simple.services.models.CategoriesModel;
 import com.ops.dev.simple.services.models.CommentsModel;
 import com.ops.dev.simple.services.models.ProductsModel;
 import com.ops.dev.simple.services.models.SchedulesModel;
@@ -48,11 +47,8 @@ import com.ops.dev.simple.services.models.SchedulesModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -60,7 +56,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
 
     //Vars
     RecyclerView rvCategories;
-    List<CategoriesModelListIcon> listCategories;
+    List<CategoriesModel> listCategories;
     CategoriesIconAdapter categoriesIconAdapter;
 
     RecyclerView rvSchedules;
@@ -255,7 +251,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         try {
             for (int i = 0; i < categoriesArray.length(); i++) {
                 JSONObject jsonObject = categoriesArray.getJSONObject(i);
-                final CategoriesModelListIcon category = new CategoriesModelListIcon();
+                final CategoriesModel category = new CategoriesModel();
                 catId = jsonObject.getString("category");
                 String url = Network.ListCategories+catId;
                 JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -487,8 +483,8 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
         map.addMarker(new MarkerOptions()
                 .position(latLng)
                 .title(businessName)
-                .snippet(businessSlogan)
-                .draggable(false));
+                .snippet(businessAddress)
+                .draggable(true));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, Network.ZOOM_LEVEL));
         googleMap.getUiSettings().setZoomControlsEnabled(true);

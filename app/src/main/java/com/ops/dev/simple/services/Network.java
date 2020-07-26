@@ -11,13 +11,15 @@ public class Network {
 
     private static ConnectivityManager manager;
     private static final String IP = "https://simple-services.herokuapp.com/api/";
-    public static final String SignUp = IP + "signup/";
-    public static final String SignIn = IP + "signin/";
-    public static final String LogIn = IP + "login/";
     public static final String Terms = IP + "terms/";
+    public static final String Memberships = IP + "memberships/";
+    public static final String SignUpUser = IP + "signup/user/";
+    public static final String SignInUser = IP + "signin/user/";
+    public static final String SignUpBusiness = IP + "signup/business/";
+    public static final String SignInBusiness = IP + "signin/business/";
     public static final String ListCategories = IP + "categories/";
     public static final String Users = IP + "users/";
-    public static final String Business = IP + "businesses/";
+    public static final String Businesses = IP + "businesses/";
     public static final String Products = IP + "products/";
     public static final String ProductsAvailable = IP + "products/available/";
     public static final String ProductsUnavailable = IP + "products/unavailable/";
@@ -28,13 +30,17 @@ public class Network {
     public static final String Cart = IP + "cart/";
 
     public static final String DESIGNER_URL = "https://www.instagram.com/the_mid_lemon/";
-    public static final String NO_LOGO = "https://firebasestorage.googleapis.com/v0/b/simple-services-25f81.appspot.com/o/images%2Fbusinesses%2F_____No_Logo.png?alt=media";
+    public static final String NO_LOGO = "https://firebasestorage.googleapis.com/v0/b/simple-services-25f81.appspot.com/o/images%2Fbusinesses%2FNO-LOGO.png?alt=media";
 
     public static final int REQUEST_CODE_IMAGE = 1020;
-    public static final int REQUEST_CODE_PICTURE_1 = 1021;
-    public static final int REQUEST_CODE_PICTURE_2 = 1022;
-    public static final int REQUEST_CODE_PICTURE_3 = 1023;
-    public static final int REQUEST_CODE_LOCATION = 1030;
+    public static final int REQUEST_CODE_DUI_1 = 1021;
+    public static final int REQUEST_CODE_DUI_2 = 1022;
+    public static final int REQUEST_CODE_PICTURE_1 = 1031;
+    public static final int REQUEST_CODE_PICTURE_2 = 1032;
+    public static final int REQUEST_CODE_PICTURE_3 = 1033;
+    public static final int REQUEST_CODE_PICTURE_4 = 1034;
+    public static final int REQUEST_CODE_PICTURE_5 = 1035;
+    public static final int REQUEST_CODE_LOCATION = 1040;
     /*
     public static final int DURATION_NONE = 500;
     public static final int DURATION_SHORT = 1500;

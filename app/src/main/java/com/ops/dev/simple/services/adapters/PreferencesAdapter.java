@@ -197,7 +197,19 @@ public class PreferencesAdapter {
         editor.apply();
     }
 
+    // Logic for businesses modules
 
+    public String getMembershipId() {
+        if (preferences.contains("membershipId"))
+            return preferences.getString("membershipId", "");
+        return null;
+    }
+
+    public void setMembershipId(String membershipId) {
+        editor = preferences.edit();
+        editor.putString("membershipId", membershipId);
+        editor.apply();
+    }
 /*
 */
 }

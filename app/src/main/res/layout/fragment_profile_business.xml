@@ -116,7 +116,7 @@
             <!--Phone-->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputLayout"
-                android:id="@+id/businessPhone"
+                android:id="@+id/phone"
                 android:hint="@string/phone">
 
                 <com.google.android.material.textfield.TextInputEditText

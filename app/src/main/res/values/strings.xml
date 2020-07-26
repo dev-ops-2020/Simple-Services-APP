@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Simple Services</string>
-    <string name="app_slogan" translatable="false">Simplificando El Salvador ❤.</string>
+    <string name="app_slogan" translatable="false">Simplificando El Salvador ❤</string>
     <string name="map_key" translatable="false">AIzaSyC5O1tu0l8x-4gV3Mp-vcdvhxl08zxYshQ</string>
 
     <string name="welcome">Bienvenid@</string>
@@ -25,6 +25,7 @@
     <string name="create_account">Crear cuenta</string>
 
     <string name="alias">Alias</string>
+    <string name="dui">N° DUI (Sin guiones)</string>
     <string name="name">Nombre Completo</string>
     <string name="name_">Nombre</string>
     <string name="phone">Teléfono</string>
@@ -32,9 +33,50 @@
     <string name="pass">Contraseña</string>
     <string name="signUp">Registrarme</string>
     <string name="signIn">Iniciar Sesión</string>
-    <string name="terms">He leído y acepto los <b>Términos y Condiciones</b></string>
-
     <string name="next">Siguiente</string>
+
+    <string name="personal_data">Datos personales</string>
+    <string name="dui_photos">Fotos DUI (Ambas caras)</string>
+    <string name="dui_1">Derecho</string>
+    <string name="dui_2">Reverso</string>
+    <string name="business_data">Datos del negocio</string>
+    <string name="logo">Logo</string>
+    <string name="business_nrc_if_exist">NRC (Si aplica)</string>
+    <string name="business_name">Nombre Negocio</string>
+    <string name="business_desc">Descripción</string>
+    <string name="slogan">Slogan</string>
+    <string name="address">Dirección</string>
+    <string name="select_map_location">Selecciona la ubicación de tu negocio en el mapa</string>
+    <string name="business_networks">Redes Sociales</string>
+    <string name="business_network_note">Nota: Si no sabes cómo rellenar estos datos déjalo así y envía un correo a simple.services.ayuda@gmail.com\n\nNosotros te ayudamos 😉</string>
+    <string name="fb">Facebook Ej.: electronica.japonesa.2000</string>
+    <string name="ig">Instagram Ej.: electronica.japonesa.2000</string>
+    <string name="wa">WhatsApp Ej.: 50370401024</string>
+    <string name="schedules">Horarios</string>
+    <string name="day1">Lunes</string>
+    <string name="day2">Martes</string>
+    <string name="day3">Míercoles</string>
+    <string name="day4">Jueves</string>
+    <string name="day5">Viernes</string>
+    <string name="day6">Sábado</string>
+    <string name="day7">Domingo</string>
+    <string name="example_schedule_1">Ej.: Abierto todo el día</string>
+    <string name="example_schedule_2">Ej.: 10:00 am - 4:00 pm</string>
+    <string name="example_schedule_3">Ej.: Abierto todo el día (cerrado al medio día)</string>
+    <string name="example_schedule_4">Ej.: 7:30 am - 5:30 pm</string>
+    <string name="example_schedule_5">Ej.: 24 horas al día</string>
+    <string name="example_schedule_6">Ej.: 8:00 am - 12:00 pm y 2:00 pm - 4:00 pm</string>
+    <string name="example_schedule_7">Ej.: Cerrado</string>
+    <string name="business_photos">Fotos del local</string>
+    <string name="business_picture_1">Foto 1</string>
+    <string name="business_picture_2">Foto 2</string>
+    <string name="business_picture_3">Foto 3</string>
+    <string name="business_photos_note">Nota: Las 3 fotos son necesarias para validar tu negocio\n\nSi no tienes puedes subir fotos de tus productos/servicios principales</string>
+    <string name="business_categories">Selecciona hasta 3 categorías para tu negocio</string>
+    <string name="business_membership">Selecciona la membresía para tu negocio</string>
+    <string name="membership_note">Nota: La <b>prioridad</b> permite posicionarte mejor dentro de Simple Services</string>
+    <string name="terms">He leído y acepto los <b>Términos y Condiciones</b></string>
+    <string name="accept_terms">Hemos terminado, acepta los términos y condiciones para crear tu cuenta</string>
 
     <string name="loading">Cargando…</string>
     <string name="options">Opciones</string>
@@ -54,43 +96,17 @@
     <string name="go_to_cart">Ver carrito</string>
 
     <string name="description">Descripción:</string>
-    <string name="subtotal">Subtotal: $</string>
     <string name="unit_price">Precio unitario: $</string>
+    <string name="subtotal">Subtotal: $</string>
 
 
-    <string name="personal_data">Datos personales</string>
-    <string name="business_data">Datos del negocio</string>
-    <string name="logo">Logo</string>
-    <string name="slogan">Slogan</string>
-    <string name="address">Dirección</string>
-    <string name="select_map_location">Selecciona la ubicación de tu negocio en el mapa</string>
-    <string name="business_networks">Redes Sociales</string>
-    <string name="fb">Facebook</string>
-    <string name="ig">Instagram</string>
-    <string name="wa">WhatsApp</string>
-    <string name="schedules">Horarios</string>
-    <string name="day1">Lunes</string>
-    <string name="day2">Martes</string>
-    <string name="day3">Míercoles</string>
-    <string name="day4">Jueves</string>
-    <string name="day5">Viernes</string>
-    <string name="day6">Sábado</string>
-    <string name="day7">Domingo</string>
-    <string name="example_schedule_1">Ej.: Abierto todo el día</string>
-    <string name="example_schedule_2">Ej.: 10:00 am - 4:00 pm</string>
-    <string name="example_schedule_3">Ej.: Abierto todo el día (cerrado al medio día)</string>
-    <string name="example_schedule_4">Ej.: 7:30 am - 5:30 pm</string>
-    <string name="example_schedule_5">Ej.: 24 horas al día.</string>
-    <string name="example_schedule_6">Ej.: 8:00 am - 12:00 pm y 2:00 pm - 4:00 pm</string>
-    <string name="example_schedule_7">Ej.: Cerrado</string>
-    <string name="business_photos">Fotos del local</string>
-    <string name="business_categories">Selecciona hasta 3 categorías para tu negocio</string>
-    <string name="accept_terms">Hemos terminado, acepta los términos y condiciones para crear tu cuenta</string>
     <string name="opt_available">DISPONIBLES</string>
     <string name="opt_unavailable">NO DISPONIBLES</string>
     <string name="product">Producto</string>
     <string name="add">Agregar</string>
     <string name="example_price">Precio Ej. 12.99</string>
-    <string name="example_tags">Etiquetas Ej. #Oferta, #Nuevo, #Promoción</string>
+    <string name="example_tags">Etiquetas Ej. <b>#Oferta</b>, <b>#Nuevo</b>, <b>#Promoción</b></string>
+    <string name="example_tags_note">NOTA: Las etiquetas deben contener el "#" e ir separadas por una ","</string>
     <string name="available">Disponible</string>
+
 </resources>

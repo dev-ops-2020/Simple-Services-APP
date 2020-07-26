@@ -13,19 +13,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ops.dev.simple.services.R;
-import com.ops.dev.simple.services.models.CategoriesModelListIcon;
+import com.ops.dev.simple.services.models.CategoriesModel;
 
 import java.util.List;
 
 public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>{
 
     Context mContext;
-    List<CategoriesModelListIcon> mData;
+    List<CategoriesModel> mData;
     GlideAdapter glideAdapter;
     ToastAdapter toastAdapter;
     int count = 0, limit = 3;
 
-    public CategoriesListAdapter(Context mContext, List<CategoriesModelListIcon> mData) {
+    public CategoriesListAdapter(Context mContext, List<CategoriesModel> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -44,16 +44,12 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final CategoriesModelListIcon category = mData.get(position);
-        ImageView icon = holder.icon;
-        TextView name = holder.name;
-        CheckBox checkBox = holder.checkBox;
+        final CategoriesModel category = mData.get(position);
 
-        glideAdapter.setImageCircle(icon, category.getIcon());
-        name.setText(category.getName());
-        checkBox.setOnCheckedChangeListener(null);
-        checkBox.setSelected(category.getChecked());
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        glideAdapter.setImageCircle(holder.icon, category.getIcon());
+        holder.name.setText(category.getName());
+        holder.checkBox.setOnCheckedChangeListener(null);
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked && !category.getChecked()) {
@@ -70,7 +66,7 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
                 }
             }
         });
-        checkBox.setChecked(category.getChecked());
+        holder.checkBox.setChecked(category.getChecked());
     }
 
     @Override
@@ -88,7 +84,7 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
 
             icon = itemView.findViewById(R.id.icon);
             name = itemView.findViewById(R.id.name);
-            checkBox = itemView.findViewById(R.id.checkBox);
+            checkBox = itemView.findViewById(R.id.radioButton);
         }
     }
 }

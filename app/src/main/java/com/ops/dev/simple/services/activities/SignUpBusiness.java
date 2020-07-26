@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -52,9 +51,11 @@ import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.adapters.CategoriesListAdapter;
 import com.ops.dev.simple.services.adapters.GlideAdapter;
 import com.ops.dev.simple.services.adapters.IntentAdapter;
+import com.ops.dev.simple.services.adapters.MembershipsListAdapter;
 import com.ops.dev.simple.services.adapters.PreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
-import com.ops.dev.simple.services.models.CategoriesModelListIcon;
+import com.ops.dev.simple.services.models.CategoriesModel;
+import com.ops.dev.simple.services.models.MembershipsModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,6 +66,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.ops.dev.simple.services.Network.REQUEST_CODE_DUI_1;
+import static com.ops.dev.simple.services.Network.REQUEST_CODE_DUI_2;
 import static com.ops.dev.simple.services.Network.REQUEST_CODE_IMAGE;
 import static com.ops.dev.simple.services.Network.REQUEST_CODE_PICTURE_1;
 import static com.ops.dev.simple.services.Network.REQUEST_CODE_PICTURE_2;
@@ -77,17 +80,19 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 	StorageReference storageReference;
 	String _url, _url1, _url2, _url3;
 
-	String type;
+	String _type, type;
 
-	String _owner, _email, _pass;
-	TextInputLayout owner, email, pass;
+	Uri path_dui1, path_dui2;
+	ImageView dui1, dui2;
+	String _dui, _owner, _phone, _email, _pass;
+	TextInputLayout dui, owner, phone, email, pass;
 
 	boolean logo = true;
-	boolean delivery = false;
+	boolean _delivery = false;
 	Uri path;
 	ImageView businessLogo;
-	String _businessName, _businessDesc, _businessSlogan, _businessPhone, _businessAddress;
-	TextInputLayout businessName, businessDesc, businessSlogan, businessPhone, businessAddress;
+	String _businessNRC, _businessName, _businessDesc, _businessSlogan, _businessAddress;
+	TextInputLayout businessNRC, businessName, businessDesc, businessSlogan, businessAddress;
 
 	GoogleMap map;
 	Geocoder geocoder;
@@ -109,9 +114,15 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 	TextInputLayout fb, ig, wa;
 
 	RecyclerView rvCategories;
-	List<CategoriesModelListIcon> listCategories;
+	List<CategoriesModel> listCategories;
 	CategoriesListAdapter categoriesListAdapter;
 	ArrayList<String> selectedCategories;
+
+	RecyclerView rvMemberships;
+	List<MembershipsModel> listMemberships;
+	MembershipsListAdapter membershipsListAdapter;
+	String _membershipId = "0";
+	int _priority;
 
 	CheckBox accept;
 	TextView terms;
@@ -143,12 +154,10 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 		queue = Volley.newRequestQueue(context);
 		getTerms();
 
-		owner = findViewById(R.id.owner);
-		email = findViewById(R.id.email);
-		pass = findViewById(R.id.pass);
+		storageReference = FirebaseStorage.getInstance().getReference();
 
 		builder = new AlertDialog.Builder(context);
-		builder.setTitle("!Empezemos con el registro de tu negocio!");
+		builder.setTitle("¡Empezemos con el registro de tu negocio!");
 		builder.setMessage("Primero que nada necesitamos saber si tu negocio ofrece productos o servicios... \n\n¡Psss! De esto dependerá la interfaz que verán los clientes 🤗");
 		builder.setNegativeButton("Ofrecemos servicios", null);
 		builder.setPositiveButton("Ofrecemos productos", null);
@@ -161,7 +170,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 				btnCancel.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						type = "Services";
+						_type = "Services";
 						findViewById(R.id.lay1).setVisibility(View.VISIBLE);
 						toastAdapter.makeToast(R.drawable._fav, "Continuemos con tus datos personales");
 						alertDialog.dismiss();
@@ -170,7 +179,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 				btnOk.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						type = "Products";
+						_type = "Products";
 						findViewById(R.id.lay1).setVisibility(View.VISIBLE);
 						toastAdapter.makeToast(R.drawable._fav, "Continuemos con tus datos personales");
 						alertDialog.dismiss();
@@ -182,61 +191,90 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.show();
 
+		path_dui1 = null;
+		path_dui2 = null;
+		dui1 = findViewById(R.id.dui1);
+		dui2 = findViewById(R.id.dui2);
+		dui = findViewById(R.id.dui);
+		owner = findViewById(R.id.owner);
+		phone = findViewById(R.id.phone);
+		email = findViewById(R.id.email);
+		pass = findViewById(R.id.pass);
+
+		dui1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				selectImage(Network.REQUEST_CODE_DUI_1);
+			}
+		});
+
+		dui2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				selectImage(Network.REQUEST_CODE_DUI_2);
+			}
+		});
+
 		findViewById(R.id.next1).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				_dui = String.valueOf(Objects.requireNonNull(dui.getEditText().getText()));
 				_owner = String.valueOf(Objects.requireNonNull(owner.getEditText()).getText());
+				_phone = String.valueOf(Objects.requireNonNull(phone.getEditText()).getText());
 				_email = String.valueOf(Objects.requireNonNull(email.getEditText()).getText());
 				_pass = String.valueOf(Objects.requireNonNull(pass.getEditText()).getText());
 
-				if (_owner.length() == 0 || _email.length() == 0 || _pass.length() == 0) {
-					toastAdapter.makeToast(R.drawable.__warning, "Rellena los campos con tus datos personales");
+				if (path_dui1 == null || path_dui2 == null) {
+					toastAdapter.makeToast(R.drawable.__warning, "Las fotos de tu DUI son necesarias 😊");
 				} else {
-					findViewById(R.id.lay1).setVisibility(View.GONE);
-					findViewById(R.id.lay2).setVisibility(View.VISIBLE);
-					builder = new AlertDialog.Builder(context);
-					builder.setTitle("El logo es un distintivo muy importante para tu negocio");
-					builder.setMessage("Si aún no tienes un logo, puedes contactar con nuestro diseñador.\n\nSi decides dejar esto en sus manos, siéntete libre, tu logo se actualizará dentro de la aplicación en tanto lleguen a un acuerdo con él y tu logo esté listo 😊");
-					builder.setNegativeButton("Seleccionar logo de mi galería", null);
-					builder.setPositiveButton("Contactar al diseñador", null);
-					alertDialog = builder.create();
-					alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-						@Override
-						public void onShow(DialogInterface dialogInterface) {
-							Button btnCancel = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-							Button btnOk = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-							btnCancel.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(View view) {
-									selectImage(REQUEST_CODE_IMAGE);
-									alertDialog.dismiss();
-								}
-							});
-							btnOk.setOnClickListener(new View.OnClickListener() {
-								@Override
-								public void onClick(View view) {
-									goDesigner();
-									logo = false;
-									glideAdapter.setImageCircle(businessLogo, Network.NO_LOGO);
-									alertDialog.dismiss();
-								}
-							});
-						}
-					});
-					alertDialog.setCancelable(false);
-					alertDialog.setCanceledOnTouchOutside(false);
-					alertDialog.show();
+					if (_dui.length() == 0 || _owner.length() == 0 || _phone.length() == 0 || _email.length() == 0 || _pass.length() == 0) {
+						toastAdapter.makeToast(R.drawable.__warning, "Rellena los campos con tus datos personales");
+					} else {
+						findViewById(R.id.lay1).setVisibility(View.GONE);
+						findViewById(R.id.lay2).setVisibility(View.VISIBLE);
+						builder = new AlertDialog.Builder(context);
+						builder.setTitle("El logo es un distintivo muy importante para tu negocio");
+						builder.setMessage("Si aún no tienes un logo, puedes contactar con nuestro diseñador.\n\nSi decides dejar esto en sus manos, siéntete libre, tu logo se actualizará dentro de la aplicación en tanto lleguen a un acuerdo con él y tu logo esté listo 😊");
+						builder.setNegativeButton("Seleccionar logo de mi galería", null);
+						builder.setPositiveButton("Contactar al diseñador", null);
+						alertDialog = builder.create();
+						alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+							@Override
+							public void onShow(DialogInterface dialogInterface) {
+								Button btnCancel = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+								Button btnOk = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+								btnCancel.setOnClickListener(new View.OnClickListener() {
+									@Override
+									public void onClick(View view) {
+										selectImage(REQUEST_CODE_IMAGE);
+										alertDialog.dismiss();
+									}
+								});
+								btnOk.setOnClickListener(new View.OnClickListener() {
+									@Override
+									public void onClick(View view) {
+										goDesigner();
+										logo = false;
+										glideAdapter.setImageCircle(businessLogo, Network.NO_LOGO);
+										alertDialog.dismiss();
+									}
+								});
+							}
+						});
+						alertDialog.setCancelable(false);
+						alertDialog.setCanceledOnTouchOutside(false);
+						alertDialog.show();
+					}
 				}
 			}
 		});
 
 		path = null;
-		storageReference = FirebaseStorage.getInstance().getReference();
 		businessLogo = findViewById(R.id.businessLogo);
+		businessNRC = findViewById(R.id.businessNRC);
 		businessName = findViewById(R.id.businessName);
 		businessDesc = findViewById(R.id.businessDesc);
 		businessSlogan = findViewById(R.id.businessSlogan);
-		businessPhone = findViewById(R.id.businessPhone);
 		businessAddress = findViewById(R.id.businessAddress);
 
 		businessLogo.setOnClickListener(new View.OnClickListener() {
@@ -249,25 +287,25 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 		findViewById(R.id.next2).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				_businessNRC = String.valueOf(Objects.requireNonNull(businessNRC.getEditText()).getText());
 				_businessName = String.valueOf(Objects.requireNonNull(businessName.getEditText()).getText());
 				_businessDesc = String.valueOf(Objects.requireNonNull(businessDesc.getEditText()).getText());
 				_businessSlogan = String.valueOf(Objects.requireNonNull(businessSlogan.getEditText()).getText());
-				_businessPhone = String.valueOf(Objects.requireNonNull(businessPhone.getEditText()).getText());
 				_businessAddress = String.valueOf(Objects.requireNonNull(businessAddress.getEditText()).getText());
 
-				if (_businessName.length() == 0 || _businessDesc.length() == 0 || _businessSlogan.length() == 0 || _businessPhone.length() == 0 || _businessAddress.length() == 0) {
+				if (_businessName.length() == 0 || _businessDesc.length() == 0 || _businessSlogan.length() == 0 || _businessAddress.length() == 0) {
 					toastAdapter.makeToast(R.drawable.__warning, "Rellena los campos con los datos de tu negocio");
 				} else {
 					findViewById(R.id.lay2).setVisibility(View.GONE);
 					findViewById(R.id.lay3).setVisibility(View.VISIBLE);
 					toastAdapter.makeToast(R.drawable.__info, "Toca sobre el mapa para seleccionar la ubicación de tu negocio");
+
+					geocoder = new Geocoder(context);
+					fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+					getLocation();
 				}
 			}
 		});
-
-		geocoder = new Geocoder(context);
-		fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
-		getLocation();
 
 		findViewById(R.id.next3).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -276,7 +314,8 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 					lat = businessLocation.latitude;
 					lng = businessLocation.longitude;
 				} catch (Exception ex) {
-					toastAdapter.makeToast(R.drawable.__warning, "Hay un fallo con tu ubicación...");
+					toastAdapter.makeToast(R.drawable.__warning, "Hay un fallo con tu ubicación... \n\nPrueba activar la opción de localización en tu dispositivo 😋");
+					getLocation();
 					return;
 				}
 
@@ -373,7 +412,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 				if (_fb.length() == 0 || _ig.length() == 0 || _wa.length() == 0) {
 					builder = new AlertDialog.Builder(context);
 					builder.setTitle("Estás dejando de lado una de las mejores funciones 😌");
-					builder.setMessage("Si no vinculas tus cuentas, los usuarios no podrán contactarte 😬");
+					builder.setMessage("Si no vinculas tus cuentas, los usuarios no podrán contactarte 😕");
 					builder.setNegativeButton("Dejar así", null);
 					builder.setPositiveButton("Aprovecharé esta función", null);
 					alertDialog = builder.create();
@@ -417,7 +456,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 			@Override
 			public void onClick(View v) {
 				for (int i = 0; i < listCategories.size(); i++) {
-					CategoriesModelListIcon category = listCategories.get(i);
+					CategoriesModel category = listCategories.get(i);
 					if (category.getChecked()) {
 						selectedCategories.add(category.getId());
 					}
@@ -426,9 +465,39 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 					toastAdapter.makeToast(R.drawable.__warning, "Selecciona al menos una categoría");
 				} else {
 					findViewById(R.id.lay7).setVisibility(View.GONE);
+					findViewById(R.id.lay8).setVisibility(View.VISIBLE);
+					toastAdapter.makeToast(R.drawable.__info, "Toca sobre la membresía para más información 😁");
+				}
+			}
+		});
+
+		rvMemberships = findViewById(R.id.rvMemberships);
+		listMemberships = new ArrayList<>();
+		getMemberships();
+
+		findViewById(R.id.next8).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				for (int i = 0; i < listMemberships.size(); i++) {
+					MembershipsModel membership = listMemberships.get(i);
+					if (membership.getChecked()) {
+						_membershipId = membership.getId();
+						_priority = membership.getPriority();
+					}
+				}
+				if (_membershipId.equals("0")) {
+					toastAdapter.makeToast(R.drawable.__warning, "Selecciona una membresía, luego puedes mejorarla 🤩");
+				} else {
+					findViewById(R.id.lay8).setVisibility(View.GONE);
+
+					if (_type.equals("Products"))
+						type = "productos";
+					else if (_type.equals("Services"))
+						type = "servicios";
+					// Latest question
 					builder = new AlertDialog.Builder(context);
 					builder.setTitle("Ya casi terminamos 😁");
-					builder.setMessage("Una última pregunta, ¿Como negocio tienes delivery? \n\n(Ya sea de los servicios o productos que ofrecezcas)");
+					builder.setMessage("Una última pregunta, ¿Como negocio tienes delivery? \n\n(De los " + type + " que ofrecezcas)");
 					builder.setNegativeButton("NO", null);
 					builder.setPositiveButton("Sí 🤩", null);
 					alertDialog = builder.create();
@@ -440,15 +509,15 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 							btnCancel.setOnClickListener(new View.OnClickListener() {
 								@Override
 								public void onClick(View view) {
-									findViewById(R.id.lay8).setVisibility(View.VISIBLE);
+									findViewById(R.id.lay9).setVisibility(View.VISIBLE);
 									alertDialog.dismiss();
 								}
 							});
 							btnOk.setOnClickListener(new View.OnClickListener() {
 								@Override
 								public void onClick(View view) {
-									findViewById(R.id.lay8).setVisibility(View.VISIBLE);
-									delivery = true;
+									findViewById(R.id.lay9).setVisibility(View.VISIBLE);
+									_delivery = true;
 									alertDialog.dismiss();
 								}
 							});
@@ -551,6 +620,14 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 					path = data.getData();
 					glideAdapter.setImageCircle(businessLogo, String.valueOf(path));
 					break;
+				case REQUEST_CODE_DUI_1:
+					path_dui1 = data.getData();
+					glideAdapter.setImageDefault(dui1, String.valueOf(path_dui1));
+					break;
+				case REQUEST_CODE_DUI_2:
+					path_dui2 = data.getData();
+					glideAdapter.setImageDefault(dui2, String.valueOf(path_dui2));
+					break;
 				case REQUEST_CODE_PICTURE_1:
 					path1 = data.getData();
 					glideAdapter.setImageDefault(picture1, String.valueOf(path1));
@@ -597,7 +674,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 					JSONArray jsonArray = response.getJSONArray("categories");
 					for (int i = 0; i < jsonArray.length(); i++) {
 						JSONObject jsonObject = jsonArray.getJSONObject(i);
-						CategoriesModelListIcon category = new CategoriesModelListIcon();
+						CategoriesModel category = new CategoriesModel();
 						category.setId(jsonObject.getString("_id"));
 						category.setName(jsonObject.getString("name"));
 						int icon;
@@ -629,22 +706,53 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 		queue.add(request);
 	}
 
+	private void getMemberships() {
+		String url = Network.Memberships;
+		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				try {
+					String __message = response.getString("message");
+					if (__message.equals("Ok")) {
+						JSONArray jsonArray = response.getJSONArray("memberships");
+						for (int i = 0; i < jsonArray.length(); i++) {
+							JSONObject jsonObject = jsonArray.getJSONObject(i);
+							MembershipsModel membership = new MembershipsModel();
+							membership.setId(jsonObject.getString("_id"));
+							membership.setName(jsonObject.getString("name"));
+							membership.setDesc(jsonObject.getString("desc"));
+							membership.setPrice(jsonObject.getString("price"));
+							membership.setPriceOff(jsonObject.getString("priceOff"));
+							membership.setPriority(jsonObject.getInt("priority"));
+							membership.setProducts(jsonObject.getInt("products"));
+							membership.setPictures(jsonObject.getInt("pictures"));
+							membership.setEntries(jsonObject.getInt("entries"));
+							listMemberships.add(membership);
+						}
+						LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+						layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+						rvMemberships.setLayoutManager(layoutManager);
+						membershipsListAdapter = new MembershipsListAdapter(context, listMemberships);
+						rvMemberships.setAdapter(membershipsListAdapter);
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+
+			}
+		});
+		queue.add(request);
+	}
+
 	public void goDesigner() {
 		try {
 			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Network.DESIGNER_URL)));
 		} catch (ActivityNotFoundException ex) {
-			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com")));
-		}
-	}
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		switch (requestCode) {
-			case Network.REQUEST_CODE_LOCATION:
-				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					getLocation();
-				}
-				break;
+			toastAdapter.makeToast(R.drawable.__error,"Vaya, algo salió mal, escríbenos al correo simple.services.ayuda@gmail.com y danos este código: CE1240");
 		}
 	}
 
@@ -657,6 +765,10 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 					mLocation = location;
 					SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.businessMap);
 					supportMapFragment.getMapAsync(SignUpBusiness.this);
+				} else {
+					// TODO SnackBar with location settings activity launch
+					toastAdapter.makeToast(R.drawable.__warning, "Hay un fallo con tu ubicación... \n\nPueba activar la opción de localización en tu dispositivo 😋");
+					getLocation();
 				}
 			}
 		});
@@ -726,8 +838,66 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 		alertDialog.setCancelable(false);
 		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.show();
+
+		// DUI PICTURES
+		if (path_dui1 != null) {
+			UploadTask uploadTask = (UploadTask) storageReference.child("images/businesses_data/" + _dui + "-FRONT.png").putFile(path_dui1)
+					.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+						@Override
+						public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+							taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+								@Override
+								public void onComplete(@NonNull Task<Uri> task) {
+									if (path_dui2 != null) {
+										UploadTask uploadTask = (UploadTask) storageReference.child("images/businesses_data/" + _dui + "-BACK.png").putFile(path_dui2)
+												.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+													@Override
+													public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+														taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+															@Override
+															public void onComplete(@NonNull Task<Uri> task) {
+
+															}
+														});
+													}
+												})
+												.addOnFailureListener(new OnFailureListener() {
+													@Override
+													public void onFailure(@NonNull Exception e) {
+
+													}
+												})
+												.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+													@Override
+													public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
+													}
+												});
+									} else {
+										toastAdapter.makeToast(R.drawable.__error, "No pudimos almacenar los datos en nuestros servidores, revisa tu conexión a Internet 😥");
+									}
+								}
+							});
+						}
+					})
+					.addOnFailureListener(new OnFailureListener() {
+						@Override
+						public void onFailure(@NonNull Exception e) {
+
+						}
+					})
+					.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+						@Override
+						public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+
+						}
+					});
+		} else {
+			toastAdapter.makeToast(R.drawable.__error, "No pudimos almacenar los datos en nuestros servidores, revisa tu conexión a Internet 😥");
+		}
+		// LOGO
 		if (logo &&  path != null) {
-			UploadTask uploadTask = (UploadTask) storageReference.child("images/businesses/___logo_" + _email + ".png").putFile(path)
+			UploadTask uploadTask = (UploadTask) storageReference.child("images/businesses/LOGO-" + _email + ".png").putFile(path)
 					.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 						@Override
 						public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -753,12 +923,12 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 						}
 					});
 		} else {
-			_url = "No Logo";
+			_url = Network.NO_LOGO;
 			alertDialog.dismiss();
 		}
-		// PICTURES
+		// LOCAL PICTURES
 		if (path1 != null) {
-			UploadTask uploadTask = (UploadTask) storageReference.child("images/businesses/" + _email + "_1.png").putFile(path1)
+			UploadTask uploadTask = (UploadTask) storageReference.child("images/businesses/" + _email + "-1.png").putFile(path1)
 					.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 						@Override
 						public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -851,7 +1021,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 	}
 
 	private void signUp() {
-		String url = Network.Business;
+		String url = Network.SignUpBusiness;
 		JSONObject jsonParams = new JSONObject();
 
 		JSONArray scheduleArray = new JSONArray();
@@ -911,23 +1081,28 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 		}
 
 		try {
+			jsonParams.put("dui", _dui);
 			jsonParams.put("owner", _owner);
+			jsonParams.put("phone", _phone);
 			jsonParams.put("email", _email);
 			jsonParams.put("pass", _pass);
 			jsonParams.put("deviceId", __deviceId);
-			jsonParams.put("type", type);
+			jsonParams.put("type", _type);
 			jsonParams.put("logo", _url);
+			jsonParams.put("nrc", _businessNRC);
 			jsonParams.put("name", _businessName);
 			jsonParams.put("desc", _businessDesc);
 			jsonParams.put("slogan", _businessSlogan);
-			jsonParams.put("phone", _businessPhone);
 			jsonParams.put("address", _businessAddress);
 			jsonParams.put("lat", _lat);
 			jsonParams.put("lng", _lng);
 			jsonParams.put("fb", _fb);
 			jsonParams.put("ig", _ig);
 			jsonParams.put("wa", _wa);
-			jsonParams.put("delivery", delivery);
+			jsonParams.put("delivery", _delivery);
+			jsonParams.put("membershipId", _membershipId);
+			jsonParams.put("priority", _priority);
+			jsonParams.put("score", 0);
 			jsonParams.put("schedule", scheduleArray);
 			jsonParams.put("categories", categoriesArray);
 			jsonParams.put("pictures", picturesArray);
@@ -945,7 +1120,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 						JSONObject jsonObject = response.getJSONObject("business");
 						builder = new AlertDialog.Builder(context);
 						builder.setTitle("Todo listo");
-						builder.setMessage("Nuestro equipo verificará los datos, tu cuenta para " + jsonObject.getString("name") + " estará activa en un lapso de 48 horas 😋");
+						builder.setMessage("Nuestro equipo verificará los datos \n\nTu cuenta para " + jsonObject.getString("name") + " estará activa en un lapso de 24 horas 😋");
 						builder.setPositiveButton("Genial Gracias 🥰", null);
 						alertDialog = builder.create();
 						alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {

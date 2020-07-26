@@ -31,7 +31,7 @@
         <RadioButton
             style="@style/RadioButton"
             android:id="@+id/def"
-            android:text="Sin filtro"/>
+            android:text="Por defecto"/>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView

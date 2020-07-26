@@ -28,7 +28,6 @@ import com.ops.dev.simple.services.adapters.PreferencesAdapter;
 import com.ops.dev.simple.services.adapters.ToastAdapter;
 import com.ops.dev.simple.services.models.BusinessesModel;
 import com.ops.dev.simple.services.models.CategoriesModel;
-import com.ops.dev.simple.services.models.CategoriesModelListIcon;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,7 +77,7 @@ public class Business extends AppCompatActivity {
 			categoryName = category.getName();
 			categoryIcon = category.getIcon();
 		} catch (Exception ex) {
-			CategoriesModelListIcon categoryI = (CategoriesModelListIcon) getIntent().getSerializableExtra("category");
+			CategoriesModel categoryI = (CategoriesModel) getIntent().getSerializableExtra("category");
 			categoryId = categoryI.getId();
 			categoryName = categoryI.getName();
 			categoryIcon = categoryI.getIcon();
@@ -241,7 +240,7 @@ public class Business extends AppCompatActivity {
 							rvBusinesses.setAdapter(businessesAdapter);
 						}
 					} else {
-						toastAdapter.makeToast(R.drawable.__info, "No se encontraron negocios en la categoría " + categoryName);
+						toastAdapter.makeToast(R.drawable.__info, "No se encontraron negocios cercanos en la categoría " + categoryName);
 						finish();
 					}
 				} catch (JSONException e) {

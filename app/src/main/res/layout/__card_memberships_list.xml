@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/card_width_med"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/min_margin"
+    card_view:cardCornerRadius="@dimen/med_margin"
+    card_view:cardElevation="0dp"
+    card_view:cardBackgroundColor="@color/colorPrimary">
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--Name-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="@dimen/big_icon"
+                android:layout_height="@dimen/med_icon"
+                android:layout_margin="@dimen/min_margin"/>
+
+            <TextView
+                style="@style/TextViewSubHeaderAlt"
+                android:id="@+id/name"
+                android:textColor="@color/colorPrimary"/>
+        </LinearLayout>
+        <!--Priority-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextView"
+                android:text="Prioridad:"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                style="@style/TextView"
+                android:id="@+id/priority"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
+        </LinearLayout>
+        <!--Prices-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:visibility="gone"
+                style="@style/TextInputLayout"
+                android:layout_weight="1"
+                android:id="@+id/priceText"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                android:visibility="gone"
+                style="@style/TextInputLayout"
+                android:layout_weight="1"
+                android:id="@+id/price"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                android:visibility="gone"
+                style="@style/TextInputLayout"
+                android:layout_weight="1"
+                android:id="@+id/priceOffText"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                android:visibility="gone"
+                style="@style/TextInputLayout"
+                android:layout_weight="1"
+                android:id="@+id/priceOff"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:background="@drawable/border_type"/>
+        </LinearLayout>
+        <!--Options-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <CheckBox
+                style="@style/CheckBox"
+                android:id="@+id/checkBox"
+                android:padding="0dp"
+                android:gravity="center|start"
+                android:text="Seleccionar"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                style="@style/TextView"
+                android:id="@+id/more"
+                android:text="Más info"
+                android:textColor="@color/colorPrimary"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

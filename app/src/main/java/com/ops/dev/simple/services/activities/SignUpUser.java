@@ -159,7 +159,7 @@ public class SignUpUser extends AppCompatActivity {
 	}
 
     private void signUp() {
-		String url = Network.SignUp;
+		String url = Network.SignUpUser;
 		_name = String.valueOf(Objects.requireNonNull(name.getEditText()).getText());
 		_alias = String.valueOf(Objects.requireNonNull(alias.getEditText()).getText());
 		_phone = String.valueOf(Objects.requireNonNull(phone.getEditText()).getText());

@@ -129,7 +129,6 @@ public class Categories extends Fragment {
 						CategoriesModel category = new CategoriesModel();
 						category.setId(jsonObject.getString("_id"));
 						category.setName(jsonObject.getString("name"));
-						category.setDescription(jsonObject.getString("description"));
 						int icon;
 						if (jsonObject.has("icon")) {
 							icon = context.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", context.getPackageName());

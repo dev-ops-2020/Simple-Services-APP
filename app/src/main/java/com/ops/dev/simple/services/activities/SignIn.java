@@ -82,6 +82,9 @@ public class SignIn extends AppCompatActivity {
 
 		Glide.with(context).load(R.drawable.______icon_gif).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE)).transform(new RoundedCorners(R.dimen.med_margin)).into(new DrawableImageViewTarget((ImageView) findViewById(R.id.gif)));
 
+		fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+		getLocation();
+
 		container = findViewById(R.id.container);
 		email = findViewById(R.id.email);
 		pass = findViewById(R.id.pass);
@@ -100,9 +103,9 @@ public class SignIn extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				if (isUser.isChecked())
-					signIn(Network.SignIn, true);
+					signIn(Network.SignInUser, true);
 				else if (isBusiness.isChecked())
-					signIn(Network.LogIn, false);
+					signIn(Network.SignInBusiness, false);
 				else
 					toastAdapter.makeToast(R.drawable.__info, "Selecciona si eres usuario o negocio 😄");
 			}
@@ -124,7 +127,7 @@ public class SignIn extends AppCompatActivity {
 
 		// Auto LogIn
 		if (preferencesAdapter.getIsLoggedIn()) {
-			 int[] backgrounds = {R.drawable.gradient_red, R.drawable.gradient_green, R.drawable.gradient_blue};
+			int[] backgrounds = {R.drawable.gradient_red, R.drawable.gradient_green, R.drawable.gradient_blue};
 			int randomBackground = new Random().nextInt(backgrounds.length);
 			container.setBackgroundResource(backgrounds[randomBackground]);
 			findViewById(R.id.tittle).setVisibility(View.VISIBLE);
@@ -136,10 +139,7 @@ public class SignIn extends AppCompatActivity {
 		} else {
 			main.setVisibility(View.VISIBLE);
 		}
-
-		fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
-		getLocation();
-    }
+	}
 
 	private void signIn(String url, final boolean isUser) {
     	_email = String.valueOf(Objects.requireNonNull(email.getEditText()).getText());
@@ -174,8 +174,6 @@ public class SignIn extends AppCompatActivity {
 								preferencesAdapter.setPass(_pass);
 								preferencesAdapter.setToken(jsonObject.getString("token"));
 								preferencesAdapter.setDeviceId(jsonObject.getString("deviceId"));
-								preferencesAdapter.setLat((float) userLocation.getLatitude());
-								preferencesAdapter.setLng((float) userLocation.getLongitude());
 								if (isUser) {
 									preferencesAdapter.setIsUser();
 									preferencesAdapter.setAlias(jsonObject.getString("alias"));
@@ -184,6 +182,7 @@ public class SignIn extends AppCompatActivity {
 								} else  {
 									preferencesAdapter.setIsBusiness();
 									preferencesAdapter.setAlias(jsonObject.getString("name"));
+									preferencesAdapter.setMembershipId(jsonObject.getString("membershipId"));
 									toastAdapter.makeToast(R.drawable.__ok, "Bienvenido " + preferencesAdapter.getAlias() + " 😎");
 									intentAdapter.goActivityAnimated(MainMenuBusiness.class, Network.DURATION_NORMAL);
 								}
@@ -223,6 +222,8 @@ public class SignIn extends AppCompatActivity {
 			@Override
 			public void onSuccess(Location location) {
 				userLocation = location;
+				preferencesAdapter.setLat((float) userLocation.getLatitude());
+				preferencesAdapter.setLng((float) userLocation.getLongitude());
 			}
 		});
 	}

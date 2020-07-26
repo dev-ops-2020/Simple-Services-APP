@@ -37,6 +37,63 @@
                 <TextView
                     style="@style/TextViewHeader"
                     android:text="@string/personal_data"/>
+
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:text="@string/dui_photos"/>
+                <!--Pictures-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/dui1"
+                            android:layout_width="@dimen/big_icon_alt"
+                            android:layout_height="@dimen/big_icon_alt"
+                            android:layout_margin="@dimen/min_margin"
+                            android:layout_gravity="center"
+                            android:src="@drawable/_camera"/>
+
+                        <TextView
+                            style="@style/TextInputLayout"
+                            android:text="@string/dui_1"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/dui2"
+                            android:layout_width="@dimen/big_icon_alt"
+                            android:layout_height="@dimen/big_icon_alt"
+                            android:layout_margin="@dimen/min_margin"
+                            android:layout_gravity="center"
+                            android:src="@drawable/_camera"/>
+
+                        <TextView
+                            style="@style/TextInputLayout"
+                            android:text="@string/dui_2"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <!--DUI-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:id="@+id/dui"
+                    android:hint="@string/dui">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputLayout"
+                        android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
                 <!--Owner-->
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextInputLayout"
@@ -46,6 +103,16 @@
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/TextInputLayout"
                         android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--Phone-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:id="@+id/phone"
+                    android:hint="@string/phone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputLayout"
+                        android:inputType="phone"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <!--Email-->
                 <com.google.android.material.textfield.TextInputLayout
@@ -95,11 +162,21 @@
                     android:layout_margin="@dimen/min_margin"
                     android:layout_gravity="center"
                     android:src="@drawable/_camera"/>
+                <!--NRC-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:id="@+id/businessNRC"
+                    android:hint="@string/business_nrc_if_exist">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputLayout"
+                        android:inputType="textPersonName"/>
+                </com.google.android.material.textfield.TextInputLayout>
                 <!--Name-->
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextInputLayout"
                     android:id="@+id/businessName"
-                    android:hint="Nombre Negocio">
+                    android:hint="@string/business_name">
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/TextInputLayout"
@@ -109,7 +186,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextInputLayout"
                     android:id="@+id/businessDesc"
-                    android:hint="Descripción">
+                    android:hint="@string/business_desc">
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/TextInputLayout"
@@ -124,16 +201,6 @@
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/TextInputLayout"
                         android:inputType="textAutoCorrect"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                <!--Phone-->
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/TextInputLayout"
-                    android:id="@+id/businessPhone"
-                    android:hint="@string/phone">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        style="@style/TextInputLayout"
-                        android:inputType="phone"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <!--Address-->
                 <com.google.android.material.textfield.TextInputLayout
@@ -212,7 +279,7 @@
 
                             <TextView
                                 style="@style/TextInputLayout"
-                                android:text="Foto 1"/>
+                                android:text="@string/business_picture_1"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -230,7 +297,7 @@
 
                             <TextView
                                 style="@style/TextInputLayout"
-                                android:text="Foto 2"/>
+                                android:text="@string/business_picture_2"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -248,10 +315,14 @@
 
                             <TextView
                                 style="@style/TextInputLayout"
-                                android:text="Foto 3"/>
+                                android:text="@string/business_picture_3"/>
                         </LinearLayout>
                     </LinearLayout>
                 </HorizontalScrollView>
+
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:text="@string/business_photos_note"/>
 
                 <Button
                     style="@style/Button"
@@ -303,7 +374,7 @@
                     <!--Day 3-->
                     <TextView
                         style="@style/TextInputLayout"
-                        android:text="@string/day2"/>
+                        android:text="@string/day3"/>
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputLayout"
                         android:id="@+id/day3"
@@ -384,10 +455,6 @@
                     style="@style/TextInputLayout"
                     android:text="@string/business_networks"/>
 
-                <TextView
-                    style="@style/TextInputLayout"
-                    android:text="(Debes colocar la URL de tu perfil, si no sabes cómo déjalo así y envía un correo a simple.services.sv@gmail.com, desde el correo que indicaste anteriormente y te ayudaremos)"/>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -424,6 +491,9 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:text="@string/business_network_note"/>
                 <Button
                     style="@style/Button"
                     android:id="@+id/next6"
@@ -457,10 +527,42 @@
                     android:id="@+id/next7"
                     android:text="@string/next"/>
             </LinearLayout>
-            <!--Terms & SingUp-->
+            <!--Membership-->
             <LinearLayout
                 android:visibility="gone"
                 android:id="@+id/lay8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:text="@string/business_membership"/>
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_height_med"
+                    android:clipToPadding="true">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvMemberships"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </androidx.core.widget.NestedScrollView>
+
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:text="@string/membership_note"/>
+
+                <Button
+                    style="@style/Button"
+                    android:id="@+id/next8"
+                    android:text="@string/next"/>
+            </LinearLayout>
+            <!--Terms & SingUp-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/lay9"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">

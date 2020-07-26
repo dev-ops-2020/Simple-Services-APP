@@ -1,7 +1,6 @@
 package com.ops.dev.simple.services.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ops.dev.simple.services.R;
-import com.ops.dev.simple.services.activities.Business;
-import com.ops.dev.simple.services.models.CategoriesModel;
-import com.ops.dev.simple.services.models.CategoriesModelListIcon;
-import com.ops.dev.simple.services.models.SchedulesModel;
 import com.ops.dev.simple.services.models.TagsModel;
 
 import java.util.List;
