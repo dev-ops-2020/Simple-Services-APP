@@ -21,7 +21,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
     private Context mContext;
     private List<CategoriesModel> mData;
-    private ToastAdapter toastAdapter;
     private GlideAdapter glideAdapter;
 
     public CategoriesAdapter(Context mContext, List<CategoriesModel> mData) {
@@ -35,7 +34,6 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.__card_categories, viewGroup, false);
         final ViewHolder vh = new ViewHolder(view);
 
-        toastAdapter = new ToastAdapter(mContext);
         glideAdapter = new GlideAdapter(mContext);
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -58,14 +56,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoriesModel category = mData.get(position);
-        ImageView icon = holder.icon;
-        TextView name = holder.name;
 
-        if (category.getIcon() != 0)
-            glideAdapter.setImageCircle(icon, category.getIcon());
+        if (!category.getIcon().equals(""))
+            glideAdapter.setImageCircle(holder.icon, category.getIcon());
         else
-            glideAdapter.setImageCircle(icon, R.drawable._fav);
-        name.setText(category.getName());
+            glideAdapter.setImageCircle(holder.icon, R.drawable._fav);
+        holder.name.setText(category.getName());
     }
 
     @Override

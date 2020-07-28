@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.ops.dev.simple.services.R;
 import com.ops.dev.simple.services.models.MembershipsModel;
 
@@ -45,6 +45,7 @@ public class MembershipsListAdapter extends RecyclerView.Adapter<MembershipsList
 
         toastAdapter = new ToastAdapter(mContext);
         glideAdapter = new GlideAdapter(mContext);
+
         return vh;
     }
 
@@ -56,18 +57,18 @@ public class MembershipsListAdapter extends RecyclerView.Adapter<MembershipsList
 
         switch (membership.getPriority()) {
             case 3:
+                glideAdapter.setImageDefault(holder.icon, R.drawable._basic);
                 holder.main.setBackgroundResource(R.color.basic);
-                holder.icon.setImageResource(R.drawable._basic);
                 holder.priority.setText("NORMAL");
                 break;
             case 2:
+                glideAdapter.setImageDefault(holder.icon, R.drawable._plus);
                 holder.main.setBackgroundResource(R.color.plus);
-                holder.icon.setImageResource(R.drawable._plus);
                 holder.priority.setText("ALTA");
                 break;
             case 1:
+                glideAdapter.setImageDefault(holder.icon, R.drawable._vip);
                 holder.main.setBackgroundResource(R.color.vip);
-                holder.icon.setImageResource(R.drawable._vip);
                 holder.priority.setText("LA MÁS ALTA");
                 break;
         }
@@ -126,7 +127,7 @@ public class MembershipsListAdapter extends RecyclerView.Adapter<MembershipsList
         LinearLayout main;
         ImageView icon;
         TextView name, price, priceOff, priceText, priceOffText, priority, more;
-        CheckBox checkBox;
+        MaterialCheckBox checkBox;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -177,7 +178,8 @@ public class MembershipsListAdapter extends RecyclerView.Adapter<MembershipsList
         builder.setTitle(membership.getName());
         builder.setMessage(Html.fromHtml(msj));
         builder.setPositiveButton("Cerrar", null);
-        alertDialog = builder.create();alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        alertDialog = builder.create();
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
                 Button btnOk = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);

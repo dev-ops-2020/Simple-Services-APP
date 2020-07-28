@@ -71,7 +71,7 @@
     <string name="business_picture_1">Foto 1</string>
     <string name="business_picture_2">Foto 2</string>
     <string name="business_picture_3">Foto 3</string>
-    <string name="business_photos_note">Nota: Las 3 fotos son necesarias para validar tu negocio\n\nSi no tienes puedes subir fotos de tus productos/servicios principales</string>
+    <string name="business_photos_note">Nota: Todas las fotos son necesarias para validar tu negocio\n\nSi no tienes puedes subir fotos de tus productos/servicios principales</string>
     <string name="business_categories">Selecciona hasta 3 categorías para tu negocio</string>
     <string name="business_membership">Selecciona la membresía para tu negocio</string>
     <string name="membership_note">Nota: La <b>prioridad</b> permite posicionarte mejor dentro de Simple Services</string>
@@ -99,14 +99,16 @@
     <string name="unit_price">Precio unitario: $</string>
     <string name="subtotal">Subtotal: $</string>
 
-
     <string name="opt_available">DISPONIBLES</string>
     <string name="opt_unavailable">NO DISPONIBLES</string>
-    <string name="product">Producto</string>
-    <string name="add">Agregar</string>
-    <string name="example_price">Precio Ej. 12.99</string>
-    <string name="example_tags">Etiquetas Ej. <b>#Oferta</b>, <b>#Nuevo</b>, <b>#Promoción</b></string>
-    <string name="example_tags_note">NOTA: Las etiquetas deben contener el "#" e ir separadas por una ","</string>
-    <string name="available">Disponible</string>
+    <string name="product_name">Producto</string>
+    <string name="product_description">Descripción</string>
+    <string name="product_price">Precio Ej. 12.99</string>
+    <string name="product_tags">Etiquetas Ej. <b>#Oferta</b>, <b>#Nuevo</b>, <b>#Promoción</b></string>
+    <string name="product_tags_note">NOTA: Las etiquetas, son <b>ilimitadas</b>, solo debes poner un <b>´#´</b> antes y separarlas por <b>´,´</b></string>
+    <string name="product_available">Disponible</string>
+    <string name="product_add">Agregar</string>
+    <string name="select">Seleccionar</string>
+    <string name="more_info">Más info</string>
 
 </resources>

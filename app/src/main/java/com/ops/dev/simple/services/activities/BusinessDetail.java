@@ -261,8 +261,7 @@ public class BusinessDetail extends AppCompatActivity implements OnMapReadyCallb
                         JSONObject jsonObject = response.getJSONObject("category");
                         category.setId(jsonObject.getString("_id"));
                         category.setName(jsonObject.getString("name"));
-                        int icon = context.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", context.getPackageName());
-                        category.setIcon(icon);
+                        category.setIcon(jsonObject.getString("icon"));
                         listCategories.add(category);
                     } catch (JSONException e) {
                         e.printStackTrace();

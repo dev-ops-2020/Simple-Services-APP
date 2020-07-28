@@ -21,7 +21,7 @@ public class CategoriesIconAdapter extends RecyclerView.Adapter<CategoriesIconAd
 
     private Context mContext;
     private List<CategoriesModel> mData;
-    GlideAdapter glideAdapter;
+    private GlideAdapter glideAdapter;
 
     public CategoriesIconAdapter(Context mContext, List<CategoriesModel> mData) {
         this.mContext = mContext;
@@ -55,8 +55,11 @@ public class CategoriesIconAdapter extends RecyclerView.Adapter<CategoriesIconAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoriesModel category = mData.get(position);
-        ImageView icon = holder.icon;
-        glideAdapter.setImageCircle(icon, category.getIcon());
+
+        if (!category.getIcon().equals(""))
+            glideAdapter.setImageCircle(holder.icon, category.getIcon());
+        else
+            glideAdapter.setImageCircle(holder.icon, R.drawable._fav);
     }
 
     @Override

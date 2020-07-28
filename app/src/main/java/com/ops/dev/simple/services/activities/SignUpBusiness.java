@@ -78,7 +78,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
     //Vars
 	String __message, __deviceId;
 	StorageReference storageReference;
-	String _url, _url1, _url2, _url3;
+	String _url;
 
 	String _type, type;
 
@@ -172,7 +172,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 					public void onClick(View view) {
 						_type = "Services";
 						findViewById(R.id.lay1).setVisibility(View.VISIBLE);
-						toastAdapter.makeToast(R.drawable._fav, "Continuemos con tus datos personales");
+						toastAdapter.makeToast(R.drawable._fav, "Continuemos con tus datos personales, estos son confidenciales no te preocupes ☺");
 						alertDialog.dismiss();
 					}
 				});
@@ -181,7 +181,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 					public void onClick(View view) {
 						_type = "Products";
 						findViewById(R.id.lay1).setVisibility(View.VISIBLE);
-						toastAdapter.makeToast(R.drawable._fav, "Continuemos con tus datos personales");
+						toastAdapter.makeToast(R.drawable._fav, "Continuemos con tus datos personales, estos son confidenciales no te preocupes ☺");
 						alertDialog.dismiss();
 					}
 				});
@@ -677,13 +677,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 						CategoriesModel category = new CategoriesModel();
 						category.setId(jsonObject.getString("_id"));
 						category.setName(jsonObject.getString("name"));
-						int icon;
-						if (jsonObject.has("icon")) {
-							icon = context.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", context.getPackageName());
-						} else {
-							icon = context.getResources().getIdentifier("_fav", "drawable", context.getPackageName());
-						}
-						category.setIcon(icon);
+						category.setIcon(jsonObject.getString("icon"));
 						category.setChecked(false);
 						listCategories.add(category);
 					}
@@ -904,7 +898,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 							taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
 								@Override
 								public void onComplete(@NonNull Task<Uri> task) {
-									_url = task.getResult().toString();
+									_url = task.getResult().toString().substring(0,task.getResult().toString().indexOf("&token"));
 									alertDialog.dismiss();
 								}
 							});
@@ -935,8 +929,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 							taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
 								@Override
 								public void onComplete(@NonNull Task<Uri> task) {
-									_url1 = task.getResult().toString();
-									selectedPictures.add(_url1);
+									selectedPictures.add(task.getResult().toString().substring(0,task.getResult().toString().indexOf("&token")));
 									// PICTURE 2
 									if (path2 != null) {
 										UploadTask uploadTask = (UploadTask) storageReference.child("images/businesses/" + _email + "_2.png").putFile(path2)
@@ -946,8 +939,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 														taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
 															@Override
 															public void onComplete(@NonNull Task<Uri> task) {
-																_url2 = task.getResult().toString();
-																selectedPictures.add(_url2);
+																selectedPictures.add(task.getResult().toString().substring(0,task.getResult().toString().indexOf("&token")));
 																// PICTURE 3
 																if (path3 != null) {
 																	UploadTask uploadTask = (UploadTask) storageReference.child("images/businesses/" + _email + "_3.png").putFile(path3)
@@ -957,8 +949,7 @@ public class SignUpBusiness extends AppCompatActivity implements OnMapReadyCallb
 																					taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
 																						@Override
 																						public void onComplete(@NonNull Task<Uri> task) {
-																							_url3 = task.getResult().toString();
-																							selectedPictures.add(_url3);
+																							selectedPictures.add(task.getResult().toString().substring(0,task.getResult().toString().indexOf("&token")));
 																							alertDialog.dismiss();
 																							signUp();
 																						}

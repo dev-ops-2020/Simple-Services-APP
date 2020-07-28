@@ -19,10 +19,10 @@ import java.util.List;
 
 public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>{
 
-    Context mContext;
-    List<CategoriesModel> mData;
-    GlideAdapter glideAdapter;
-    ToastAdapter toastAdapter;
+    private Context mContext;
+    private List<CategoriesModel> mData;
+    private GlideAdapter glideAdapter;
+    private ToastAdapter toastAdapter;
     int count = 0, limit = 3;
 
     public CategoriesListAdapter(Context mContext, List<CategoriesModel> mData) {
@@ -46,7 +46,10 @@ public class CategoriesListAdapter extends RecyclerView.Adapter<CategoriesListAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final CategoriesModel category = mData.get(position);
 
-        glideAdapter.setImageCircle(holder.icon, category.getIcon());
+        if (!category.getIcon().equals(""))
+            glideAdapter.setImageCircle(holder.icon, category.getIcon());
+        else
+            glideAdapter.setImageCircle(holder.icon, R.drawable._fav);
         holder.name.setText(category.getName());
         holder.checkBox.setOnCheckedChangeListener(null);
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -107,7 +107,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="invisible"
+        android:visibility="visible"
         android:layout_below="@+id/info"
         android:id="@+id/main"
         android:layout_width="match_parent"
@@ -132,7 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:backgroundTint="@color/white"
-                    android:drawableStart="@drawable/_next"
+                    android:drawableStart="@drawable/__next"
                     android:text="Mis Puntos"
                     android:textColor="@color/white"
                     style="?android:attr/borderlessButtonStyle"/>
@@ -145,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:backgroundTint="@color/white"
-                    android:drawableStart="@drawable/_next"
+                    android:drawableStart="@drawable/__next"
                     android:text="Mis Cupones"
                     android:textColor="@color/white"
                     style="?android:attr/borderlessButtonStyle"/>
@@ -158,7 +158,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:backgroundTint="@color/white"
-                    android:drawableStart="@drawable/_next"
+                    android:drawableStart="@drawable/__next"
                     android:text="Mis Direcciones"
                     android:textColor="@color/white"
                     style="?android:attr/borderlessButtonStyle"/>
@@ -171,7 +171,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:backgroundTint="@color/white"
-                    android:drawableStart="@drawable/_next"
+                    android:drawableStart="@drawable/__next"
                     android:text="Mis Favoritos"
                     android:textColor="@color/white"
                     style="?android:attr/borderlessButtonStyle"/>
@@ -184,7 +184,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:backgroundTint="@color/white"
-                    android:drawableStart="@drawable/_next"
+                    android:drawableStart="@drawable/__next"
                     android:text="Compras | Órdenes | Carrito"
                     android:textColor="@color/white"
                     style="?android:attr/borderlessButtonStyle"/>
@@ -197,7 +197,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:backgroundTint="@color/white"
-                    android:drawableStart="@drawable/_next"
+                    android:drawableStart="@drawable/__next"
                     android:text="Salir"
                     android:textColor="@color/white"
                     style="?android:attr/borderlessButtonStyle"/>

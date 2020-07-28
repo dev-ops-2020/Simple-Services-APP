@@ -1,160 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@color/colorPrimary">
 
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/med_margin">
+        android:layout_height="wrap_content">
 
         <TextView
+            style="@style/TextViewHeader"
             android:id="@+id/tittle"
-            style="@style/TextViewHeader"/>
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_below="@id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                style="@style/TextInputLayout"
+                android:text="Imágenes/Fotografías"/>
+            <!--Pictures-->
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
 
-                <TextView
-                    style="@style/TextInputLayout"
-                    android:text="Imágenes/Fotografías"/>
-                <!--Pictures-->
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scrollbars="none">
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:visibility="gone"
+                        android:id="@+id/lay1"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/picture1"
+                            android:layout_width="@dimen/big_icon_alt"
+                            android:layout_height="@dimen/big_icon_alt"
+                            android:layout_margin="@dimen/min_margin"
+                            android:layout_gravity="center"
+                            android:src="@drawable/_camera"/>
 
-                            <ImageView
-                                android:id="@+id/picture1"
-                                android:layout_width="@dimen/big_icon_alt"
-                                android:layout_height="@dimen/big_icon_alt"
-                                android:layout_margin="@dimen/min_margin"
-                                android:layout_gravity="center"
-                                android:src="@drawable/_camera"/>
-
-                            <TextView
-                                style="@style/TextInputLayout"
-                                android:text="Foto 1"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/picture2"
-                                android:layout_width="@dimen/big_icon_alt"
-                                android:layout_height="@dimen/big_icon_alt"
-                                android:layout_margin="@dimen/min_margin"
-                                android:layout_gravity="center"
-                                android:src="@drawable/_camera"/>
-
-                            <TextView
-                                style="@style/TextInputLayout"
-                                android:text="Foto 2"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/picture3"
-                                android:layout_width="@dimen/big_icon_alt"
-                                android:layout_height="@dimen/big_icon_alt"
-                                android:layout_margin="@dimen/min_margin"
-                                android:layout_gravity="center"
-                                android:src="@drawable/_camera"/>
-
-                            <TextView
-                                style="@style/TextInputLayout"
-                                android:text="Foto 3"/>
-                        </LinearLayout>
+                        <TextView
+                            style="@style/TextInputLayout"
+                            android:text="Foto 1"/>
                     </LinearLayout>
-                </HorizontalScrollView>
-                <!--Name-->
-                <com.google.android.material.textfield.TextInputLayout
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/lay2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/picture2"
+                            android:layout_width="@dimen/big_icon_alt"
+                            android:layout_height="@dimen/big_icon_alt"
+                            android:layout_margin="@dimen/min_margin"
+                            android:layout_gravity="center"
+                            android:src="@drawable/_camera"/>
+
+                        <TextView
+                            style="@style/TextInputLayout"
+                            android:text="Foto 2"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/lay3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/picture3"
+                            android:layout_width="@dimen/big_icon_alt"
+                            android:layout_height="@dimen/big_icon_alt"
+                            android:layout_margin="@dimen/min_margin"
+                            android:layout_gravity="center"
+                            android:src="@drawable/_camera"/>
+
+                        <TextView
+                            style="@style/TextInputLayout"
+                            android:text="Foto 3"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/lay4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/picture4"
+                            android:layout_width="@dimen/big_icon_alt"
+                            android:layout_height="@dimen/big_icon_alt"
+                            android:layout_margin="@dimen/min_margin"
+                            android:layout_gravity="center"
+                            android:src="@drawable/_camera"/>
+
+                        <TextView
+                            style="@style/TextInputLayout"
+                            android:text="Foto 4"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/lay5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/picture5"
+                            android:layout_width="@dimen/big_icon_alt"
+                            android:layout_height="@dimen/big_icon_alt"
+                            android:layout_margin="@dimen/min_margin"
+                            android:layout_gravity="center"
+                            android:src="@drawable/_camera"/>
+
+                        <TextView
+                            style="@style/TextInputLayout"
+                            android:text="Foto 5"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </HorizontalScrollView>
+            <!--Name-->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputLayout"
+                android:id="@+id/name"
+                android:hint="@string/name_">
+
+                <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputLayout"
-                    android:id="@+id/name"
-                    android:hint="@string/name_">
+                    android:inputType="textPersonName"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--Desc-->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputLayout"
+                android:id="@+id/desc"
+                android:hint="@string/product_description">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        style="@style/TextInputLayout"
-                        android:inputType="textPersonName"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                <!--Desc-->
-                <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputLayout"
-                    android:id="@+id/desc"
-                    android:hint="Descripción">
+                    android:inputType="textImeMultiLine"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--Price-->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputLayout"
+                android:layout_gravity="center"
+                android:id="@+id/price"
+                android:hint="@string/product_price">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        style="@style/TextInputLayout"
-                        android:inputType="textImeMultiLine"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                <!--Price-->
-                <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputLayout"
-                    android:layout_gravity="center"
-                    android:id="@+id/price"
-                    android:hint="@string/example_price">
+                    android:inputType="numberDecimal"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--Tags-->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputLayout"
+                android:layout_gravity="center"
+                android:id="@+id/tags"
+                android:hint="@string/product_tags">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        style="@style/TextInputLayout"
-                        android:inputType="numberDecimal"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                <!--Tags-->
-                <com.google.android.material.textfield.TextInputLayout
+                <com.google.android.material.textfield.TextInputEditText
                     style="@style/TextInputLayout"
-                    android:layout_gravity="center"
-                    android:id="@+id/tags"
-                    android:hint="@string/example_tags">
+                    android:inputType="text"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        style="@style/TextInputLayout"
-                        android:inputType="text"/>
-                </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                style="@style/TextInputLayout"
+                android:text="@string/product_tags_note"/>
 
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    style="@style/CheckBox"
-                    android:id="@+id/available"
-                    android:text="@string/available"/>
+            <com.google.android.material.checkbox.MaterialCheckBox
+                style="@style/CheckBox"
+                android:id="@+id/available"
+                android:text="@string/product_available"/>
 
-                <Button
-                    android:id="@+id/add"
-                    style="@style/Button"
-                    android:layout_height="wrap_content"
-                    android:text="@string/add"/>
-            </LinearLayout>
+            <Button
+                android:id="@+id/add"
+                style="@style/Button"
+                android:layout_height="wrap_content"
+                android:text="@string/product_add"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

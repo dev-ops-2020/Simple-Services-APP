@@ -52,8 +52,7 @@ public class Business extends AppCompatActivity {
 	GlideAdapter glideAdapter;
 	PreferencesAdapter preferencesAdapter;
 
-    String categoryId, categoryName;
-    int categoryIcon;
+    String categoryId, categoryName, categoryIcon;
 
 	AlertDialog.Builder builder;
 	AlertDialog alertDialog;
@@ -87,7 +86,11 @@ public class Business extends AppCompatActivity {
 		final ImageView icon = findViewById(R.id.icon);
 
 		tittle.setText(categoryName);
-		glideAdapter.setImageCircle(icon, categoryIcon);
+
+		if (!categoryIcon.equals(""))
+			glideAdapter.setImageCircle(icon, categoryIcon);
+		else
+			glideAdapter.setImageCircle(icon, R.drawable._fav);
 
 		rvBusinesses = findViewById(R.id.rvBusinesses);
 		listBusinesses = new ArrayList<>();

@@ -26,6 +26,7 @@
         <TextView
             style="@style/TextViewCategories"
             android:id="@+id/name"
+            android:gravity="center_horizontal"
             android:layout_below="@id/icon"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -9,8 +9,8 @@ import com.ops.dev.simple.services.R;
 
 public class IntentAdapter {
 
-    Activity activity;
-    Context context;
+    private Activity activity;
+    private Context context;
 
     public IntentAdapter(Activity activity, Context context) {
         this.activity = activity;

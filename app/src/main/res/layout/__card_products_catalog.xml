@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,6 +10,7 @@
     card_view:cardBackgroundColor="@color/colorPrimary">
 
     <LinearLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="10"
@@ -27,39 +27,34 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:gravity="center">
 
-                <com.google.android.material.checkbox.MaterialCheckBox
-                    style="@style/CheckBox"
-                    android:id="@+id/available"
-                    android:text="@string/available"
-                    android:padding="0dp"/>
+                <TextView
+                    style="@style/TextView"
+                    android:textStyle="bold"
+                    android:id="@+id/type"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextView"
-                        android:textStyle="bold"
-                        android:id="@+id/type"/>
-
-                    <TextView
-                        style="@style/TextView"
-                        android:textStyle="bold"
-                        android:id="@+id/price"/>
-                </LinearLayout>
+                <TextView
+                    style="@style/TextInputLayout"
+                    android:textStyle="bold"
+                    android:id="@+id/price"
+                    android:gravity="end"/>
             </LinearLayout>
 
             <TextView
-                style="@style/TextView"
+                style="@style/TextInputLayout"
                 android:id="@+id/name"/>
 
             <TextView
-                style="@style/TextView"
+                style="@style/TextInputLayout"
                 android:id="@+id/desc"/>
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                style="@style/CheckBox"
+                android:id="@+id/available"
+                android:padding="0dp"
+                android:gravity="center|start"
+                android:text="@string/product_available"/>
         </LinearLayout>
 
         <LinearLayout
@@ -74,6 +69,27 @@
                 android:id="@+id/picture"
                 android:layout_width="@dimen/big_icon"
                 android:layout_height="@dimen/big_icon"/>
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/edit"
+                    android:layout_width="@dimen/min_icon_alt"
+                    android:layout_height="@dimen/min_icon_alt"
+                    android:layout_gravity="center"
+                    android:src="@drawable/__edit"/>
+
+                <ImageView
+                    android:id="@+id/delete"
+                    android:layout_width="@dimen/min_icon_alt"
+                    android:layout_height="@dimen/min_icon_alt"
+                    android:layout_gravity="center"
+                    android:src="@drawable/__delete"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -129,13 +129,7 @@ public class Categories extends Fragment {
 						CategoriesModel category = new CategoriesModel();
 						category.setId(jsonObject.getString("_id"));
 						category.setName(jsonObject.getString("name"));
-						int icon;
-						if (jsonObject.has("icon")) {
-							icon = context.getResources().getIdentifier(jsonObject.getString("icon"), "drawable", context.getPackageName());
-						} else {
-							icon = context.getResources().getIdentifier("_fav", "drawable", context.getPackageName());
-						}
-						category.setIcon(icon);
+						category.setIcon(jsonObject.getString("icon"));
 						listCategories.add(category);
 					}
 					RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context,3);

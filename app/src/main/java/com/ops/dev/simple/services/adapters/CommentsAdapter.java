@@ -19,7 +19,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
 
     private Context mContext;
     private List<CommentsModel> mData;
-    GlideAdapter glideAdapter;
+    private GlideAdapter glideAdapter;
 
     public CommentsAdapter(Context mContext, List<CommentsModel> mData) {
         this.mContext = mContext;

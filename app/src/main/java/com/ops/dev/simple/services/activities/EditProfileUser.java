@@ -131,7 +131,7 @@ public class EditProfileUser extends AppCompatActivity {
 							taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
 								@Override
 								public void onComplete(@NonNull Task<Uri> task) {
-									_picture = task.getResult().toString();
+									_picture = task.getResult().toString().substring(0,task.getResult().toString().indexOf("&token"));
 									updateProfile();
 								}
 							});
@@ -146,8 +146,8 @@ public class EditProfileUser extends AppCompatActivity {
 				.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
 					@Override
 					public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-						double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-						//toastAdapter.makeToast(R.drawable._location, "Transfiriendo datos... " + (int)progress + "%");
+						//double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+						//toastAdapter.makeToast(R.drawable._fav, "Transfiriendo datos... " + (int)progress + "%");
 					}
 				});
 		} else {

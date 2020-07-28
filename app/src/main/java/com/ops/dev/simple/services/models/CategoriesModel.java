@@ -6,14 +6,14 @@ public class CategoriesModel implements Serializable {
 
     private String id;
     private String name;
-    private int icon;
+    private String icon;
     private boolean checked;
 
     public CategoriesModel() {
 
     }
 
-    public CategoriesModel(String id, String name, int icon) {
+    public CategoriesModel(String id, String name, String icon) {
         this.id = id;
         this.name = name;
         this.icon = icon;
@@ -35,11 +35,11 @@ public class CategoriesModel implements Serializable {
         this.name = name;
     }
 
-    public int getIcon() {
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(int icon) {
+    public void setIcon(String icon) {
         this.icon = icon;
     }
 
@@ -50,13 +50,4 @@ public class CategoriesModel implements Serializable {
     public void setChecked(boolean checked) {
         this.checked = checked;
     }
-/*
-    public String toString() {
-        return name;
-    }
-    
-    public void toggleChecked() {
-        checked = !checked;
-    }
-*/
 }
